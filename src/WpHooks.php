@@ -3,7 +3,12 @@
 namespace Merkushin\Wpal;
 
 final class WpHooks implements Hooks {
-	public function add_filter( string $hook_name, callable $callback, int $priority = 10, int $accepted_args = 1 ): bool {
+	public function add_filter(
+		string $hook_name,
+		callable $callback,
+		int $priority = 10,
+		int $accepted_args = 1
+	): bool {
 		return add_filter( $hook_name, $callback, $priority, $accepted_args );
 	}
 
@@ -15,7 +20,7 @@ final class WpHooks implements Hooks {
 		return has_filter( $hook_name, $callback );
 	}
 
-	public function remove_filter( string $hook_name, callable $callback, int $priority = 10     ): bool {
+	public function remove_filter( string $hook_name, callable $callback, int $priority = 10 ): bool {
 		return remove_filter( $hook_name, $callback, $priority );
 	}
 
@@ -31,8 +36,13 @@ final class WpHooks implements Hooks {
 		return doing_filter( $hook_name );
 	}
 
-	public function add_action( string $hook_name, callable $callback, int $priority = 10, int $accepted_args = 1 ): bool {
-		return add_action( $hook_name, $callable, $priority, $accepted_args );
+	public function add_action(
+		string $hook_name,
+		callable $callback,
+		int $priority = 10,
+		int $accepted_args = 1
+	): bool {
+		return add_action( $hook_name, $callback, $priority, $accepted_args );
 	}
 
 	public function do_action( string $hook_name, ...$args ) {
@@ -43,7 +53,7 @@ final class WpHooks implements Hooks {
 		return has_action( $hook_name, $callback );
 	}
 
-	public function remove_action( string $hook_name, callable $callback, int $priority = 10): bool {
+	public function remove_action( string $hook_name, callable $callback, int $priority = 10 ): bool {
 		return remove_action( $hook_name, $callback, $priority );
 	}
 
@@ -60,15 +70,27 @@ final class WpHooks implements Hooks {
 	}
 
 	public function did_action( string $hook_name ): int {
-		did_action( $hook_name );
+		return did_action( $hook_name );
 	}
 
-	public function apply_filters_deprecated( string $hook_name, array $args, string $version, string $replacement = '', string $message = '' ) {
+	public function apply_filters_deprecated(
+		string $hook_name,
+		array $args,
+		string $version,
+		string $replacement = '',
+		string $message = ''
+	) {
 		return apply_filters_deprecated( $hook_name, $args, $version, $replacement, $message );
 	}
 
-	public function do_action_deprecated( string $hook_name, array $args, string $version, string $replacement = '', string $message = '' ) {
-		return do_action_deprecated( $hook_name, $args, $version, $replacement, $message );
+	public function do_action_deprecated(
+		string $hook_name,
+		array $args,
+		string $version,
+		string $replacement = '',
+		string $message = ''
+	) {
+		do_action_deprecated( $hook_name, $args, $version, $replacement, $message );
 	}
 }
 

@@ -3,7 +3,12 @@
 namespace Merkushin\Wpal;
 
 interface Hooks {
-	public function add_filter( string $hook_name, callable $callback, int $priority = 10, int $accepted_args = 1 ): bool;
+	public function add_filter(
+		string $hook_name,
+		callable $callback,
+		int $priority = 10,
+		int $accepted_args = 1
+	): bool;
 
 	public function apply_filters( string $hook_name, $value, ...$args );
 
@@ -17,13 +22,18 @@ interface Hooks {
 
 	public function doing_filter( $hook_name = null ): bool;
 
-	public function add_action( string $hook_name, callable $callback, int $priority = 10, int $accepted_args = 1 ): bool;
+	public function add_action(
+		string $hook_name,
+		callable $callback,
+		int $priority = 10,
+		int $accepted_args = 1
+	): bool;
 
 	public function do_action( string $hook_name, ...$args );
 
 	public function has_action( string $hook_name, $callback = false );
 
-	public function remove_action( string $hook_name, callable $callback, int $priority = 10): bool;
+	public function remove_action( string $hook_name, callable $callback, int $priority = 10 ): bool;
 
 	public function remove_all_actions( string $hook_name, $priority = false );
 
@@ -33,8 +43,22 @@ interface Hooks {
 
 	public function did_action( string $hook_name ): int;
 
-	public function apply_filters_deprecated( string $hook_name, array $args, string $version, string $replacement = '', string $message = '' );
+	public function apply_filters_deprecated(
+		string $hook_name,
+		array $args,
+		string $version,
+		string $replacement = '',
+		string $message = ''
+	);
 
-	public function do_action_deprecated( string $hook_name, array $args, string $version, string $replacement = '', string $message = '' );
-};
+	public function do_action_deprecated(
+		string $hook_name,
+		array $args,
+		string $version,
+		string $replacement = '',
+		string $message = ''
+	);
+}
+
+;
 

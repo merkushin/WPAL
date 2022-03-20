@@ -1,19 +1,21 @@
 {
-    "name": "merkushin/wpal",
-    "version": "0.1.0",
-    "description": "Provides an abstraction layer for WordPress API",
-    "type": "library",
-    "license": "GPL-2.0-or-later",
-    "autoload": {
-        "psr-4": {
-            "Merkushin\\Wpal\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Dmitry Merkushin",
-            "email": "merkushin@gmail.com"
-        }
-    ],
-    "require": {}
+	"name": "merkushin/wpal",
+	"version": "0.1.0",
+	"description": "Provides an abstraction layer for WordPress API",
+	"type": "library",
+	"license": "GPL-2.0-or-later",
+	"autoload": {
+		"psr-4": {
+			"Merkushin\\Wpal\\": "src/"
+		}
+	},
+	"authors": [
+		{
+			"name": "Dmitry Merkushin",
+			"email": "merkushin@gmail.com"
+		}
+	],
+	"require": {
+		"php": ">=7.0.0"
+	}
 }
