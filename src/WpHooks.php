@@ -1,6 +1,6 @@
 <?php
 
-namespace Merkushin/Wpal;
+namespace Merkushin\Wpal;
 
 final class WpHooks implements Hooks {
 	public function add_filter( string $hook_name, callable $callback, int $priority = 10, int $accepted_args = 1 ): bool {

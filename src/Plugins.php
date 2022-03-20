@@ -1,6 +1,6 @@
 <?php
 
-namespace Merkushin/Wpal;
+namespace Merkushin\Wpal;
 
 interface Plugins {
 	public function plugin_basename( string $file ): string;
