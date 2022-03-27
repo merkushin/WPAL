@@ -64,21 +64,21 @@ class WpLocalization implements Localization {
 	 * @inheritDoc
 	 */
 	public function _e( $text, $domain = 'default' ) {
-		return _e( $text, $domain );
+		_e( $text, $domain );
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function esc_attr_e( $text, $domain = 'default' ) {
-		return esc_attr_e( $text, $domain );
+		esc_attr_e( $text, $domain );
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function esc_html_e( $text, $domain = 'default' ) {
-		return esc_html_e( $text, $domain );
+		esc_html_e( $text, $domain );
 	}
 
 	/**
@@ -92,7 +92,7 @@ class WpLocalization implements Localization {
 	 * @inheritDoc
 	 */
 	public function _ex( $text, $context, $domain = 'default' ) {
-		return _ex( $text, $context, $domain );
+		_ex( $text, $context, $domain );
 	}
 
 	/**
