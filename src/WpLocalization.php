@@ -49,6 +49,13 @@ class WpLocalization implements Localization {
 	/**
 	 * @inheritDoc
 	 */
+	public function __( $text, $domain = 'default' ) {
+		return __( $text, $domain );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function esc_attr__( $text, $domain = 'default' ) {
 		return esc_attr__( $text, $domain );
 	}

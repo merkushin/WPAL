@@ -109,6 +109,21 @@ interface Localization {
 	public function translate_with_gettext_context( $text, $context, $domain = 'default' );
 
 	/**
+	 * Retrieve the translation of $text.
+	 *
+	 * If there is no translation, or the text domain isn't loaded, the original text is returned.
+	 *
+	 * @param string $text   Text to translate.
+	 * @param string $domain Optional. Text domain. Unique identifier for retrieving translated strings.
+	 *                       Default 'default'.
+	 *
+	 * @return string Translated text.
+	 * @since 2.1.0
+	 *
+	 */
+	public function __( $text, $domain = 'default' );
+
+	/**
 	 * Retrieve the translation of $text and escapes it for safe use in an attribute.
 	 *
 	 * If there is no translation, or the text domain isn't loaded, the original text is returned.
