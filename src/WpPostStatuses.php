@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Merkushin\Wpal;
 
-class WpPostStatuses implements PostStatuses {
+final class WpPostStatuses implements PostStatuses {
 	/**
 	 * @inheritDoc
 	 */

@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Merkushin\Wpal;
 
-class WpPostAttachments implements PostAttachments {
+final class WpPostAttachments implements PostAttachments {
 	/**
 	 * @inheritDoc
 	 */

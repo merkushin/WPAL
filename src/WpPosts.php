@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Merkushin\Wpal;
 
-class WpPosts implements Posts {
+final class WpPosts implements Posts {
 	/**
 	 * @inheritDoc
 	 */

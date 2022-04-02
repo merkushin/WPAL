@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Merkushin\Wpal;
 
-class WpLocalization implements Localization {
+final class WpLocalization implements Localization {
 
 	/**
 	 * @inheritDoc

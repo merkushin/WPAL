@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Merkushin\Wpal;
 
@@ -14,6 +14,10 @@ final class WpHooks implements Hooks {
 
 	public function apply_filters( string $hook_name, $value, ...$args ) {
 		return apply_filters( $hook_name, $value, ...$args );
+	}
+
+	public function apply_filters_ref_array( string $hook_name, array $args ) {
+		return apply_filters_ref_array( $hook_name, $args );
 	}
 
 	public function has_filter( string $hook_name, $callback = false ) {
@@ -47,6 +51,10 @@ final class WpHooks implements Hooks {
 
 	public function do_action( string $hook_name, ...$args ) {
 		do_action( $hook_name, ...$args );
+	}
+
+	public function do_action_ref_array( string $hook_name, array $args ) {
+		do_action_ref_array( $hook_name, $args );
 	}
 
 	public function has_action( string $hook_name, $callback = false ) {
