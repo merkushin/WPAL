@@ -1,0 +1,158 @@
+<?php declare( strict_types=1 );
+
+namespace Merkushin\Wpal;
+
+use Merkushin\Wpal\Service\Hooks;
+use Merkushin\Wpal\Service\Localization;
+use Merkushin\Wpal\Service\Plugins;
+use Merkushin\Wpal\Service\PostAttachments;
+use Merkushin\Wpal\Service\PostMeta;
+use Merkushin\Wpal\Service\Posts;
+use Merkushin\Wpal\Service\PostStatuses;
+use Merkushin\Wpal\Service\PostTypes;
+use Merkushin\Wpal\Service\WpHooks;
+use Merkushin\Wpal\Service\WpLocalization;
+use Merkushin\Wpal\Service\WpPlugins;
+use Merkushin\Wpal\Service\WpPostAttachments;
+use Merkushin\Wpal\Service\WpPostMeta;
+use Merkushin\Wpal\Service\WpPosts;
+use Merkushin\Wpal\Service\WpPostStatuses;
+use Merkushin\Wpal\Service\WpPostTypes;
+
+class ServiceFactory {
+	/**
+	 * @var Hooks|null
+	 */
+	private static $custom_hooks;
+
+	/**
+	 * @var Localization|null
+	 */
+	private static $custom_localization;
+
+	/**
+	 * @var Plugins|null
+	 */
+	private static $custom_plugins;
+
+	/**
+	 * @var PostAttachments|null
+	 */
+	private static $custom_post_attachments;
+
+	/**
+	 * @var PostMeta|null
+	 */
+	private static $custom_post_meta;
+
+	/**
+	 * @var Posts|null
+	 */
+	private static $custom_posts;
+
+	/**
+	 * @var PostStatuses|null
+	 */
+	private static $custom_post_statuses;
+
+	/**
+	 * @var PostTypes|null
+	 */
+	private static $custom_post_types;
+
+	public static function set_custom_hooks( ?Hooks $hooks ): void {
+		self::$custom_hooks = $hooks;
+	}
+
+	public static function create_hooks(): Hooks {
+		if ( self::$custom_hooks ) {
+			return self::$custom_hooks;
+		}
+
+		return new WpHooks();
+	}
+
+	public static function set_custom_localization( ?Localization $custom_localization ): void {
+		self::$custom_localization = $custom_localization;
+	}
+
+	public static function create_localization(): Localization {
+		if ( self::$custom_localization ) {
+			return self::$custom_localization;
+		}
+
+		return new WpLocalization();
+	}
+
+	public static function set_custom_plugins( ?Plugins $custom_plugins ): void {
+		self::$custom_plugins = $custom_plugins;
+	}
+
+	public static function create_plugins(): Plugins {
+		if ( self::$custom_plugins ) {
+			return self::$custom_plugins;
+		}
+
+		return new WpPlugins();
+	}
+
+	public static function set_custom_post_attachments( ?PostAttachments $custom_post_attachments ): void {
+		self::$custom_post_attachments = $custom_post_attachments;
+	}
+
+	public static function create_post_attachments(): PostAttachments {
+		if ( self::$custom_post_attachments ) {
+			return self::$custom_post_attachments;
+		}
+
+		return new WpPostAttachments();
+	}
+
+	public static function set_custom_post_meta( ?PostMeta $custom_post_meta ): void {
+		self::$custom_post_meta = $custom_post_meta;
+	}
+
+	public static function create_post_meta(): PostMeta {
+		if ( self::$custom_post_meta ) {
+			return self::$custom_post_meta;
+		}
+
+		return new WpPostMeta();
+	}
+
+	public static function set_custom_posts( ?Posts $custom_posts ): void {
+		self::$custom_posts = $custom_posts;
+	}
+
+	public static function create_posts(): Posts {
+		if ( self::$custom_posts ) {
+			return self::$custom_posts;
+		}
+
+		return new WpPosts();
+	}
+
+	public static function set_custom_post_statuses( ?PostStatuses $custom_post_statuses ): void {
+		self::$custom_post_statuses = $custom_post_statuses;
+	}
+
+	public static function create_post_statuses(): PostStatuses {
+		if ( self::$custom_post_statuses ) {
+			return self::$custom_post_statuses;
+		}
+
+		return new WpPostStatuses();
+	}
+
+	public static function set_custom_post_types( ?PostTypes $custom_post_types ): void {
+		self::$custom_post_types = $custom_post_types;
+	}
+
+	public static function create_post_types(): PostTypes {
+		if ( self::$custom_post_types ) {
+			return self::$custom_post_types;
+		}
+
+		return new WpPostTypes();
+	}
+}

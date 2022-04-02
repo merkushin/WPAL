@@ -104,7 +104,7 @@ interface Posts {
 	 * @global WP_Post         $post   Global post object.
 	 *
 	 */
-	function get_post( $post = null, $output = OBJECT, $filter = 'raw' );
+	function get_post( $post = null, $output = 'OBJECT', $filter = 'raw' );
 
 	/**
 	 * Retrieves the IDs of the ancestors of a post.
@@ -858,7 +858,7 @@ interface Posts {
 	 * @deprecated 3.5.0 Use get_post()
 	 *
 	 */
-	function get_page( $page, $output = OBJECT, $filter = 'raw' );
+	function get_page( $page, $output = 'OBJECT', $filter = 'raw' );
 
 	/**
 	 * Retrieves a page given its path.
@@ -875,7 +875,7 @@ interface Posts {
 	 * @global wpdb        $wpdb      WordPress database abstraction object.
 	 *
 	 */
-	function get_page_by_path( $page_path, $output = OBJECT, $post_type = 'page' );
+	function get_page_by_path( $page_path, $output = 'OBJECT', $post_type = 'page' );
 
 	/**
 	 * Retrieve a page given its title.
@@ -900,7 +900,7 @@ interface Posts {
 	 *
 	 * @since 2.1.0
 	 */
-	function get_page_by_title( $page_title, $output = OBJECT, $post_type = 'page' );
+	function get_page_by_title( $page_title, $output = 'OBJECT', $post_type = 'page' );
 
 	/**
 	 * Identify descendants of a given page ID in a list of page objects.
