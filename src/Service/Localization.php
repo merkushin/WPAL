@@ -1,14 +1,7 @@
 <?php declare(strict_types=1);
 
-namespace Merkushin\Wpal;
+namespace Merkushin\Wpal\Service;
 
-/**
- * Core Translation API
- *
- * @package    WordPress
- * @subpackage i18n
- * @since      1.2.0
- */
 interface Localization {
 	/**
 	 * Retrieves the current locale.

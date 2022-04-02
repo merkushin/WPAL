@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Merkushin\Wpal;
+namespace Merkushin\Wpal\Service;
 
 interface Hooks {
 	/**
