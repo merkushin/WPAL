@@ -8,6 +8,7 @@ use Merkushin\Wpal\Service\PostMeta;
 use Merkushin\Wpal\Service\Posts;
 use Merkushin\Wpal\Service\PostStatuses;
 use Merkushin\Wpal\Service\PostTypes;
+use Merkushin\Wpal\Service\Taxonomies;
 use Merkushin\Wpal\Service\WpHooks;
 use Merkushin\Wpal\Service\WpLocalization;
 use Merkushin\Wpal\Service\WpPlugins;
@@ -16,6 +17,7 @@ use Merkushin\Wpal\Service\WpPostMeta;
 use Merkushin\Wpal\Service\WpPosts;
 use Merkushin\Wpal\Service\WpPostStatuses;
 use Merkushin\Wpal\Service\WpPostTypes;
+use Merkushin\Wpal\Service\WpTaxonomies;
 use Merkushin\Wpal\ServiceFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -158,5 +160,22 @@ class ServiceFactoryTest extends TestCase
 		$actual = ServiceFactory::create_post_types();
 
 		self::assertSame( $custom_post_types, $actual );
+	}
+
+	public function testCreateTaxonomies_WhenCalled_ReturnsWpTaxonomies(): void
+	{
+		$actual = ServiceFactory::create_taxonomies();
+
+		self::assertInstanceOf( WpTaxonomies::class, $actual);
+	}
+
+	public function testCreateTaxonomies_WhenCustomTaxonomiesSet_ReturnsCustomTaxonomies(): void
+	{
+		$custom_taxonomies = $this->createMock( Taxonomies::class );
+		ServiceFactory::set_custom_taxonomies( $custom_taxonomies );
+
+		$actual = ServiceFactory::create_taxonomies();
+
+		self::assertSame( $custom_taxonomies, $actual );
 	}
 }

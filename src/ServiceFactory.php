@@ -10,6 +10,7 @@ use Merkushin\Wpal\Service\PostMeta;
 use Merkushin\Wpal\Service\Posts;
 use Merkushin\Wpal\Service\PostStatuses;
 use Merkushin\Wpal\Service\PostTypes;
+use Merkushin\Wpal\Service\Taxonomies;
 use Merkushin\Wpal\Service\WpHooks;
 use Merkushin\Wpal\Service\WpLocalization;
 use Merkushin\Wpal\Service\WpPlugins;
@@ -18,6 +19,7 @@ use Merkushin\Wpal\Service\WpPostMeta;
 use Merkushin\Wpal\Service\WpPosts;
 use Merkushin\Wpal\Service\WpPostStatuses;
 use Merkushin\Wpal\Service\WpPostTypes;
+use Merkushin\Wpal\Service\WpTaxonomies;
 
 class ServiceFactory {
 	/**
@@ -59,6 +61,11 @@ class ServiceFactory {
 	 * @var PostTypes|null
 	 */
 	private static $custom_post_types;
+
+	/**
+	 * @var Taxonomies|null
+	 */
+	private static $custom_taxonomies;
 
 	public static function set_custom_hooks( ?Hooks $hooks ): void {
 		self::$custom_hooks = $hooks;
@@ -154,5 +161,17 @@ class ServiceFactory {
 		}
 
 		return new WpPostTypes();
+	}
+
+	public static function set_custom_taxonomies( ?Taxonomies $custom_taxonomies ): void {
+		self::$custom_taxonomies = $custom_taxonomies;
+	}
+
+	public static function create_taxonomies(): Taxonomies {
+		if ( self::$custom_taxonomies ) {
+			return self::$custom_taxonomies;
+		}
+
+		return new WpTaxonomies();
 	}
 }
