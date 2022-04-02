@@ -1,6 +1,6 @@
 {
 	"name": "merkushin/wpal",
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"description": "Provides an abstraction layer for WordPress API",
 	"type": "library",
 	"license": "GPL-2.0-or-later",

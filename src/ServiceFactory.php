@@ -2,6 +2,7 @@
 
 namespace Merkushin\Wpal;
 
+use Merkushin\Wpal\Service\Comments;
 use Merkushin\Wpal\Service\Hooks;
 use Merkushin\Wpal\Service\Localization;
 use Merkushin\Wpal\Service\Plugins;
@@ -11,6 +12,7 @@ use Merkushin\Wpal\Service\Posts;
 use Merkushin\Wpal\Service\PostStatuses;
 use Merkushin\Wpal\Service\PostTypes;
 use Merkushin\Wpal\Service\Taxonomies;
+use Merkushin\Wpal\Service\WpComments;
 use Merkushin\Wpal\Service\WpHooks;
 use Merkushin\Wpal\Service\WpLocalization;
 use Merkushin\Wpal\Service\WpPlugins;
@@ -66,6 +68,11 @@ class ServiceFactory {
 	 * @var Taxonomies|null
 	 */
 	private static $custom_taxonomies;
+
+	/**
+	 * @var Comments|null
+	 */
+	private static $custom_comments;
 
 	public static function set_custom_hooks( ?Hooks $hooks ): void {
 		self::$custom_hooks = $hooks;
@@ -173,5 +180,17 @@ class ServiceFactory {
 		}
 
 		return new WpTaxonomies();
+	}
+
+	public static function set_custom_comments( ?Comments $custom_comments ): void {
+		self::$custom_comments = $custom_comments;
+	}
+
+	public static function create_comments(): Comments {
+		if ( self::$custom_comments ) {
+			return self::$custom_comments;
+		}
+
+		return new WpComments();
 	}
 }

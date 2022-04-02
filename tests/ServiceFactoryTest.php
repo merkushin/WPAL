@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 
+use Merkushin\Wpal\Service\Comments;
 use Merkushin\Wpal\Service\Hooks;
 use Merkushin\Wpal\Service\Localization;
 use Merkushin\Wpal\Service\Plugins;
@@ -9,6 +10,7 @@ use Merkushin\Wpal\Service\Posts;
 use Merkushin\Wpal\Service\PostStatuses;
 use Merkushin\Wpal\Service\PostTypes;
 use Merkushin\Wpal\Service\Taxonomies;
+use Merkushin\Wpal\Service\WpComments;
 use Merkushin\Wpal\Service\WpHooks;
 use Merkushin\Wpal\Service\WpLocalization;
 use Merkushin\Wpal\Service\WpPlugins;
@@ -177,5 +179,22 @@ class ServiceFactoryTest extends TestCase
 		$actual = ServiceFactory::create_taxonomies();
 
 		self::assertSame( $custom_taxonomies, $actual );
+	}
+
+	public function testCreateComments_WhenCalled_ReturnsWpComments(): void
+	{
+		$actual = ServiceFactory::create_comments();
+
+		self::assertInstanceOf( WpComments::class, $actual);
+	}
+
+	public function testCreateComments_WhenCustomCommentsSet_ReturnsCustomComments(): void
+	{
+		$custom_comments = $this->createMock( Comments::class );
+		ServiceFactory::set_custom_comments( $custom_comments );
+
+		$actual = ServiceFactory::create_comments();
+
+		self::assertSame( $custom_comments, $actual );
 	}
 }
