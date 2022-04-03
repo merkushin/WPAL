@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 
+use Merkushin\Wpal\Service\Capabilities;
 use Merkushin\Wpal\Service\Comments;
 use Merkushin\Wpal\Service\Hooks;
 use Merkushin\Wpal\Service\Localization;
@@ -10,6 +11,7 @@ use Merkushin\Wpal\Service\Posts;
 use Merkushin\Wpal\Service\PostStatuses;
 use Merkushin\Wpal\Service\PostTypes;
 use Merkushin\Wpal\Service\Taxonomies;
+use Merkushin\Wpal\Service\WpCapabilities;
 use Merkushin\Wpal\Service\WpComments;
 use Merkushin\Wpal\Service\WpHooks;
 use Merkushin\Wpal\Service\WpLocalization;
@@ -196,5 +198,22 @@ class ServiceFactoryTest extends TestCase
 		$actual = ServiceFactory::create_comments();
 
 		self::assertSame( $custom_comments, $actual );
+	}
+
+	public function testCreateCapabilities_WhenCalled_ReturnsWpCapabilities(): void
+	{
+		$actual = ServiceFactory::create_capabilities();
+
+		self::assertInstanceOf( WpCapabilities::class, $actual);
+	}
+
+	public function testCreateCapabilities_WhenCustomCapabilitiesSet_ReturnsCustomCapabilities(): void
+	{
+		$custom_capabilities = $this->createMock( Capabilities::class );
+		ServiceFactory::set_custom_capabilities( $custom_capabilities );
+
+		$actual = ServiceFactory::create_capabilities();
+
+		self::assertSame( $custom_capabilities, $actual );
 	}
 }
