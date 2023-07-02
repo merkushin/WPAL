@@ -2,6 +2,7 @@
 
 namespace Merkushin\Wpal;
 
+use Merkushin\Wpal\Service\Assets;
 use Merkushin\Wpal\Service\Capabilities;
 use Merkushin\Wpal\Service\Comments;
 use Merkushin\Wpal\Service\Hooks;
@@ -13,6 +14,7 @@ use Merkushin\Wpal\Service\Posts;
 use Merkushin\Wpal\Service\PostStatuses;
 use Merkushin\Wpal\Service\PostTypes;
 use Merkushin\Wpal\Service\Taxonomies;
+use Merkushin\Wpal\Service\WpAssets;
 use Merkushin\Wpal\Service\WpCapabilities;
 use Merkushin\Wpal\Service\WpComments;
 use Merkushin\Wpal\Service\WpHooks;
@@ -80,6 +82,11 @@ class ServiceFactory {
 	 * @var Capabilities|null
 	 */
 	private static $custom_capabilities;
+
+	/**
+	 * @var Assets|null
+	 */
+	private static $custom_assets;
 
 	public static function set_custom_hooks( ?Hooks $hooks ): void {
 		self::$custom_hooks = $hooks;
@@ -211,5 +218,17 @@ class ServiceFactory {
 		}
 
 		return new WpCapabilities();
+	}
+
+	public static function set_custom_assets( ?Assets $custom_assets ): void {
+		self::$custom_assets = $custom_assets;
+	}
+
+	public static function create_assets(): Assets {
+		if ( self::$custom_assets ) {
+			return self::$custom_assets;
+		}
+
+		return new WpAssets();
 	}
 }
