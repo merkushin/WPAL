@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 
+use Merkushin\Wpal\Service\Assets;
 use Merkushin\Wpal\Service\Capabilities;
 use Merkushin\Wpal\Service\Comments;
 use Merkushin\Wpal\Service\Hooks;
@@ -11,6 +12,7 @@ use Merkushin\Wpal\Service\Posts;
 use Merkushin\Wpal\Service\PostStatuses;
 use Merkushin\Wpal\Service\PostTypes;
 use Merkushin\Wpal\Service\Taxonomies;
+use Merkushin\Wpal\Service\WpAssets;
 use Merkushin\Wpal\Service\WpCapabilities;
 use Merkushin\Wpal\Service\WpComments;
 use Merkushin\Wpal\Service\WpHooks;
@@ -215,5 +217,22 @@ class ServiceFactoryTest extends TestCase
 		$actual = ServiceFactory::create_capabilities();
 
 		self::assertSame( $custom_capabilities, $actual );
+	}
+
+	public function testCreateAssets_WhenCalled_ReturnsWpAssets(): void
+	{
+		$actual = ServiceFactory::create_assets();
+
+		self::assertInstanceOf( WpAssets::class, $actual);
+	}
+
+	public function testCreateAssets_WhenCustomAssetsSet_ReturnsCustomAssets(): void
+	{
+		$custom_assets = $this->createMock( Assets::class );
+		ServiceFactory::set_custom_assets( $custom_assets );
+
+		$actual = ServiceFactory::create_assets();
+
+		self::assertSame( $custom_assets, $actual );
 	}
 }
