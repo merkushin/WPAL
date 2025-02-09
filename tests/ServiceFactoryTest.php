@@ -11,6 +11,7 @@ use Merkushin\Wpal\Service\PostMeta;
 use Merkushin\Wpal\Service\Posts;
 use Merkushin\Wpal\Service\PostStatuses;
 use Merkushin\Wpal\Service\PostTypes;
+use Merkushin\Wpal\Service\Screen;
 use Merkushin\Wpal\Service\Taxonomies;
 use Merkushin\Wpal\Service\WpAssets;
 use Merkushin\Wpal\Service\WpCapabilities;
@@ -23,6 +24,7 @@ use Merkushin\Wpal\Service\WpPostMeta;
 use Merkushin\Wpal\Service\WpPosts;
 use Merkushin\Wpal\Service\WpPostStatuses;
 use Merkushin\Wpal\Service\WpPostTypes;
+use Merkushin\Wpal\Service\WpScreen;
 use Merkushin\Wpal\Service\WpTaxonomies;
 use Merkushin\Wpal\ServiceFactory;
 use PHPUnit\Framework\TestCase;
@@ -234,5 +236,22 @@ class ServiceFactoryTest extends TestCase
 		$actual = ServiceFactory::create_assets();
 
 		self::assertSame( $custom_assets, $actual );
+	}
+
+	public function testCreateScreen_WhenCalled_ReturnsWpScreen(): void
+	{
+		$actual = ServiceFactory::create_screen();
+
+		self::assertInstanceOf( WpScreen::class, $actual);
+	}
+
+	public function testCreateScreen_WhenCustomScreenSet_ReturnsCustomScreen(): void
+	{
+		$custom_screen = $this->createMock( Screen::class );
+		ServiceFactory::set_custom_screen( $custom_screen );
+
+		$actual = ServiceFactory::create_screen();
+
+		self::assertSame( $custom_screen, $actual );
 	}
 }
