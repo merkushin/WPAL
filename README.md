@@ -16,10 +16,12 @@ $hooks = ServiceFactory::create_hooks();
 $hooks->add_action( 'wp_enqueue_scripts', 'enqueue_frontend_scripts' );
 
 public function enqueue_frontend_scripts() {
+	$plugin_file = __FILE__;
 	$assets = ServiceFactory::create_assets();
+	$plugins = ServiceFactory::create_plugins();
 	$assets->wp_enqueue_script(
 		'wpplugin-frontend-scripts',
-		$this->plugins->plugin_dir_url( $this->plugin_file ) . '/assets/dist/javascript/frontend.js',
+		$plugins->plugin_dir_url( $plugin_file ) . '/assets/dist/javascript/frontend.js',
 		[],
 		'1.0.0',
 		true
