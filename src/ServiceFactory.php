@@ -13,6 +13,7 @@ use Merkushin\Wpal\Service\PostMeta;
 use Merkushin\Wpal\Service\Posts;
 use Merkushin\Wpal\Service\PostStatuses;
 use Merkushin\Wpal\Service\PostTypes;
+use Merkushin\Wpal\Service\Screen;
 use Merkushin\Wpal\Service\Taxonomies;
 use Merkushin\Wpal\Service\WpAssets;
 use Merkushin\Wpal\Service\WpCapabilities;
@@ -25,6 +26,7 @@ use Merkushin\Wpal\Service\WpPostMeta;
 use Merkushin\Wpal\Service\WpPosts;
 use Merkushin\Wpal\Service\WpPostStatuses;
 use Merkushin\Wpal\Service\WpPostTypes;
+use Merkushin\Wpal\Service\WpScreen;
 use Merkushin\Wpal\Service\WpTaxonomies;
 
 class ServiceFactory {
@@ -87,6 +89,11 @@ class ServiceFactory {
 	 * @var Assets|null
 	 */
 	private static $custom_assets;
+
+	/**
+	 * @var Screen|null
+	 */
+	private static $custom_screen;
 
 	public static function set_custom_hooks( ?Hooks $hooks ): void {
 		self::$custom_hooks = $hooks;
@@ -230,5 +237,17 @@ class ServiceFactory {
 		}
 
 		return new WpAssets();
+	}
+
+	public static function set_custom_screen( ?Screen $custom_screen ): void {
+		self::$custom_screen = $custom_screen;
+	}
+
+	public static function create_screen(): Screen {
+		if ( self::$custom_screen ) {
+			return self::$custom_screen;
+		}
+
+		return new WpScreen();
 	}
 }
