@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Merkushin\Wpal\Service;
 
-class WpTaxonomies implements Taxonomies {
+final class WpTaxonomies implements Taxonomies {
 
 	/**
 	 * @inheritDoc

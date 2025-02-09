@@ -15,6 +15,7 @@ use Merkushin\Wpal\Service\PostStatuses;
 use Merkushin\Wpal\Service\PostTypes;
 use Merkushin\Wpal\Service\Screen;
 use Merkushin\Wpal\Service\Taxonomies;
+use Merkushin\Wpal\Service\Transient;
 use Merkushin\Wpal\Service\WpAssets;
 use Merkushin\Wpal\Service\WpCapabilities;
 use Merkushin\Wpal\Service\WpComments;
@@ -28,6 +29,7 @@ use Merkushin\Wpal\Service\WpPostStatuses;
 use Merkushin\Wpal\Service\WpPostTypes;
 use Merkushin\Wpal\Service\WpScreen;
 use Merkushin\Wpal\Service\WpTaxonomies;
+use Merkushin\Wpal\Service\WpTransient;
 
 class ServiceFactory {
 	/**
@@ -94,6 +96,11 @@ class ServiceFactory {
 	 * @var Screen|null
 	 */
 	private static $custom_screen;
+
+	/**
+	 * @var Transient|null
+	 */
+	private static $custom_transient;
 
 	public static function set_custom_hooks( ?Hooks $hooks ): void {
 		self::$custom_hooks = $hooks;
@@ -249,5 +256,17 @@ class ServiceFactory {
 		}
 
 		return new WpScreen();
+	}
+
+	public static function set_custom_transient( ?Transient $custom_transient ): void {
+		self::$custom_transient = $custom_transient;
+	}
+
+	public static function create_transient(): Transient {
+		if ( self::$custom_transient ) {
+			return self::$custom_transient;
+		}
+
+		return new WpTransient();
 	}
 }

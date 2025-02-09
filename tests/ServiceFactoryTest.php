@@ -13,6 +13,7 @@ use Merkushin\Wpal\Service\PostStatuses;
 use Merkushin\Wpal\Service\PostTypes;
 use Merkushin\Wpal\Service\Screen;
 use Merkushin\Wpal\Service\Taxonomies;
+use Merkushin\Wpal\Service\Transient;
 use Merkushin\Wpal\Service\WpAssets;
 use Merkushin\Wpal\Service\WpCapabilities;
 use Merkushin\Wpal\Service\WpComments;
@@ -26,6 +27,7 @@ use Merkushin\Wpal\Service\WpPostStatuses;
 use Merkushin\Wpal\Service\WpPostTypes;
 use Merkushin\Wpal\Service\WpScreen;
 use Merkushin\Wpal\Service\WpTaxonomies;
+use Merkushin\Wpal\Service\WpTransient;
 use Merkushin\Wpal\ServiceFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -253,5 +255,22 @@ class ServiceFactoryTest extends TestCase
 		$actual = ServiceFactory::create_screen();
 
 		self::assertSame( $custom_screen, $actual );
+	}
+
+	public function testCreateTransient_WhenCalled_ReturnsWpTransient(): void
+	{
+		$actual = ServiceFactory::create_transient();
+
+		self::assertInstanceOf( WpTransient::class, $actual);
+	}
+
+	public function testCreateTransient_WhenCustomTransientSet_ReturnsCustomTransient(): void
+	{
+		$custom_transient = $this->createMock( Transient::class );
+		ServiceFactory::set_custom_transient( $custom_transient );
+
+		$actual = ServiceFactory::create_transient();
+
+		self::assertSame( $custom_transient, $actual );
 	}
 }
