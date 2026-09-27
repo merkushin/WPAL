@@ -28,7 +28,10 @@
 	},
 	"scripts": {
 		"test": "phpunit",
-		"phpstan": "phpstan analyse --memory-limit=4G",
+		"phpstan": [
+			"@php bin/split-stubs.php vendor/php-stubs/wordpress-stubs/wordpress-stubs.php build/wordpress-stubs",
+			"phpstan analyse --memory-limit=512M"
+		],
 		"phpcs": "phpcs",
 		"check": [
 			"@test",

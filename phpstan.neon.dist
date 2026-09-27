@@ -1,17 +1,20 @@
 # Service layer: must stay PHP 7.4 compatible (WordPress's own minimum).
 # The Api layer (PHP 8.4) will get its own config: phpstan-api.neon.dist.
+#
+# Run through `composer phpstan`: it first splits the WordPress stubs into build/wordpress-stubs.
+# With the single 6 MB stubs file, PHPStan re-parses the whole file for every WordPress symbol it
+# looks up and keeps it in memory: a cold run needed ~2.7 GB and would grow with coverage.
+# Split into one file per symbol, a cold run needs ~140 MB.
+
+includes:
+	# Inaccuracies inherited from WordPress's own docblocks; the Phase 2 generator replaces these files.
+	- phpstan-baseline.neon
+
 parameters:
 	level: 5
 	phpVersion: 70400
 	paths:
 		- src/Service
 		- src/ServiceFactory.php
-	# Each parallel worker loads the full WordPress stubs and runs out of memory; one process peaks at ~2.7 GB on PHP 8.4.
-	parallel:
-		maximumNumberOfProcesses: 1
-	scanFiles:
-		- vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
-
-includes:
-	# Inaccuracies inherited from WordPress's own docblocks; the Phase 2 generator replaces these files.
-	- phpstan-baseline.neon
+	scanDirectories:
+		- build/wordpress-stubs
