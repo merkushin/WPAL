@@ -6,7 +6,7 @@ parameters:
 	paths:
 		- src/Service
 		- src/ServiceFactory.php
-	# Each parallel worker loads the full WordPress stubs and runs out of memory; one process needs ~400 MB.
+	# Each parallel worker loads the full WordPress stubs and runs out of memory; one process peaks at ~2.7 GB on PHP 8.4.
 	parallel:
 		maximumNumberOfProcesses: 1
 	scanFiles:
