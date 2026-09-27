@@ -36,6 +36,24 @@ use PHPUnit\Framework\TestCase;
  */
 class ServiceFactoryTest extends TestCase
 {
+	protected function tearDown(): void
+	{
+		ServiceFactory::set_custom_hooks( null );
+		ServiceFactory::set_custom_localization( null );
+		ServiceFactory::set_custom_plugins( null );
+		ServiceFactory::set_custom_post_attachments( null );
+		ServiceFactory::set_custom_post_meta( null );
+		ServiceFactory::set_custom_posts( null );
+		ServiceFactory::set_custom_post_statuses( null );
+		ServiceFactory::set_custom_post_types( null );
+		ServiceFactory::set_custom_taxonomies( null );
+		ServiceFactory::set_custom_comments( null );
+		ServiceFactory::set_custom_capabilities( null );
+		ServiceFactory::set_custom_assets( null );
+		ServiceFactory::set_custom_screen( null );
+		ServiceFactory::set_custom_transient( null );
+	}
+
 	public function testCreateHooks_WhenCalled_ReturnsWpHooks(): void
 	{
 		$actual = ServiceFactory::create_hooks();

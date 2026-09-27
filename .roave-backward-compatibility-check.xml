@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<roave-bc-check
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="vendor/roave/backward-compatibility-check/Resources/schema.xsd">
+	<!-- Service follows WordPress: new methods and parameters are allowed (see AGENTS.md). Removals still fail. -->
+	<baseline>
+		<ignored-regex>#\[BC\] ADDED: Method [a-z0-9_]+\(\) was added to interface Merkushin\\Wpal\\Service\\#</ignored-regex>
+		<ignored-regex>#\[BC\] ADDED: Parameter [a-z0-9_]+ was added to Method [a-z0-9_]+\(\) of class Merkushin\\Wpal\\Service\\#</ignored-regex>
+	</baseline>
+</roave-bc-check>

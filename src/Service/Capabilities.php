@@ -2,6 +2,11 @@
 
 namespace Merkushin\Wpal\Service;
 
+use WP_Post;
+use WP_Role;
+use WP_Roles;
+use WP_User;
+
 interface Capabilities {
 	/**
 	 * Maps a capability to the primitive capabilities required of the given user to

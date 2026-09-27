@@ -2,6 +2,13 @@
 
 namespace Merkushin\Wpal\Service;
 
+use MO;
+use NOOP_Translations;
+use Translations;
+use WP_Locale;
+use WP_Locale_Switcher;
+use WP_User;
+
 interface Localization {
 	/**
 	 * Retrieves the current locale.

@@ -2,6 +2,8 @@
 
 namespace Merkushin\Wpal\Service;
 
+use WP_Screen;
+
 interface Screen {
 	/**
 	 * Get the current screen object

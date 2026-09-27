@@ -2,6 +2,11 @@
 
 namespace Merkushin\Wpal\Service;
 
+use stdClass;
+use WP_Error;
+use WP_Post;
+use wpdb;
+
 interface PostAttachments {
 	/**
 	 * Retrieve attached file path based on attachment ID.

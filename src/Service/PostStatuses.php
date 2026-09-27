@@ -2,6 +2,9 @@
 
 namespace Merkushin\Wpal\Service;
 
+use stdClass;
+use WP_Post;
+
 interface PostStatuses {
 	/**
 	 * Retrieve the post status based on the post ID.
