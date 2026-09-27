@@ -2,6 +2,11 @@
 
 namespace Merkushin\Wpal\Service;
 
+use WP_Error;
+use WP_Post;
+use WP_Post_Type;
+use wpdb;
+
 interface PostTypes {
 	/**
 	 * Whether the post type is hierarchical.

@@ -2,6 +2,15 @@
 
 namespace Merkushin\Wpal\Service;
 
+use IXR_Error;
+use stdClass;
+use WP_Comment;
+use WP_Error;
+use WP_Post;
+use WP_Query;
+use WP_User;
+use wpdb;
+
 interface Comments {
 	/**
 	 * Check whether a comment passes internal checks to be allowed to add.

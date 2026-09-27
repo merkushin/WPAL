@@ -2,6 +2,12 @@
 
 namespace Merkushin\Wpal\Service;
 
+use stdClass;
+use WP_Error;
+use WP_Post;
+use WP_Rewrite;
+use wpdb;
+
 interface Posts {
 	/**
 	 * Retrieve all children of the post parent ID.

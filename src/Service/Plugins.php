@@ -2,6 +2,9 @@
 
 namespace Merkushin\Wpal\Service;
 
+use WP_Error;
+use WP_Filesystem_Base;
+
 interface Plugins {
 	/**
 	 * Gets the basename of a plugin.

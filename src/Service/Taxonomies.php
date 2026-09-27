@@ -2,6 +2,14 @@
 
 namespace Merkushin\Wpal\Service;
 
+use WP;
+use WP_Error;
+use WP_Post;
+use WP_Rewrite;
+use WP_Taxonomy;
+use WP_Term;
+use wpdb;
+
 interface Taxonomies {
 	/**
 	 * Creates the initial taxonomies.

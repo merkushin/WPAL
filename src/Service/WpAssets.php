@@ -2,7 +2,7 @@
 
 namespace Merkushin\Wpal\Service;
 
-class WpAssets implements Assets {
+final class WpAssets implements Assets {
 	/**
 	 * Enqueues a script.
 	 *

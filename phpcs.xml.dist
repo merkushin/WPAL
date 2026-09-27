@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<ruleset name="WPAL">
+	<description>Keeps the Service layer compatible with PHP 7.4, WordPress's minimum.</description>
+
+	<file>src/Service</file>
+	<file>src/ServiceFactory.php</file>
+
+	<arg name="extensions" value="php"/>
+	<arg name="colors"/>
+	<arg value="sp"/>
+
+	<!-- The Api layer (src/Api) will get its own ruleset targeting PHP 8.4. -->
+	<config name="testVersion" value="7.4-"/>
+	<rule ref="PHPCompatibility"/>
+</ruleset>

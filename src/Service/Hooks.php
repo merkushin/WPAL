@@ -2,6 +2,8 @@
 
 namespace Merkushin\Wpal\Service;
 
+use WP_Hook;
+
 interface Hooks {
 	/**
 	 * Adds a callback function to a filter hook.

@@ -1,0 +1,14 @@
+# Service layer: must stay PHP 7.4 compatible (WordPress's own minimum).
+# The Api layer (PHP 8.4) will get its own config: phpstan-api.neon.dist.
+parameters:
+	level: 5
+	phpVersion: 70400
+	paths:
+		- src/Service
+		- src/ServiceFactory.php
+	scanFiles:
+		- vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
+
+includes:
+	# Inaccuracies inherited from WordPress's own docblocks; the Phase 2 generator replaces these files.
+	- phpstan-baseline.neon

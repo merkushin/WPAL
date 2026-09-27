@@ -29,6 +29,25 @@ public function enqueue_frontend_scripts() {
 }
 ```
 
+## Requirements
+
+- PHP 7.4 or later
+- The latest WordPress version. Each WPAL release targets the WordPress version that was current when it shipped; on an
+  older WordPress, use an older WPAL release.
+
+## Compatibility
+
+Services mirror WordPress functions, so they follow WordPress:
+
+- Code that **calls** a service keeps working across releases unless WordPress itself breaks the same call.
+- **Implementing** service interfaces yourself is not supported: they gain methods and parameters whenever WordPress
+  does. Use `ServiceFactory::set_custom_*()` with mocks (e.g. PHPUnit's `createMock()`) for tests.
+- Deprecated WordPress functions stay available and are marked `@deprecated`.
+
+## Contributing
+
+See [AGENTS.md](AGENTS.md) for the layout, conventions and checks. Run `composer check` before opening a pull request.
+
 `merkushin/wpplugin` uses WPAL: https://github.com/merkushin/wpplugin/blob/main/src/Wpplugin.php
 
 
