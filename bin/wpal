@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php declare( strict_types=1 );
+/**
+ * Keeps the Service layer in step with WordPress. Run `bin/wpal help`.
+ */
+
+if ( PHP_VERSION_ID < 80100 ) {
+	fwrite( STDERR, "bin/wpal needs PHP 8.1 or later.\n" );
+	exit( 2 );
+}
+
+$root = dirname( __DIR__ );
+if ( ! is_file( $root . '/vendor/autoload.php' ) ) {
+	fwrite( STDERR, "Run `composer install` first.\n" );
+	exit( 2 );
+}
+require $root . '/vendor/autoload.php';
+
+exit( ( new Merkushin\Wpal\Tools\Cli\Application( new Merkushin\Wpal\Tools\Workspace( $root ) ) )->run( $argv ) );

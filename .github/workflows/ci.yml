@@ -23,7 +23,8 @@ jobs:
           php-version: ${{ matrix.php }}
           coverage: none
       - uses: ramsey/composer-install@v3
-      - run: vendor/bin/phpunit --order-by=random
+      # bin/wpal and its tests need PHP 8.1+; the library itself is tested down to 7.4.
+      - run: vendor/bin/phpunit --order-by=random ${{ matrix.php == '7.4' && '--testsuite unit' || '' }}
 
   phpstan:
     name: PHPStan
