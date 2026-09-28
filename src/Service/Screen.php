@@ -37,4 +37,14 @@ interface Screen {
 	 * @param mixed  $args   Option-dependent arguments.
 	 */
 	public function add_screen_option( $option, $args = array() );
+
+	/**
+	 * Converts a screen string to a screen object.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $hook_name The hook name (also known as the hook suffix) used to determine the screen.
+	 * @return WP_Screen Screen object.
+	 */
+	public function convert_to_screen( $hook_name );
 }

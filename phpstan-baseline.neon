@@ -85,10 +85,106 @@ parameters:
 			path: src/Service/Plugins.php
 
 		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpAdminTemplate\:\:parent_dropdown\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpAdminTemplate.php
+
+		-
+			message: '#^Parameter \#2 \$deprecated of function iframe_header expects false, bool given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/WpAdminTemplate.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpArchiveTemplate\:\:get_calendar\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpArchiveTemplate.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpArchiveTemplate\:\:wp_get_archives\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpArchiveTemplate.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpAuthorTemplate\:\:wp_list_authors\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpAuthorTemplate.php
+
+		-
+			message: '#^Parameter \#2 \$deprecated_echo of function the_author expects true, bool given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/WpAuthorTemplate.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpBookmarks\:\:wp_list_bookmarks\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpBookmarks.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpCommentTemplate\:\:comment_class\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpCommentTemplate.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpCommentTemplate\:\:trackback_url\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpCommentTemplate.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpCommentTemplate\:\:wp_list_comments\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpCommentTemplate.php
+
+		-
+			message: '#^Parameter \#1 \$deprecated_echo of function trackback_url expects true, bool given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/WpCommentTemplate.php
+
+		-
 			message: '#^Method Merkushin\\Wpal\\Service\\WpComments\:\:wp_count_comments\(\) should return stdClass but returns object\{approved\: int, moderated\: int, spam\: int, trash\: int, post\-trashed\: int, total_comments\: int, all\: int\}\.$#'
 			identifier: return.type
 			count: 1
 			path: src/Service/WpComments.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpLogin\:\:wp_login_form\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpLogin.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpLogin\:\:wp_loginout\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpLogin.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpLogin\:\:wp_register\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpLogin.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpNavMenus\:\:wp_nav_menu\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpNavMenus.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpNavigation\:\:paginate_comments_links\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpNavigation.php
 
 		-
 			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_comments_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
@@ -169,7 +265,85 @@ parameters:
 			path: src/Service/WpPlugins.php
 
 		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpPostTemplate\:\:the_title\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpPostTemplate.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpPostTemplate\:\:the_title_attribute\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpPostTemplate.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpPostTemplate\:\:wp_list_pages\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpPostTemplate.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpPostTemplate\:\:wp_page_menu\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpPostTemplate.php
+
+		-
+			message: '#^Parameter \#3 \$deprecated of function the_attachment_link expects false, bool given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/WpPostTemplate.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpSearch\:\:get_search_form\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpSearch.php
+
+		-
 			message: '#^Method Merkushin\\Wpal\\Service\\WpTaxonomies\:\:update_object_term_cache\(\) never returns void so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
 			path: src/Service/WpTaxonomies.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpTemplates\:\:get_footer\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpTemplates.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpTemplates\:\:get_header\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpTemplates.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpTemplates\:\:get_sidebar\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpTemplates.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpTemplates\:\:get_template_part\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpTemplates.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpTermTemplate\:\:the_terms\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpTermTemplate.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpTermTemplate\:\:wp_list_categories\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpTermTemplate.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpTermTemplate\:\:wp_tag_cloud\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpTermTemplate.php

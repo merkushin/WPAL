@@ -4,40 +4,122 @@
 
 namespace Merkushin\Wpal;
 
+use Merkushin\Wpal\Service\AdminTemplate;
+use Merkushin\Wpal\Service\ArchiveTemplate;
 use Merkushin\Wpal\Service\Assets;
+use Merkushin\Wpal\Service\AuthorTemplate;
+use Merkushin\Wpal\Service\Avatars;
+use Merkushin\Wpal\Service\BlockTemplates;
+use Merkushin\Wpal\Service\Bookmarks;
 use Merkushin\Wpal\Service\Capabilities;
+use Merkushin\Wpal\Service\CommentTemplate;
 use Merkushin\Wpal\Service\Comments;
+use Merkushin\Wpal\Service\DocumentHead;
+use Merkushin\Wpal\Service\EditLinks;
+use Merkushin\Wpal\Service\Editor;
+use Merkushin\Wpal\Service\Feeds;
+use Merkushin\Wpal\Service\Forms;
 use Merkushin\Wpal\Service\Hooks;
 use Merkushin\Wpal\Service\Localization;
+use Merkushin\Wpal\Service\Login;
+use Merkushin\Wpal\Service\MediaTemplate;
+use Merkushin\Wpal\Service\MetaBoxes;
+use Merkushin\Wpal\Service\NavMenus;
+use Merkushin\Wpal\Service\Navigation;
+use Merkushin\Wpal\Service\Permalinks;
 use Merkushin\Wpal\Service\Plugins;
 use Merkushin\Wpal\Service\PostAttachments;
 use Merkushin\Wpal\Service\PostMeta;
 use Merkushin\Wpal\Service\PostStatuses;
+use Merkushin\Wpal\Service\PostTemplate;
+use Merkushin\Wpal\Service\PostThumbnails;
 use Merkushin\Wpal\Service\PostTypes;
 use Merkushin\Wpal\Service\Posts;
 use Merkushin\Wpal\Service\Screen;
+use Merkushin\Wpal\Service\Search;
+use Merkushin\Wpal\Service\Settings;
+use Merkushin\Wpal\Service\SiteIdentity;
 use Merkushin\Wpal\Service\Taxonomies;
+use Merkushin\Wpal\Service\Templates;
+use Merkushin\Wpal\Service\TermTemplate;
 use Merkushin\Wpal\Service\Transient;
+use Merkushin\Wpal\Service\Urls;
+use Merkushin\Wpal\Service\WpAdminTemplate;
+use Merkushin\Wpal\Service\WpArchiveTemplate;
 use Merkushin\Wpal\Service\WpAssets;
+use Merkushin\Wpal\Service\WpAuthorTemplate;
+use Merkushin\Wpal\Service\WpAvatars;
+use Merkushin\Wpal\Service\WpBlockTemplates;
+use Merkushin\Wpal\Service\WpBookmarks;
 use Merkushin\Wpal\Service\WpCapabilities;
+use Merkushin\Wpal\Service\WpCommentTemplate;
 use Merkushin\Wpal\Service\WpComments;
+use Merkushin\Wpal\Service\WpDocumentHead;
+use Merkushin\Wpal\Service\WpEditLinks;
+use Merkushin\Wpal\Service\WpEditor;
+use Merkushin\Wpal\Service\WpFeeds;
+use Merkushin\Wpal\Service\WpForms;
 use Merkushin\Wpal\Service\WpHooks;
 use Merkushin\Wpal\Service\WpLocalization;
+use Merkushin\Wpal\Service\WpLogin;
+use Merkushin\Wpal\Service\WpMediaTemplate;
+use Merkushin\Wpal\Service\WpMetaBoxes;
+use Merkushin\Wpal\Service\WpNavMenus;
+use Merkushin\Wpal\Service\WpNavigation;
+use Merkushin\Wpal\Service\WpPermalinks;
 use Merkushin\Wpal\Service\WpPlugins;
 use Merkushin\Wpal\Service\WpPostAttachments;
 use Merkushin\Wpal\Service\WpPostMeta;
 use Merkushin\Wpal\Service\WpPostStatuses;
+use Merkushin\Wpal\Service\WpPostTemplate;
+use Merkushin\Wpal\Service\WpPostThumbnails;
 use Merkushin\Wpal\Service\WpPostTypes;
 use Merkushin\Wpal\Service\WpPosts;
 use Merkushin\Wpal\Service\WpScreen;
+use Merkushin\Wpal\Service\WpSearch;
+use Merkushin\Wpal\Service\WpSettings;
+use Merkushin\Wpal\Service\WpSiteIdentity;
 use Merkushin\Wpal\Service\WpTaxonomies;
+use Merkushin\Wpal\Service\WpTemplates;
+use Merkushin\Wpal\Service\WpTermTemplate;
 use Merkushin\Wpal\Service\WpTransient;
+use Merkushin\Wpal\Service\WpUrls;
 
 class ServiceFactory {
+	/**
+	 * @var AdminTemplate|null
+	 */
+	private static $custom_admin_template;
+
+	/**
+	 * @var ArchiveTemplate|null
+	 */
+	private static $custom_archive_template;
+
 	/**
 	 * @var Assets|null
 	 */
 	private static $custom_assets;
+
+	/**
+	 * @var AuthorTemplate|null
+	 */
+	private static $custom_author_template;
+
+	/**
+	 * @var Avatars|null
+	 */
+	private static $custom_avatars;
+
+	/**
+	 * @var BlockTemplates|null
+	 */
+	private static $custom_block_templates;
+
+	/**
+	 * @var Bookmarks|null
+	 */
+	private static $custom_bookmarks;
 
 	/**
 	 * @var Capabilities|null
@@ -45,9 +127,39 @@ class ServiceFactory {
 	private static $custom_capabilities;
 
 	/**
+	 * @var CommentTemplate|null
+	 */
+	private static $custom_comment_template;
+
+	/**
 	 * @var Comments|null
 	 */
 	private static $custom_comments;
+
+	/**
+	 * @var DocumentHead|null
+	 */
+	private static $custom_document_head;
+
+	/**
+	 * @var EditLinks|null
+	 */
+	private static $custom_edit_links;
+
+	/**
+	 * @var Editor|null
+	 */
+	private static $custom_editor;
+
+	/**
+	 * @var Feeds|null
+	 */
+	private static $custom_feeds;
+
+	/**
+	 * @var Forms|null
+	 */
+	private static $custom_forms;
 
 	/**
 	 * @var Hooks|null
@@ -58,6 +170,36 @@ class ServiceFactory {
 	 * @var Localization|null
 	 */
 	private static $custom_localization;
+
+	/**
+	 * @var Login|null
+	 */
+	private static $custom_login;
+
+	/**
+	 * @var MediaTemplate|null
+	 */
+	private static $custom_media_template;
+
+	/**
+	 * @var MetaBoxes|null
+	 */
+	private static $custom_meta_boxes;
+
+	/**
+	 * @var NavMenus|null
+	 */
+	private static $custom_nav_menus;
+
+	/**
+	 * @var Navigation|null
+	 */
+	private static $custom_navigation;
+
+	/**
+	 * @var Permalinks|null
+	 */
+	private static $custom_permalinks;
 
 	/**
 	 * @var Plugins|null
@@ -80,6 +222,16 @@ class ServiceFactory {
 	private static $custom_post_statuses;
 
 	/**
+	 * @var PostTemplate|null
+	 */
+	private static $custom_post_template;
+
+	/**
+	 * @var PostThumbnails|null
+	 */
+	private static $custom_post_thumbnails;
+
+	/**
 	 * @var PostTypes|null
 	 */
 	private static $custom_post_types;
@@ -95,14 +247,68 @@ class ServiceFactory {
 	private static $custom_screen;
 
 	/**
+	 * @var Search|null
+	 */
+	private static $custom_search;
+
+	/**
+	 * @var Settings|null
+	 */
+	private static $custom_settings;
+
+	/**
+	 * @var SiteIdentity|null
+	 */
+	private static $custom_site_identity;
+
+	/**
 	 * @var Taxonomies|null
 	 */
 	private static $custom_taxonomies;
 
 	/**
+	 * @var Templates|null
+	 */
+	private static $custom_templates;
+
+	/**
+	 * @var TermTemplate|null
+	 */
+	private static $custom_term_template;
+
+	/**
 	 * @var Transient|null
 	 */
 	private static $custom_transient;
+
+	/**
+	 * @var Urls|null
+	 */
+	private static $custom_urls;
+
+	public static function set_custom_admin_template( ?AdminTemplate $custom_admin_template ): void {
+		self::$custom_admin_template = $custom_admin_template;
+	}
+
+	public static function create_admin_template(): AdminTemplate {
+		if ( self::$custom_admin_template ) {
+			return self::$custom_admin_template;
+		}
+
+		return new WpAdminTemplate();
+	}
+
+	public static function set_custom_archive_template( ?ArchiveTemplate $custom_archive_template ): void {
+		self::$custom_archive_template = $custom_archive_template;
+	}
+
+	public static function create_archive_template(): ArchiveTemplate {
+		if ( self::$custom_archive_template ) {
+			return self::$custom_archive_template;
+		}
+
+		return new WpArchiveTemplate();
+	}
 
 	public static function set_custom_assets( ?Assets $custom_assets ): void {
 		self::$custom_assets = $custom_assets;
@@ -114,6 +320,54 @@ class ServiceFactory {
 		}
 
 		return new WpAssets();
+	}
+
+	public static function set_custom_author_template( ?AuthorTemplate $custom_author_template ): void {
+		self::$custom_author_template = $custom_author_template;
+	}
+
+	public static function create_author_template(): AuthorTemplate {
+		if ( self::$custom_author_template ) {
+			return self::$custom_author_template;
+		}
+
+		return new WpAuthorTemplate();
+	}
+
+	public static function set_custom_avatars( ?Avatars $custom_avatars ): void {
+		self::$custom_avatars = $custom_avatars;
+	}
+
+	public static function create_avatars(): Avatars {
+		if ( self::$custom_avatars ) {
+			return self::$custom_avatars;
+		}
+
+		return new WpAvatars();
+	}
+
+	public static function set_custom_block_templates( ?BlockTemplates $custom_block_templates ): void {
+		self::$custom_block_templates = $custom_block_templates;
+	}
+
+	public static function create_block_templates(): BlockTemplates {
+		if ( self::$custom_block_templates ) {
+			return self::$custom_block_templates;
+		}
+
+		return new WpBlockTemplates();
+	}
+
+	public static function set_custom_bookmarks( ?Bookmarks $custom_bookmarks ): void {
+		self::$custom_bookmarks = $custom_bookmarks;
+	}
+
+	public static function create_bookmarks(): Bookmarks {
+		if ( self::$custom_bookmarks ) {
+			return self::$custom_bookmarks;
+		}
+
+		return new WpBookmarks();
 	}
 
 	public static function set_custom_capabilities( ?Capabilities $custom_capabilities ): void {
@@ -128,6 +382,18 @@ class ServiceFactory {
 		return new WpCapabilities();
 	}
 
+	public static function set_custom_comment_template( ?CommentTemplate $custom_comment_template ): void {
+		self::$custom_comment_template = $custom_comment_template;
+	}
+
+	public static function create_comment_template(): CommentTemplate {
+		if ( self::$custom_comment_template ) {
+			return self::$custom_comment_template;
+		}
+
+		return new WpCommentTemplate();
+	}
+
 	public static function set_custom_comments( ?Comments $custom_comments ): void {
 		self::$custom_comments = $custom_comments;
 	}
@@ -138,6 +404,66 @@ class ServiceFactory {
 		}
 
 		return new WpComments();
+	}
+
+	public static function set_custom_document_head( ?DocumentHead $custom_document_head ): void {
+		self::$custom_document_head = $custom_document_head;
+	}
+
+	public static function create_document_head(): DocumentHead {
+		if ( self::$custom_document_head ) {
+			return self::$custom_document_head;
+		}
+
+		return new WpDocumentHead();
+	}
+
+	public static function set_custom_edit_links( ?EditLinks $custom_edit_links ): void {
+		self::$custom_edit_links = $custom_edit_links;
+	}
+
+	public static function create_edit_links(): EditLinks {
+		if ( self::$custom_edit_links ) {
+			return self::$custom_edit_links;
+		}
+
+		return new WpEditLinks();
+	}
+
+	public static function set_custom_editor( ?Editor $custom_editor ): void {
+		self::$custom_editor = $custom_editor;
+	}
+
+	public static function create_editor(): Editor {
+		if ( self::$custom_editor ) {
+			return self::$custom_editor;
+		}
+
+		return new WpEditor();
+	}
+
+	public static function set_custom_feeds( ?Feeds $custom_feeds ): void {
+		self::$custom_feeds = $custom_feeds;
+	}
+
+	public static function create_feeds(): Feeds {
+		if ( self::$custom_feeds ) {
+			return self::$custom_feeds;
+		}
+
+		return new WpFeeds();
+	}
+
+	public static function set_custom_forms( ?Forms $custom_forms ): void {
+		self::$custom_forms = $custom_forms;
+	}
+
+	public static function create_forms(): Forms {
+		if ( self::$custom_forms ) {
+			return self::$custom_forms;
+		}
+
+		return new WpForms();
 	}
 
 	public static function set_custom_hooks( ?Hooks $hooks ): void {
@@ -162,6 +488,78 @@ class ServiceFactory {
 		}
 
 		return new WpLocalization();
+	}
+
+	public static function set_custom_login( ?Login $custom_login ): void {
+		self::$custom_login = $custom_login;
+	}
+
+	public static function create_login(): Login {
+		if ( self::$custom_login ) {
+			return self::$custom_login;
+		}
+
+		return new WpLogin();
+	}
+
+	public static function set_custom_media_template( ?MediaTemplate $custom_media_template ): void {
+		self::$custom_media_template = $custom_media_template;
+	}
+
+	public static function create_media_template(): MediaTemplate {
+		if ( self::$custom_media_template ) {
+			return self::$custom_media_template;
+		}
+
+		return new WpMediaTemplate();
+	}
+
+	public static function set_custom_meta_boxes( ?MetaBoxes $custom_meta_boxes ): void {
+		self::$custom_meta_boxes = $custom_meta_boxes;
+	}
+
+	public static function create_meta_boxes(): MetaBoxes {
+		if ( self::$custom_meta_boxes ) {
+			return self::$custom_meta_boxes;
+		}
+
+		return new WpMetaBoxes();
+	}
+
+	public static function set_custom_nav_menus( ?NavMenus $custom_nav_menus ): void {
+		self::$custom_nav_menus = $custom_nav_menus;
+	}
+
+	public static function create_nav_menus(): NavMenus {
+		if ( self::$custom_nav_menus ) {
+			return self::$custom_nav_menus;
+		}
+
+		return new WpNavMenus();
+	}
+
+	public static function set_custom_navigation( ?Navigation $custom_navigation ): void {
+		self::$custom_navigation = $custom_navigation;
+	}
+
+	public static function create_navigation(): Navigation {
+		if ( self::$custom_navigation ) {
+			return self::$custom_navigation;
+		}
+
+		return new WpNavigation();
+	}
+
+	public static function set_custom_permalinks( ?Permalinks $custom_permalinks ): void {
+		self::$custom_permalinks = $custom_permalinks;
+	}
+
+	public static function create_permalinks(): Permalinks {
+		if ( self::$custom_permalinks ) {
+			return self::$custom_permalinks;
+		}
+
+		return new WpPermalinks();
 	}
 
 	public static function set_custom_plugins( ?Plugins $custom_plugins ): void {
@@ -212,6 +610,30 @@ class ServiceFactory {
 		return new WpPostStatuses();
 	}
 
+	public static function set_custom_post_template( ?PostTemplate $custom_post_template ): void {
+		self::$custom_post_template = $custom_post_template;
+	}
+
+	public static function create_post_template(): PostTemplate {
+		if ( self::$custom_post_template ) {
+			return self::$custom_post_template;
+		}
+
+		return new WpPostTemplate();
+	}
+
+	public static function set_custom_post_thumbnails( ?PostThumbnails $custom_post_thumbnails ): void {
+		self::$custom_post_thumbnails = $custom_post_thumbnails;
+	}
+
+	public static function create_post_thumbnails(): PostThumbnails {
+		if ( self::$custom_post_thumbnails ) {
+			return self::$custom_post_thumbnails;
+		}
+
+		return new WpPostThumbnails();
+	}
+
 	public static function set_custom_post_types( ?PostTypes $custom_post_types ): void {
 		self::$custom_post_types = $custom_post_types;
 	}
@@ -248,6 +670,42 @@ class ServiceFactory {
 		return new WpScreen();
 	}
 
+	public static function set_custom_search( ?Search $custom_search ): void {
+		self::$custom_search = $custom_search;
+	}
+
+	public static function create_search(): Search {
+		if ( self::$custom_search ) {
+			return self::$custom_search;
+		}
+
+		return new WpSearch();
+	}
+
+	public static function set_custom_settings( ?Settings $custom_settings ): void {
+		self::$custom_settings = $custom_settings;
+	}
+
+	public static function create_settings(): Settings {
+		if ( self::$custom_settings ) {
+			return self::$custom_settings;
+		}
+
+		return new WpSettings();
+	}
+
+	public static function set_custom_site_identity( ?SiteIdentity $custom_site_identity ): void {
+		self::$custom_site_identity = $custom_site_identity;
+	}
+
+	public static function create_site_identity(): SiteIdentity {
+		if ( self::$custom_site_identity ) {
+			return self::$custom_site_identity;
+		}
+
+		return new WpSiteIdentity();
+	}
+
 	public static function set_custom_taxonomies( ?Taxonomies $custom_taxonomies ): void {
 		self::$custom_taxonomies = $custom_taxonomies;
 	}
@@ -260,6 +718,30 @@ class ServiceFactory {
 		return new WpTaxonomies();
 	}
 
+	public static function set_custom_templates( ?Templates $custom_templates ): void {
+		self::$custom_templates = $custom_templates;
+	}
+
+	public static function create_templates(): Templates {
+		if ( self::$custom_templates ) {
+			return self::$custom_templates;
+		}
+
+		return new WpTemplates();
+	}
+
+	public static function set_custom_term_template( ?TermTemplate $custom_term_template ): void {
+		self::$custom_term_template = $custom_term_template;
+	}
+
+	public static function create_term_template(): TermTemplate {
+		if ( self::$custom_term_template ) {
+			return self::$custom_term_template;
+		}
+
+		return new WpTermTemplate();
+	}
+
 	public static function set_custom_transient( ?Transient $custom_transient ): void {
 		self::$custom_transient = $custom_transient;
 	}
@@ -270,5 +752,17 @@ class ServiceFactory {
 		}
 
 		return new WpTransient();
+	}
+
+	public static function set_custom_urls( ?Urls $custom_urls ): void {
+		self::$custom_urls = $custom_urls;
+	}
+
+	public static function create_urls(): Urls {
+		if ( self::$custom_urls ) {
+			return self::$custom_urls;
+		}
+
+		return new WpUrls();
 	}
 }

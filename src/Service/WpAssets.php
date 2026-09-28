@@ -25,4 +25,11 @@ class WpAssets implements Assets {
 	public function wp_enqueue_style( string $handle, string $src = '', array $deps = array(), $ver = false, string $media = 'all' ): void {
 		wp_enqueue_style( $handle, $src, $deps, $ver, $media );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function add_thickbox() {
+		add_thickbox();
+	}
 }

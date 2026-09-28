@@ -193,7 +193,7 @@ final class ServiceGenerator {
 
 		$lines = [];
 		foreach ( explode( "\n", trim( $doc ) ) as $line ) {
-			$line = rtrim( ltrim( $line ) );
+			$line = $this->qualifyNamespacedTypes( rtrim( ltrim( $line ) ) );
 			if ( str_starts_with( $line, '/**' ) ) {
 				$lines[] = "\t" . $line;
 			} elseif ( str_starts_with( $line, '*' ) ) {
@@ -204,6 +204,17 @@ final class ServiceGenerator {
 		}
 
 		return implode( "\n", $lines );
+	}
+
+	/**
+	 * `@return SimplePie\SimplePie` would resolve inside our namespace; make such types fully qualified.
+	 */
+	private function qualifyNamespacedTypes( string $line ): string {
+		return (string) preg_replace_callback(
+			'/(@(?:param|return|var|type|global|throws)\s+)([^\s$]+)/',
+			static fn ( array $m ): string => $m[1] . preg_replace( '/(?<![\\\\\w])([A-Za-z_]\w*(?:\\\\\w+)+)/', '\\\\$1', $m[2] ),
+			$line
+		);
 	}
 
 	/**

@@ -5,6 +5,19 @@
 `Service` is now generated from WordPress by `bin/wpal fix` and mirrors WordPress 7.1.2. See the compatibility
 promise in the README: code that calls a service keeps working unless WordPress changed the same call.
 
+### Added
+
+474 methods and 26 services covering WordPress's template tags and the rest of its template files, 887 methods in all:
+
+- Theme output: `PostTemplate`, `CommentTemplate`, `TermTemplate`, `AuthorTemplate`, `ArchiveTemplate`,
+  `AdminTemplate`, `MediaTemplate`.
+- `Navigation`, `Feeds`, `Permalinks`, `Templates`, `BlockTemplates`, `DocumentHead`, `SiteIdentity`, `EditLinks`,
+  `Login`, `Editor`, `Forms`, `MetaBoxes`, `Search`, `Avatars`, `NavMenus`, `Bookmarks`, `PostThumbnails`, `Urls`,
+  `Settings`.
+- `Assets::add_thickbox()` and `Screen::convert_to_screen()`.
+
+Each new service has a `ServiceFactory::create_*()` / `set_custom_*()` pair.
+
 ### Fixed
 
 - `Posts::wp_unique_post_slug()` passed `$post_status` where `$post_type` belonged.
