@@ -165,4 +165,109 @@ final class WpUrls implements Urls {
 	public function wp_is_internal_link( $link ) {
 		return wp_is_internal_link( $link );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function force_ssl_content( $force = null ) {
+		return force_ssl_content( $force );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function filter_SSL( $url ) {
+		return filter_SSL( $url );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function add_query_arg( ...$args ) {
+		return add_query_arg( ...$args );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function remove_query_arg( $key, $query = false ) {
+		return remove_query_arg( $key, $query );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function build_query( $data ) {
+		return build_query( $data );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_removable_query_args() {
+		return wp_removable_query_args();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_extract_urls( $content ) {
+		return wp_extract_urls( $content );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_allowed_protocols() {
+		return wp_allowed_protocols();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_guess_url() {
+		return wp_guess_url();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_parse_url( $url, $component = -1 ) {
+		return wp_parse_url( $url, $component );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function strip_fragment_from_url( $url ) {
+		return strip_fragment_from_url( $url );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_make_link_relative( $link ) {
+		return wp_make_link_relative( $link );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function url_shorten( $url, $length = 35 ) {
+		return url_shorten( $url, $length );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function utf8_uri_encode( $utf8_string, $length = 0, $encode_ascii_characters = false ) {
+		return utf8_uri_encode( $utf8_string, $length, $encode_ascii_characters );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_parse_str( $input_string, &$result ) {
+		wp_parse_str( $input_string, $result );
+	}
 }

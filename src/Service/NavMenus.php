@@ -5,6 +5,7 @@
 namespace Merkushin\Wpal\Service;
 
 use stdClass;
+use WP_Error;
 use WP_Post;
 use WP_Term;
 
@@ -87,4 +88,273 @@ interface NavMenus {
 	 * @return string[] Modified nav menu classes.
 	 */
 	public function wp_nav_menu_remove_menu_item_has_children_class( $classes, $menu_item, $args = false, $depth = false );
+
+	/**
+	 * Registers navigation menu locations for a theme.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @global array $_wp_registered_nav_menus
+	 *
+	 * @param string[] $locations Associative array of menu location identifiers (like a slug) and descriptive text.
+	 */
+	public function register_nav_menus( $locations = array() );
+
+	/**
+	 * Registers a navigation menu location for a theme.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $location    Menu location identifier, like a slug.
+	 * @param string $description Menu location descriptive text.
+	 */
+	public function register_nav_menu( $location, $description );
+
+	/**
+	 * Unregisters a navigation menu location for a theme.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @global array $_wp_registered_nav_menus
+	 *
+	 * @param string $location The menu location identifier.
+	 * @return bool True on success, false on failure.
+	 */
+	public function unregister_nav_menu( $location );
+
+	/**
+	 * Retrieves all registered navigation menu locations in a theme.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @global array $_wp_registered_nav_menus
+	 *
+	 * @return string[] Associative array of registered navigation menu descriptions keyed
+	 *                  by their location. If none are registered, an empty array.
+	 */
+	public function get_registered_nav_menus();
+
+	/**
+	 * Retrieves all registered navigation menu locations and the menus assigned to them.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return int[] Associative array of registered navigation menu IDs keyed by their
+	 *               location name. If none are registered, an empty array.
+	 */
+	public function get_nav_menu_locations();
+
+	/**
+	 * Determines whether a registered nav menu location has a menu assigned to it.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $location Menu location identifier.
+	 * @return bool Whether location has a menu.
+	 */
+	public function has_nav_menu( $location );
+
+	/**
+	 * Maps nav menu locations according to assignments in previously active theme.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param array $new_nav_menu_locations New nav menu locations assignments.
+	 * @param array $old_nav_menu_locations Old nav menu locations assignments.
+	 * @return array Nav menus mapped to new nav menu locations.
+	 */
+	public function wp_map_nav_menu_locations( $new_nav_menu_locations, $old_nav_menu_locations );
+
+	/**
+	 * Determines whether the given ID is a navigation menu.
+	 *
+	 * Returns true if it is; false otherwise.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param int|string|WP_Term $menu Menu ID, slug, name, or object of menu to check.
+	 * @return bool Whether the menu exists.
+	 */
+	public function is_nav_menu( $menu );
+
+	/**
+	 * Determines whether the given ID is a nav menu item.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param int $menu_item_id The ID of the potential nav menu item.
+	 * @return bool Whether the given ID is that of a nav menu item.
+	 */
+	public function is_nav_menu_item( $menu_item_id = 0 );
+
+	/**
+	 * Returns all navigation menu objects.
+	 *
+	 * @since 3.0.0
+	 * @since 4.1.0 Default value of the 'orderby' argument was changed from 'none'
+	 *              to 'name'.
+	 *
+	 * @param array $args Optional. Array of arguments passed on to get_terms().
+	 *                    Default empty array.
+	 * @return WP_Term[] An array of menu objects.
+	 */
+	public function wp_get_nav_menus( $args = array() );
+
+	/**
+	 * Returns a navigation menu object.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param int|string|WP_Term $menu Menu ID, slug, name, or object.
+	 * @return WP_Term|false Menu object on success, false if $menu param isn't supplied or term does not exist.
+	 */
+	public function wp_get_nav_menu_object( $menu );
+
+	/**
+	 * Returns the name of a navigation menu.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param string $location Menu location identifier.
+	 * @return string Menu name.
+	 */
+	public function wp_get_nav_menu_name( $location );
+
+	/**
+	 * Retrieves all menu items of a navigation menu.
+	 *
+	 * Note: Most arguments passed to the `$args` parameter – save for 'output_key' – are
+	 * specifically for retrieving nav_menu_item posts from get_posts() and may only
+	 * indirectly affect the ultimate ordering and content of the resulting nav menu
+	 * items that get returned from this function.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param int|string|WP_Term $menu Menu ID, slug, name, or object.
+	 * @param array              $args {
+	 *     Optional. Arguments to pass to get_posts().
+	 *
+	 *     @type string $order                  How to order nav menu items as queried with get_posts().
+	 *                                          Will be ignored if 'output' is ARRAY_A. Default 'ASC'.
+	 *     @type string $orderby                Field to order menu items by as retrieved from get_posts().
+	 *                                          Supply an orderby field via 'output_key' to affect the
+	 *                                          output order of nav menu items. Default 'menu_order'.
+	 *     @type string $post_type              Menu items post type. Default 'nav_menu_item'.
+	 *     @type string $post_status            Menu items post status. Default 'publish'.
+	 *     @type string $output                 How to order outputted menu items. Default ARRAY_A.
+	 *     @type string $output_key             Key to use for ordering the actual menu items that get
+	 *                                          returned. Note that that is not a get_posts() argument
+	 *                                          and will only affect output of menu items processed in
+	 *                                          this function. Default 'menu_order'.
+	 *     @type bool   $nopaging               Whether to retrieve all menu items (true) or paginate
+	 *                                          (false). Default true.
+	 *     @type bool   $update_menu_item_cache Whether to update the menu item cache. Default true.
+	 * }
+	 * @return array|false Array of menu items, otherwise false.
+	 */
+	public function wp_get_nav_menu_items( $menu, $args = array() );
+
+	/**
+	 * Returns the menu items associated with a particular object.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param int    $object_id   Optional. The ID of the original object. Default 0.
+	 * @param string $object_type Optional. The type of object, such as 'post_type' or 'taxonomy'.
+	 *                            Default 'post_type'.
+	 * @param string $taxonomy    Optional. If $object_type is 'taxonomy', $taxonomy is the name
+	 *                            of the tax that $object_id belongs to. Default empty.
+	 * @return int[] The array of menu item IDs; empty array if none.
+	 */
+	public function wp_get_associated_nav_menu_items( $object_id = 0, $object_type = 'post_type', $taxonomy = '' );
+
+	/**
+	 * Decorates a menu item object with the shared navigation menu item properties.
+	 *
+	 * Properties:
+	 * - ID:               The term_id if the menu item represents a taxonomy term.
+	 * - attr_title:       The title attribute of the link element for this menu item.
+	 * - classes:          The array of class attribute values for the link element of this menu item.
+	 * - db_id:            The DB ID of this item as a nav_menu_item object, if it exists (0 if it doesn't exist).
+	 * - description:      The description of this menu item.
+	 * - menu_item_parent: The DB ID of the nav_menu_item that is this item's menu parent, if any. 0 otherwise.
+	 * - object:           The type of object originally represented, such as 'category', 'post', or 'attachment'.
+	 * - object_id:        The DB ID of the original object this menu item represents, e.g. ID for posts and term_id for categories.
+	 * - post_parent:      The DB ID of the original object's parent object, if any (0 otherwise).
+	 * - post_title:       A "no title" label if menu item represents a post that lacks a title.
+	 * - target:           The target attribute of the link element for this menu item.
+	 * - title:            The title of this menu item.
+	 * - type:             The family of objects originally represented, such as 'post_type' or 'taxonomy'.
+	 * - type_label:       The singular label used to describe this type of menu item.
+	 * - url:              The URL to which this menu item points.
+	 * - xfn:              The XFN relationship expressed in the link of this menu item.
+	 * - _invalid:         Whether the menu item represents an object that no longer exists.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param object $menu_item The menu item to modify.
+	 * @return object The menu item with standard menu item properties.
+	 */
+	public function wp_setup_nav_menu_item( $menu_item );
+
+	/**
+	 * Updates post and term caches for all linked objects for a list of menu items.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param WP_Post[] $menu_items Array of menu item post objects.
+	 */
+	public function update_menu_item_cache( $menu_items );
+
+	/**
+	 * Creates a navigation menu.
+	 *
+	 * Note that `$menu_name` is expected to be pre-slashed.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $menu_name Menu name.
+	 * @return int|WP_Error Menu ID on success, WP_Error object on failure.
+	 */
+	public function wp_create_nav_menu( $menu_name );
+
+	/**
+	 * Saves the properties of a menu or create a new menu with those properties.
+	 *
+	 * Note that `$menu_data` is expected to be pre-slashed.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param int   $menu_id   The ID of the menu or "0" to create a new menu.
+	 * @param array $menu_data The array of menu data.
+	 * @return int|WP_Error Menu ID on success, WP_Error object on failure.
+	 */
+	public function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() );
+
+	/**
+	 * Deletes a navigation menu.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param int|string|WP_Term $menu Menu ID, slug, name, or object.
+	 * @return bool|WP_Error True on success, false or WP_Error object on failure.
+	 */
+	public function wp_delete_nav_menu( $menu );
+
+	/**
+	 * Saves the properties of a menu item or create a new one.
+	 *
+	 * The menu-item-title, menu-item-description and menu-item-attr-title are expected
+	 * to be pre-slashed since they are passed directly to APIs that expect slashed data.
+	 *
+	 * @since 3.0.0
+	 * @since 5.9.0 Added the `$fire_after_hooks` parameter.
+	 *
+	 * @param int   $menu_id          The ID of the menu. If 0, makes the menu item a draft orphan.
+	 * @param int   $menu_item_db_id  The ID of the menu item. If 0, creates a new menu item.
+	 * @param array $menu_item_data   The menu item's data.
+	 * @param bool  $fire_after_hooks Whether to fire the after insert hooks. Default true.
+	 * @return int|WP_Error The menu item's database ID or WP_Error object on failure.
+	 */
+	public function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item_data = array(), $fire_after_hooks = true );
 }

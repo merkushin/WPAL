@@ -47,4 +47,69 @@ interface Screen {
 	 * @return WP_Screen Screen object.
 	 */
 	public function convert_to_screen( $hook_name );
+
+	/**
+	 * Register column headers for a particular screen.
+	 *
+	 * @see get_column_headers(), print_column_headers(), get_hidden_columns()
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string    $screen The handle for the screen to register column headers for. This is
+	 *                          usually the hook name returned by the `add_*_page()` functions.
+	 * @param string[] $columns An array of columns with column IDs as the keys and translated
+	 *                          column names as the values.
+	 */
+	public function register_column_headers( $screen, $columns );
+
+	/**
+	 * Get the column headers for a screen
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string|WP_Screen $screen The screen you want the headers for
+	 * @return string[] The column header labels keyed by column ID.
+	 */
+	public function get_column_headers( $screen );
+
+	/**
+	 * Prints column headers for a particular screen.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string|WP_Screen $screen  The screen hook name or screen object.
+	 * @param bool             $with_id Whether to set the ID attribute or not.
+	 */
+	public function print_column_headers( $screen, $with_id = true );
+
+	/**
+	 * Get a list of hidden columns.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string|WP_Screen $screen The screen you want the hidden columns for
+	 * @return string[] Array of IDs of hidden columns.
+	 */
+	public function get_hidden_columns( $screen );
+
+	/**
+	 * Gets an array of IDs of hidden meta boxes.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string|WP_Screen $screen Screen identifier
+	 * @return string[] IDs of hidden meta boxes.
+	 */
+	public function get_hidden_meta_boxes( $screen );
+
+	/**
+	 * Prints the meta box preferences for screen meta.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @global array $wp_meta_boxes Global meta box state.
+	 *
+	 * @param WP_Screen $screen
+	 */
+	public function meta_box_prefs( $screen );
 }

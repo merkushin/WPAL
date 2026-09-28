@@ -515,4 +515,32 @@ final class WpTaxonomies implements Taxonomies {
 	public function wp_check_term_meta_support_prefilter( $check ) {
 		return wp_check_term_meta_support_prefilter( $check );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function is_term_publicly_viewable( $term ) {
+		return is_term_publicly_viewable( $term );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_terms_to_edit( $post_id, $taxonomy = 'post_tag' ) {
+		return get_terms_to_edit( $post_id, $taxonomy );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_create_term( $tag_name, $taxonomy = 'post_tag' ) {
+		return wp_create_term( $tag_name, $taxonomy );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_lazyload_term_meta( array $term_ids ) {
+		wp_lazyload_term_meta( $term_ids );
+	}
 }

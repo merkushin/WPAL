@@ -7,6 +7,24 @@ parameters:
 			path: src/Service/Hooks.php
 
 		-
+			message: '#^Method Merkushin\\Wpal\\Service\\Images\:\:load_image_to_edit\(\) has invalid return type GdImage\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Service/Images.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\Images\:\:wp_imagecreatetruecolor\(\) has invalid return type GdImage\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Service/Images.php
+
+		-
+			message: '#^Parameter \$image of method Merkushin\\Wpal\\Service\\Images\:\:is_gd_image\(\) has invalid type GdImage\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Service/Images.php
+
+		-
 			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_comments_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
@@ -91,6 +109,24 @@ parameters:
 			path: src/Service/Settings.php
 
 		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$key$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/Service/Urls.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$url$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/Service/Urls.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$value$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/Service/Urls.php
+
+		-
 			message: '#^Method Merkushin\\Wpal\\Service\\WpAdminTemplate\:\:parent_dropdown\(\) never returns void so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
@@ -133,6 +169,30 @@ parameters:
 			path: src/Service/WpBookmarks.php
 
 		-
+			message: '#^Function wp_cache_get_multiple_salted not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Service/WpCache.php
+
+		-
+			message: '#^Function wp_cache_get_salted not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Service/WpCache.php
+
+		-
+			message: '#^Function wp_cache_set_multiple_salted not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Service/WpCache.php
+
+		-
+			message: '#^Function wp_cache_set_salted not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Service/WpCache.php
+
+		-
 			message: '#^Method Merkushin\\Wpal\\Service\\WpCommentTemplate\:\:comment_class\(\) never returns void so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
@@ -163,6 +223,54 @@ parameters:
 			path: src/Service/WpComments.php
 
 		-
+			message: '#^Parameter \#3 \$error_level of function wp_trigger_error expects 256\|512\|1024\|16384, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/WpErrors.php
+
+		-
+			message: '#^Parameter \#2 \$hex_encoding of function antispambot expects 0\|1, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/WpFormatting.php
+
+		-
+			message: '#^Parameter \#2 \$deprecated of function wp_get_http_headers expects false, bool given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/WpHttp.php
+
+		-
+			message: '#^Parameter \#2 \$version of function wp_is_uuid expects 4\|null, int\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/WpIdentifiers.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpImages\:\:load_image_to_edit\(\) has invalid return type GdImage\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Service/WpImages.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpImages\:\:wp_imagecreatetruecolor\(\) has invalid return type GdImage\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Service/WpImages.php
+
+		-
+			message: '#^Parameter \$image of method Merkushin\\Wpal\\Service\\WpImages\:\:is_gd_image\(\) has invalid type GdImage\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Service/WpImages.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpImporters\:\:register_importer\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpImporters.php
+
+		-
 			message: '#^Method Merkushin\\Wpal\\Service\\WpLogin\:\:wp_login_form\(\) never returns void so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
@@ -179,6 +287,12 @@ parameters:
 			identifier: return.unusedType
 			count: 1
 			path: src/Service/WpLogin.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpMeta\:\:get_metadata_by_mid\(\) never returns stdClass so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpMeta.php
 
 		-
 			message: '#^Method Merkushin\\Wpal\\Service\\WpNavMenus\:\:wp_nav_menu\(\) never returns void so it can be removed from the return type\.$#'
@@ -307,6 +421,18 @@ parameters:
 			path: src/Service/WpPostTemplate.php
 
 		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpPosts\:\:do_enclose\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpPosts.php
+
+		-
+			message: '#^Parameter \#2 \$deprecated of function is_email expects false, bool given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/WpSanitization.php
+
+		-
 			message: '#^Method Merkushin\\Wpal\\Service\\WpSearch\:\:get_search_form\(\) never returns void so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
@@ -323,6 +449,12 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: src/Service/WpSettings.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpTags\:\:get_tags\(\) never returns int so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpTags.php
 
 		-
 			message: '#^Method Merkushin\\Wpal\\Service\\WpTaxonomies\:\:update_object_term_cache\(\) never returns void so it can be removed from the return type\.$#'
@@ -371,3 +503,15 @@ parameters:
 			identifier: return.unusedType
 			count: 1
 			path: src/Service/WpTermTemplate.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpThemes\:\:add_theme_support\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpThemes.php
+
+		-
+			message: '#^Method Merkushin\\Wpal\\Service\\WpUsers\:\:update_user_caches\(\) never returns void so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/WpUsers.php

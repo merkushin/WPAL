@@ -431,4 +431,32 @@ final class WpPlugins implements Plugins {
 	public function deactivated_plugins_notice() {
 		deactivated_plugins_notice();
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function plugins_api( $action, $args = array() ) {
+		return plugins_api( $action, $args );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function install_plugin_install_status( $api, $loop = false ) {
+		return install_plugin_install_status( $api, $loop );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_get_plugin_action_button( $name, $data, $compatible_php, $compatible_wp ) {
+		return wp_get_plugin_action_button( $name, $data, $compatible_php, $compatible_wp );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function install_popular_tags( $args = array() ) {
+		return install_popular_tags( $args );
+	}
 }

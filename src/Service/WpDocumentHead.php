@@ -179,4 +179,11 @@ final class WpDocumentHead implements DocumentHead {
 	public function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 		return wp_title( $sep, $display, $seplocation );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_get_speculation_rules_configuration(): ?array {
+		return wp_get_speculation_rules_configuration();
+	}
 }

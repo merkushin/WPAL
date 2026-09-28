@@ -51,7 +51,7 @@ jobs:
       # Generated files are current, Service mirrors api/wordpress.json, and wpal.map.php has no mistakes.
       - run: bin/wpal fix --check
       - run: bin/wpal check
-      - run: bin/wpal coverage
+      - run: bin/wpal coverage --fail-on-untriaged
 
   phpcs:
     name: PHP compatibility

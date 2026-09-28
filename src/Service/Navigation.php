@@ -749,4 +749,83 @@ interface Navigation {
 	 * @return string Formatted output in HTML.
 	 */
 	public function wp_link_pages( $args = '' );
+
+	/**
+	 * Gets the next or previous image link that has the same post parent.
+	 *
+	 * Retrieves the current attachment object from the $post global.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @param bool         $prev Optional. Whether to display the next (false) or previous (true) link. Default true.
+	 * @param string|int[] $size Optional. Image size. Accepts any registered image size name, or an array
+	 *                           of width and height values in pixels (in that order). Default 'thumbnail'.
+	 * @param bool         $text Optional. Link text. Default false.
+	 * @return string Markup for image link.
+	 */
+	public function get_adjacent_image_link( $prev = true, $size = 'thumbnail', $text = false );
+
+	/**
+	 * Gets the previous image link that has the same post parent.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @see get_adjacent_image_link()
+	 *
+	 * @param string|int[] $size Optional. Image size. Accepts any registered image size name, or an array
+	 *                           of width and height values in pixels (in that order). Default 'thumbnail'.
+	 * @param string|false $text Optional. Link text. Default false.
+	 * @return string Markup for previous image link.
+	 */
+	public function get_previous_image_link( $size = 'thumbnail', $text = false );
+
+	/**
+	 * Gets the next image link that has the same post parent.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @see get_adjacent_image_link()
+	 *
+	 * @param string|int[] $size Optional. Image size. Accepts any registered image size name, or an array
+	 *                           of width and height values in pixels (in that order). Default 'thumbnail'.
+	 * @param string|false $text Optional. Link text. Default false.
+	 * @return string Markup for next image link.
+	 */
+	public function get_next_image_link( $size = 'thumbnail', $text = false );
+
+	/**
+	 * Displays next or previous image link that has the same post parent.
+	 *
+	 * Retrieves the current attachment object from the $post global.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param bool         $prev Optional. Whether to display the next (false) or previous (true) link. Default true.
+	 * @param string|int[] $size Optional. Image size. Accepts any registered image size name, or an array
+	 *                           of width and height values in pixels (in that order). Default 'thumbnail'.
+	 * @param bool         $text Optional. Link text. Default false.
+	 */
+	public function adjacent_image_link( $prev = true, $size = 'thumbnail', $text = false );
+
+	/**
+	 * Displays previous image link that has the same post parent.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param string|int[] $size Optional. Image size. Accepts any registered image size name, or an array
+	 *                           of width and height values in pixels (in that order). Default 'thumbnail'.
+	 * @param string|false $text Optional. Link text. Default false.
+	 */
+	public function previous_image_link( $size = 'thumbnail', $text = false );
+
+	/**
+	 * Displays next image link that has the same post parent.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param string|int[] $size Optional. Image size. Accepts any registered image size name, or an array
+	 *                           of width and height values in pixels (in that order). Default 'thumbnail'.
+	 * @param string|false $text Optional. Link text. Default false.
+	 */
+	public function next_image_link( $size = 'thumbnail', $text = false );
 }

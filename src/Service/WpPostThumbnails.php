@@ -67,4 +67,11 @@ final class WpPostThumbnails implements PostThumbnails {
 	public function update_post_thumbnail_cache( $wp_query = null ) {
 		update_post_thumbnail_cache( $wp_query );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function set_post_thumbnail_size( $width = 0, $height = 0, $crop = false ) {
+		set_post_thumbnail_size( $width, $height, $crop );
+	}
 }

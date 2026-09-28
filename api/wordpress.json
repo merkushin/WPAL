@@ -130,6 +130,8 @@
         "PCLZIP_TEMPORARY_FILE_RATIO": 0.47,
         "PLUGINDIR": "wp-content/plugins",
         "PO_MAX_LINE_LEN": 79,
+        "Plural_Forms::NUM_CHARS": "0123456789",
+        "Plural_Forms::OP_CHARS": "|&><!=%?:",
         "REQUESTS_SILENCE_PSR0_DEPRECATIONS": true,
         "REST_API_VERSION": "2.0",
         "REST_REQUEST": true,
@@ -149,22 +151,194 @@
         "WEEK_IN_SECONDS": 604800,
         "WPMU_ACCEL_REDIRECT": false,
         "WPMU_SENDFILE": false,
+        "WP_AI_Client_Ability_Function_Resolver::ABILITY_PREFIX": "wpab__",
+        "WP_AI_Client_Cache::CACHE_GROUP": "wp_ai_client",
+        "WP_Ability::DEFAULT_PUBLIC": false,
+        "WP_Ability::DEFAULT_SHOW_IN_REST": false,
+        "WP_Application_Passwords::OPTION_KEY_IN_USE": "using_application_passwords",
+        "WP_Application_Passwords::PW_LENGTH": 24,
+        "WP_Application_Passwords::USERMETA_KEY_APPLICATION_PASSWORDS": "_application_passwords",
+        "WP_Block_Processor::CLOSER": "closer",
+        "WP_Block_Processor::COMPLETE": "processor-complete",
+        "WP_Block_Processor::HTML_SPAN": "processor-html-span",
+        "WP_Block_Processor::INCOMPLETE_INPUT": "incomplete-input",
+        "WP_Block_Processor::MATCHED": "processor-matched",
+        "WP_Block_Processor::OPENER": "opener",
+        "WP_Block_Processor::READY": "processor-ready",
+        "WP_Block_Processor::VOID": "void",
         "WP_CACHE": false,
         "WP_CRON_LOCK_TIMEOUT": 60,
+        "WP_Customize_Nav_Menu_Item_Setting::ID_PATTERN": "/^nav_menu_item\\[(?P<id>-?\\d+)\\]$/",
+        "WP_Customize_Nav_Menu_Item_Setting::POST_TYPE": "nav_menu_item",
+        "WP_Customize_Nav_Menu_Item_Setting::TYPE": "nav_menu_item",
+        "WP_Customize_Nav_Menu_Setting::ID_PATTERN": "/^nav_menu\\[(?P<id>-?\\d+)\\]$/",
+        "WP_Customize_Nav_Menu_Setting::TAXONOMY": "nav_menu",
+        "WP_Customize_Nav_Menu_Setting::TYPE": "nav_menu",
+        "WP_Customize_Selective_Refresh::RENDER_QUERY_VAR": "wp_customize_render_partials",
         "WP_DEBUG": true,
         "WP_DEBUG_DISPLAY": true,
         "WP_DEBUG_LOG": false,
         "WP_DEFAULT_THEME": "twentytwentyfive",
         "WP_DEVELOPMENT_MODE": "",
         "WP_FEATURE_BETTER_PASSWORDS": true,
+        "WP_HTML_Processor::CONSTRUCTOR_UNLOCK_CODE": "Use WP_HTML_Processor::create_fragment() instead of calling the class constructor directly.",
+        "WP_HTML_Processor::ERROR_EXCEEDED_MAX_BOOKMARKS": "exceeded-max-bookmarks",
+        "WP_HTML_Processor::ERROR_UNSUPPORTED": "unsupported",
+        "WP_HTML_Processor::MAX_BOOKMARKS": 10000,
+        "WP_HTML_Processor::PROCESS_CURRENT_NODE": "process-current-node",
+        "WP_HTML_Processor::PROCESS_NEXT_NODE": "process-next-node",
+        "WP_HTML_Processor::REPROCESS_CURRENT_NODE": "reprocess-current-node",
+        "WP_HTML_Processor_State::INSERTION_MODE_AFTER_AFTER_BODY": "insertion-mode-after-after-body",
+        "WP_HTML_Processor_State::INSERTION_MODE_AFTER_AFTER_FRAMESET": "insertion-mode-after-after-frameset",
+        "WP_HTML_Processor_State::INSERTION_MODE_AFTER_BODY": "insertion-mode-after-body",
+        "WP_HTML_Processor_State::INSERTION_MODE_AFTER_FRAMESET": "insertion-mode-after-frameset",
+        "WP_HTML_Processor_State::INSERTION_MODE_AFTER_HEAD": "insertion-mode-after-head",
+        "WP_HTML_Processor_State::INSERTION_MODE_BEFORE_HEAD": "insertion-mode-before-head",
+        "WP_HTML_Processor_State::INSERTION_MODE_BEFORE_HTML": "insertion-mode-before-html",
+        "WP_HTML_Processor_State::INSERTION_MODE_INITIAL": "insertion-mode-initial",
+        "WP_HTML_Processor_State::INSERTION_MODE_IN_BODY": "insertion-mode-in-body",
+        "WP_HTML_Processor_State::INSERTION_MODE_IN_CAPTION": "insertion-mode-in-caption",
+        "WP_HTML_Processor_State::INSERTION_MODE_IN_CELL": "insertion-mode-in-cell",
+        "WP_HTML_Processor_State::INSERTION_MODE_IN_COLUMN_GROUP": "insertion-mode-in-column-group",
+        "WP_HTML_Processor_State::INSERTION_MODE_IN_FRAMESET": "insertion-mode-in-frameset",
+        "WP_HTML_Processor_State::INSERTION_MODE_IN_HEAD": "insertion-mode-in-head",
+        "WP_HTML_Processor_State::INSERTION_MODE_IN_HEAD_NOSCRIPT": "insertion-mode-in-head-noscript",
+        "WP_HTML_Processor_State::INSERTION_MODE_IN_ROW": "insertion-mode-in-row",
+        "WP_HTML_Processor_State::INSERTION_MODE_IN_SELECT": "insertion-mode-in-select",
+        "WP_HTML_Processor_State::INSERTION_MODE_IN_SELECT_IN_TABLE": "insertion-mode-in-select-in-table",
+        "WP_HTML_Processor_State::INSERTION_MODE_IN_TABLE": "insertion-mode-in-table",
+        "WP_HTML_Processor_State::INSERTION_MODE_IN_TABLE_BODY": "insertion-mode-in-table-body",
+        "WP_HTML_Processor_State::INSERTION_MODE_IN_TABLE_TEXT": "insertion-mode-in-table-text",
+        "WP_HTML_Processor_State::INSERTION_MODE_IN_TEMPLATE": "insertion-mode-in-template",
+        "WP_HTML_Stack_Event::POP": "pop",
+        "WP_HTML_Stack_Event::PUSH": "push",
+        "WP_HTML_Tag_Processor::ADD_CLASS": true,
+        "WP_HTML_Tag_Processor::COMMENT_AS_ABRUPTLY_CLOSED_COMMENT": "COMMENT_AS_ABRUPTLY_CLOSED_COMMENT",
+        "WP_HTML_Tag_Processor::COMMENT_AS_CDATA_LOOKALIKE": "COMMENT_AS_CDATA_LOOKALIKE",
+        "WP_HTML_Tag_Processor::COMMENT_AS_HTML_COMMENT": "COMMENT_AS_HTML_COMMENT",
+        "WP_HTML_Tag_Processor::COMMENT_AS_INVALID_HTML": "COMMENT_AS_INVALID_HTML",
+        "WP_HTML_Tag_Processor::COMMENT_AS_PI_NODE_LOOKALIKE": "COMMENT_AS_PI_NODE_LOOKALIKE",
+        "WP_HTML_Tag_Processor::MAX_BOOKMARKS": 10,
+        "WP_HTML_Tag_Processor::MAX_SEEK_OPS": 1000,
+        "WP_HTML_Tag_Processor::NO_QUIRKS_MODE": "no-quirks-mode",
+        "WP_HTML_Tag_Processor::QUIRKS_MODE": "quirks-mode",
+        "WP_HTML_Tag_Processor::REMOVE_CLASS": false,
+        "WP_HTML_Tag_Processor::STATE_CDATA_NODE": "STATE_CDATA_NODE",
+        "WP_HTML_Tag_Processor::STATE_COMMENT": "STATE_COMMENT",
+        "WP_HTML_Tag_Processor::STATE_COMPLETE": "STATE_COMPLETE",
+        "WP_HTML_Tag_Processor::STATE_DOCTYPE": "STATE_DOCTYPE",
+        "WP_HTML_Tag_Processor::STATE_FUNKY_COMMENT": "STATE_WP_FUNKY",
+        "WP_HTML_Tag_Processor::STATE_INCOMPLETE_INPUT": "STATE_INCOMPLETE_INPUT",
+        "WP_HTML_Tag_Processor::STATE_MATCHED_TAG": "STATE_MATCHED_TAG",
+        "WP_HTML_Tag_Processor::STATE_PRESUMPTUOUS_TAG": "STATE_PRESUMPTUOUS_TAG",
+        "WP_HTML_Tag_Processor::STATE_PROCESSING_INSTRUCTION": "STATE_PROCESSING_INSTRUCTION",
+        "WP_HTML_Tag_Processor::STATE_READY": "STATE_READY",
+        "WP_HTML_Tag_Processor::STATE_TEXT_NODE": "STATE_TEXT_NODE",
+        "WP_HTML_Tag_Processor::TEXT_IS_GENERIC": "TEXT_IS_GENERIC",
+        "WP_HTML_Tag_Processor::TEXT_IS_NULL_SEQUENCE": "TEXT_IS_NULL_SEQUENCE",
+        "WP_HTML_Tag_Processor::TEXT_IS_WHITESPACE": "TEXT_IS_WHITESPACE",
+        "WP_Http::ACCEPTED": 202,
+        "WP_Http::BAD_GATEWAY": 502,
+        "WP_Http::BAD_REQUEST": 400,
+        "WP_Http::CONFLICT": 409,
+        "WP_Http::CREATED": 201,
+        "WP_Http::EARLY_HINTS": 103,
+        "WP_Http::EXPECTATION_FAILED": 417,
+        "WP_Http::FAILED_DEPENDENCY": 424,
+        "WP_Http::FORBIDDEN": 403,
+        "WP_Http::FOUND": 302,
+        "WP_Http::GATEWAY_TIMEOUT": 504,
+        "WP_Http::GONE": 410,
+        "WP_Http::HTTP_CONTINUE": 100,
+        "WP_Http::HTTP_VERSION_NOT_SUPPORTED": 505,
+        "WP_Http::IM_A_TEAPOT": 418,
+        "WP_Http::IM_USED": 226,
+        "WP_Http::INSUFFICIENT_STORAGE": 507,
+        "WP_Http::INTERNAL_SERVER_ERROR": 500,
+        "WP_Http::LENGTH_REQUIRED": 411,
+        "WP_Http::LOCKED": 423,
+        "WP_Http::METHOD_NOT_ALLOWED": 405,
+        "WP_Http::MISDIRECTED_REQUEST": 421,
+        "WP_Http::MOVED_PERMANENTLY": 301,
+        "WP_Http::MULTIPLE_CHOICES": 300,
+        "WP_Http::MULTI_STATUS": 207,
+        "WP_Http::NETWORK_AUTHENTICATION_REQUIRED": 511,
+        "WP_Http::NON_AUTHORITATIVE_INFORMATION": 203,
+        "WP_Http::NOT_ACCEPTABLE": 406,
+        "WP_Http::NOT_EXTENDED": 510,
+        "WP_Http::NOT_FOUND": 404,
+        "WP_Http::NOT_IMPLEMENTED": 501,
+        "WP_Http::NOT_MODIFIED": 304,
+        "WP_Http::NO_CONTENT": 204,
+        "WP_Http::OK": 200,
+        "WP_Http::PARTIAL_CONTENT": 206,
+        "WP_Http::PAYMENT_REQUIRED": 402,
+        "WP_Http::PERMANENT_REDIRECT": 308,
+        "WP_Http::PRECONDITION_FAILED": 412,
+        "WP_Http::PRECONDITION_REQUIRED": 428,
+        "WP_Http::PROCESSING": 102,
+        "WP_Http::PROXY_AUTHENTICATION_REQUIRED": 407,
+        "WP_Http::REQUESTED_RANGE_NOT_SATISFIABLE": 416,
+        "WP_Http::REQUEST_ENTITY_TOO_LARGE": 413,
+        "WP_Http::REQUEST_HEADER_FIELDS_TOO_LARGE": 431,
+        "WP_Http::REQUEST_TIMEOUT": 408,
+        "WP_Http::REQUEST_URI_TOO_LONG": 414,
+        "WP_Http::RESERVED": 306,
+        "WP_Http::RESET_CONTENT": 205,
+        "WP_Http::SEE_OTHER": 303,
+        "WP_Http::SERVICE_UNAVAILABLE": 503,
+        "WP_Http::SWITCHING_PROTOCOLS": 101,
+        "WP_Http::TEMPORARY_REDIRECT": 307,
+        "WP_Http::TOO_EARLY": 425,
+        "WP_Http::TOO_MANY_REQUESTS": 429,
+        "WP_Http::UNAUTHORIZED": 401,
+        "WP_Http::UNAVAILABLE_FOR_LEGAL_REASONS": 451,
+        "WP_Http::UNPROCESSABLE_ENTITY": 422,
+        "WP_Http::UNSUPPORTED_MEDIA_TYPE": 415,
+        "WP_Http::UPGRADE_REQUIRED": 426,
+        "WP_Http::USE_PROXY": 305,
+        "WP_Http::VARIANT_ALSO_NEGOTIATES": 506,
         "WP_INSTALLING_NETWORK": true,
         "WP_POST_REVISIONS": true,
+        "WP_REST_Attachments_Controller::IMAGE_SIZE_SOURCE_ORIGINAL": "source_original",
+        "WP_REST_Attachments_Controller::META_KEY_SIDELOAD_FILE_NAME": "_wp_sideloaded_file",
+        "WP_REST_Attachments_Controller::META_KEY_SOURCE_IMAGE": "source_image",
+        "WP_REST_Block_Types_Controller::NAME_PATTERN": "^[a-z][a-z0-9-]*/[a-z][a-z0-9-]*$",
+        "WP_REST_Font_Faces_Controller::LATEST_THEME_JSON_VERSION_SUPPORTED": 3,
+        "WP_REST_Font_Families_Controller::LATEST_THEME_JSON_VERSION_SUPPORTED": 3,
+        "WP_REST_Plugins_Controller::PATTERN": "[^.\\/]+(?:\\/[^.\\/]+)?",
+        "WP_REST_Search_Controller::PROP_ID": "id",
+        "WP_REST_Search_Controller::PROP_SUBTYPE": "subtype",
+        "WP_REST_Search_Controller::PROP_TITLE": "title",
+        "WP_REST_Search_Controller::PROP_TYPE": "type",
+        "WP_REST_Search_Controller::PROP_URL": "url",
+        "WP_REST_Search_Controller::TYPE_ANY": "any",
+        "WP_REST_Search_Handler::RESULT_IDS": "ids",
+        "WP_REST_Search_Handler::RESULT_TOTAL": "total",
+        "WP_REST_Server::ALLMETHODS": "GET, POST, PUT, PATCH, DELETE",
+        "WP_REST_Server::CREATABLE": "POST",
+        "WP_REST_Server::DELETABLE": "DELETE",
+        "WP_REST_Server::EDITABLE": "POST, PUT, PATCH",
+        "WP_REST_Server::READABLE": "GET",
+        "WP_REST_Themes_Controller::PATTERN": "[^\\/:<>\\*\\?\"\\|]+(?:\\/[^\\/:<>\\*\\?\"\\|]+)?",
+        "WP_Recovery_Mode::EXIT_ACTION": "exit_recovery_mode",
+        "WP_Recovery_Mode_Email_Service::RATE_LIMIT_OPTION": "recovery_mode_email_last_sent",
+        "WP_Recovery_Mode_Link_Service::LOGIN_ACTION_ENTER": "enter_recovery_mode",
+        "WP_Recovery_Mode_Link_Service::LOGIN_ACTION_ENTERED": "entered_recovery_mode",
         "WP_SANDBOX_SCRAPING": true,
         "WP_TEMPLATE_PART_AREA_FOOTER": "footer",
         "WP_TEMPLATE_PART_AREA_HEADER": "header",
         "WP_TEMPLATE_PART_AREA_NAVIGATION_OVERLAY": "navigation-overlay",
         "WP_TEMPLATE_PART_AREA_SIDEBAR": "sidebar",
         "WP_TEMPLATE_PART_AREA_UNCATEGORIZED": "uncategorized",
+        "WP_Theme_JSON::LATEST_SCHEMA": 3,
+        "WP_Theme_JSON::ROOT_BLOCK_SELECTOR": "body",
+        "WP_Theme_JSON::ROOT_CSS_PROPERTIES_SELECTOR": ":root",
+        "WP_Token_Map::MAX_LENGTH": 256,
+        "WP_Token_Map::STORAGE_VERSION": "6.6.0-trunk",
+        "WP_Translation_File_MO::MAGIC_MARKER": 2500072158,
+        "WP_View_Config_Data::LATEST_VERSION": 1,
+        "WP_Widget_Factory::INSTANCE_KEY_PREFIX": "spl_object_id:",
         "WXR_VERSION": "1.2",
         "YB_IN_BYTES": 1.2089258196146292e+24,
         "YEAR_IN_SECONDS": 31536000,
@@ -3574,7 +3748,7 @@
                 },
                 {
                     "name": "template",
-                    "type": "WP_Block_Template"
+                    "type": "\\WP_Block_Template"
                 }
             ],
             "since": "6.1.0",
@@ -3592,7 +3766,7 @@
                 },
                 {
                     "name": "template",
-                    "type": "WP_Block_Template"
+                    "type": "\\WP_Block_Template"
                 }
             ],
             "since": "6.1.0",
@@ -3817,7 +3991,7 @@
             "parameters": [
                 {
                     "name": "registry",
-                    "type": "WP_Connector_Registry"
+                    "type": "\\WP_Connector_Registry"
                 }
             ],
             "returnType": "void",
@@ -3843,18 +4017,18 @@
             "parameters": [
                 {
                     "name": "response",
-                    "type": "WP_REST_Response"
+                    "type": "\\WP_REST_Response"
                 },
                 {
                     "name": "server",
-                    "type": "WP_REST_Server"
+                    "type": "\\WP_REST_Server"
                 },
                 {
                     "name": "request",
-                    "type": "WP_REST_Request"
+                    "type": "\\WP_REST_Request"
                 }
             ],
-            "returnType": "WP_REST_Response",
+            "returnType": "\\WP_REST_Response",
             "since": "7.0.0",
             "file": "wp-includes/connectors.php",
             "doc": "/**\n * Masks and validates connector credentials in REST responses.\n *\n * On every `/wp/v2/settings` response, masks connector API key values and the\n * password field of default application-password credential objects.\n *\n * On POST or PUT requests, validates each updated AI provider API key before\n * masking. If validation fails, the key is reverted to an empty string.\n * Application password values are masked but not validated.\n *\n * @since 7.0.0\n * @access private\n *\n * @param WP_REST_Response $response The response object.\n * @param WP_REST_Server   $server   The server instance.\n * @param WP_REST_Request  $request  The request object.\n * @return WP_REST_Response The modified response with masked/validated keys.\n */",
@@ -5191,7 +5365,7 @@
             "parameters": [
                 {
                     "name": "wp_scripts",
-                    "type": "WP_Scripts"
+                    "type": "\\WP_Scripts"
                 },
                 {
                     "name": "handle",
@@ -7818,7 +7992,7 @@
                 },
                 {
                     "name": "block_instance",
-                    "type": "WP_Block"
+                    "type": "\\WP_Block"
                 }
             ],
             "since": "6.4.0",
@@ -8427,7 +8601,7 @@
                 },
                 {
                     "name": "block",
-                    "type": "WP_Block"
+                    "type": "\\WP_Block"
                 }
             ],
             "returnType": "string",
@@ -8447,7 +8621,7 @@
                 },
                 {
                     "name": "block",
-                    "type": "WP_Block"
+                    "type": "\\WP_Block"
                 }
             ],
             "returnType": "string",
@@ -8503,7 +8677,7 @@
                 },
                 {
                     "name": "block",
-                    "type": "WP_Block"
+                    "type": "\\WP_Block"
                 }
             ],
             "returnType": "string",
@@ -28210,7 +28384,8 @@
                 },
                 {
                     "name": "method",
-                    "default": "WP_REST_Server::CREATABLE"
+                    "default": "\\WP_REST_Server::CREATABLE",
+                    "defaultValue": "POST"
                 }
             ],
             "since": "5.6.0",
@@ -34099,7 +34274,7 @@
             "parameters": [
                 {
                     "name": "wp_admin_bar",
-                    "type": "WP_Admin_Bar"
+                    "type": "\\WP_Admin_Bar"
                 }
             ],
             "returnType": "void",
@@ -34393,10 +34568,10 @@
                     "defaultValue": null
                 }
             ],
-            "returnType": "WP_AI_Client_Prompt_Builder",
+            "returnType": "\\WP_AI_Client_Prompt_Builder",
             "since": "7.0.0",
             "file": "wp-includes/ai-client.php",
-            "doc": "/**\n * Creates a new AI prompt builder using the default provider registry.\n *\n * This is the main entry point for generating AI content in WordPress. It returns\n * a fluent builder that can be used to configure and execute AI prompts.\n *\n * The prompt can be provided as a simple string for basic text prompts, or as more\n * complex types for advanced use cases like multi-modal content or conversation history.\n *\n * @since 7.0.0\n *\n * @param string|MessagePart|Message|array|list<string|MessagePart|array>|list<Message>|null $prompt Optional. Initial prompt content.\n *                                                                                                   A string for simple text prompts,\n *                                                                                                   a MessagePart or Message object for\n *                                                                                                   structured content, an array for a\n *                                                                                                   message array shape, or a list of\n *                                                                                                   parts or messages for multi-turn\n *                                                                                                   conversations. Default null.\n * @return WP_AI_Client_Prompt_Builder The prompt builder instance.\n */"
+            "doc": "/**\n * Creates a new AI prompt builder using the default provider registry.\n *\n * This is the main entry point for generating AI content in WordPress. It returns\n * a fluent builder that can be used to configure and execute AI prompts.\n *\n * The prompt can be provided as a simple string for basic text prompts, or as more\n * complex types for advanced use cases like multi-modal content or conversation history.\n *\n * @since 7.0.0\n *\n * @param string|\\WordPress\\AiClient\\Messages\\DTO\\MessagePart|\\WordPress\\AiClient\\Messages\\DTO\\Message|array|list<string|\\WordPress\\AiClient\\Messages\\DTO\\MessagePart|array>|list<\\WordPress\\AiClient\\Messages\\DTO\\Message>|null $prompt Optional. Initial prompt content.\n *                                                                                                   A string for simple text prompts,\n *                                                                                                   a MessagePart or Message object for\n *                                                                                                   structured content, an array for a\n *                                                                                                   message array shape, or a list of\n *                                                                                                   parts or messages for multi-turn\n *                                                                                                   conversations. Default null.\n * @return WP_AI_Client_Prompt_Builder The prompt builder instance.\n */"
         },
         "wp_ajax_activate_plugin": {
             "parameters": [],
@@ -35052,7 +35227,7 @@
             "parameters": [
                 {
                     "name": "block_type",
-                    "type": "WP_Block_Type"
+                    "type": "\\WP_Block_Type"
                 },
                 {
                     "name": "block_attributes",
@@ -36271,11 +36446,11 @@
                 },
                 {
                     "name": "last_revision",
-                    "type": "WP_Post"
+                    "type": "\\WP_Post"
                 },
                 {
                     "name": "post",
-                    "type": "WP_Post"
+                    "type": "\\WP_Post"
                 }
             ],
             "since": "6.4.0",
@@ -39075,7 +39250,7 @@
                     "type": "string"
                 }
             ],
-            "returnType": "?WP_Ability",
+            "returnType": "?\\WP_Ability",
             "since": "6.9.0",
             "file": "wp-includes/abilities-api.php",
             "doc": "/**\n * Retrieves a registered ability.\n *\n * Returns the ability instance for inspection or use. The instance provides access\n * to the ability's configuration, metadata, and execution methods.\n *\n * Example:\n *\n *     // Prints information about a registered ability.\n *     $ability = wp_get_ability( 'my-plugin/export-data' );\n *     if ( $ability ) {\n *         echo $ability->get_label() . ': ' . $ability->get_description();\n *     }\n *\n * @since 6.9.0\n *\n * @see WP_Abilities_Registry::get_registered()\n * @see wp_has_ability()\n *\n * @param string $name The name of the ability, including namespace prefix\n *                     (e.g., 'my-plugin/my-ability').\n * @return WP_Ability|null The registered ability instance, or `null` if not registered.\n */"
@@ -39094,7 +39269,7 @@
                     "type": "string"
                 }
             ],
-            "returnType": "?WP_Ability_Category",
+            "returnType": "?\\WP_Ability_Category",
             "since": "6.9.0",
             "file": "wp-includes/abilities-api.php",
             "doc": "/**\n * Retrieves a registered ability category.\n *\n * Returns the ability category instance for inspection or use. The instance provides access\n * to the ability category's configuration and metadata.\n *\n * Example:\n *\n *     // Prints information about a registered ability category.\n *     $ability_category = wp_get_ability_category( 'content-management' );\n *     if ( $ability_category ) {\n *         echo $ability_category->get_label() . ': ' . $ability_category->get_description();\n *     }\n *\n * @since 6.9.0\n *\n * @see WP_Ability_Categories_Registry::get_registered()\n * @see wp_has_ability_category()\n * @see wp_get_ability_categories()\n *\n * @param string $slug The slug of the ability category.\n * @return WP_Ability_Category|null The ability category instance, or `null` if not registered.\n */"
@@ -40937,7 +41112,7 @@
         },
         "wp_get_speculation_rules": {
             "parameters": [],
-            "returnType": "?WP_Speculation_Rules",
+            "returnType": "?\\WP_Speculation_Rules",
             "since": "6.8.0",
             "file": "wp-includes/speculative-loading.php",
             "doc": "/**\n * Returns the full speculation rules data based on the configuration.\n *\n * Plugins with features that rely on frontend URLs to exclude from prefetching or prerendering should use the\n * {@see 'wp_speculation_rules_href_exclude_paths'} filter to ensure those URL patterns are excluded.\n *\n * Additional speculation rules other than the default rule from WordPress Core can be provided by using the\n * {@see 'wp_load_speculation_rules'} action and amending the passed WP_Speculation_Rules object.\n *\n * @since 6.8.0\n * @access private\n *\n * @return WP_Speculation_Rules|null Object representing the speculation rules to use, or null if speculative loading\n *                                   is disabled in the current context.\n */",
@@ -42142,7 +42317,7 @@
         },
         "wp_interactivity": {
             "parameters": [],
-            "returnType": "WP_Interactivity_API",
+            "returnType": "\\WP_Interactivity_API",
             "since": "6.5.0",
             "file": "wp-includes/interactivity-api/interactivity-api.php",
             "doc": "/**\n * Retrieves the main WP_Interactivity_API instance.\n *\n * It provides access to the WP_Interactivity_API instance, creating one if it\n * doesn't exist yet.\n *\n * @since 6.5.0\n *\n * @global WP_Interactivity_API $wp_interactivity\n *\n * @return WP_Interactivity_API The main WP_Interactivity_API instance.\n */"
@@ -44458,7 +44633,7 @@
             "parameters": [
                 {
                     "name": "comment",
-                    "type": "?WP_Comment"
+                    "type": "?\\WP_Comment"
                 },
                 {
                     "name": "request",
@@ -45774,7 +45949,7 @@
                     "type": "array"
                 }
             ],
-            "returnType": "?WP_Ability",
+            "returnType": "?\\WP_Ability",
             "since": "6.9.0",
             "file": "wp-includes/abilities-api.php",
             "doc": "/**\n * Registers a new ability using the Abilities API. It requires three steps:\n *\n *  1. Hook into the `wp_abilities_api_init` action.\n *  2. Call `wp_register_ability()` with a namespaced name and configuration.\n *  3. Provide execute and permission callbacks.\n *\n * Example:\n *\n *     function my_plugin_register_abilities(): void {\n *         wp_register_ability(\n *             'my-plugin/analyze-text',\n *             array(\n *                 'label'               => __( 'Analyze Text', 'my-plugin' ),\n *                 'description'         => __( 'Performs sentiment analysis on provided text.', 'my-plugin' ),\n *                 'category'            => 'text-processing',\n *                 'input_schema'        => array(\n *                     'type'        => 'string',\n *                     'description' => __( 'The text to be analyzed.', 'my-plugin' ),\n *                     'minLength'   => 10,\n *                     'required'    => true,\n *                 ),\n *                 'output_schema'       => array(\n *                     'type'        => 'string',\n *                     'enum'        => array( 'positive', 'negative', 'neutral' ),\n *                     'description' => __( 'The sentiment result: positive, negative, or neutral.', 'my-plugin' ),\n *                     'required'    => true,\n *                 ),\n *                 'execute_callback'    => 'my_plugin_analyze_text',\n *                 'permission_callback' => 'my_plugin_can_analyze_text',\n *                 'meta'                => array(\n *                     'annotations' => array(\n *                         'readonly' => true,\n *                     ),\n *                     'public'      => true,\n *                 ),\n *             )\n *         );\n *     }\n *     add_action( 'wp_abilities_api_init', 'my_plugin_register_abilities' );\n *\n * ### Naming Conventions\n *\n * Ability names must follow these rules:\n *\n *  - Include a namespace prefix (e.g., `my-plugin/my-ability`).\n *  - Use only lowercase alphanumeric characters, dashes, and forward slashes.\n *  - Use descriptive, action-oriented names (e.g., `process-payment`, `generate-report`).\n *\n * ### Categories\n *\n * Abilities must be organized into categories. Ability categories provide better\n * discoverability and must be registered before the abilities that reference them:\n *\n *     function my_plugin_register_categories(): void {\n *         wp_register_ability_category(\n *             'text-processing',\n *             array(\n *                 'label'       => __( 'Text Processing', 'my-plugin' ),\n *                 'description' => __( 'Abilities for analyzing and transforming text.', 'my-plugin' ),\n *             )\n *         );\n *     }\n *     add_action( 'wp_abilities_api_categories_init', 'my_plugin_register_categories' );\n *\n * ### Input and Output Schemas\n *\n * Schemas define the expected structure, type, and constraints for ability inputs\n * and outputs using JSON Schema syntax. They serve two critical purposes: automatic\n * validation of data passed to and returned from abilities, and self-documenting\n * API contracts for developers.\n *\n * WordPress implements a validator based on a subset of the JSON Schema Version 4\n * specification (https://json-schema.org/specification-links.html#draft-4).\n * For details on supported JSON Schema properties and syntax, see the\n * related WordPress REST API Schema documentation:\n * https://developer.wordpress.org/rest-api/extending-the-rest-api/schema/#json-schema-basics\n *\n * Defining schemas is mandatory when there is a value to pass or return.\n * They ensure data integrity, improve developer experience, and enable\n * better documentation:\n *\n *     'input_schema' => array(\n *         'type'        => 'string',\n *         'description' => __( 'The text to be analyzed.', 'my-plugin' ),\n *         'minLength'   => 10,\n *         'required'    => true,\n *     ),\n *     'output_schema'       => array(\n *         'type'        => 'string',\n *         'enum'        => array( 'positive', 'negative', 'neutral' ),\n *         'description' => __( 'The sentiment result: positive, negative, or neutral.', 'my-plugin' ),\n *         'required'    => true,\n *     ),\n *\n * ### Callbacks\n *\n * #### Execute Callback\n *\n * The execute callback performs the ability's core functionality. It receives\n * optional input data and returns either a result or `WP_Error` on failure.\n *\n *     function my_plugin_analyze_text( string $input ): string|WP_Error {\n *         $score = My_Plugin::perform_sentiment_analysis( $input );\n *         if ( is_wp_error( $score ) ) {\n *             return $score;\n *         }\n *         return My_Plugin::interpret_sentiment_score( $score );\n *     }\n *\n * #### Permission Callback\n *\n * The permission callback determines whether the ability can be executed.\n * It receives the same input as the execute callback and must return a\n * boolean or `WP_Error`. Common use cases include checking user capabilities,\n * validating API keys, or verifying system state:\n *\n *     function my_plugin_can_analyze_text( string $input ): bool|WP_Error {\n *         return current_user_can( 'edit_posts' );\n *     }\n *\n * ### Client Exposure\n *\n * Set the high-level `public` flag to make an ability available to clients\n * such as the REST API, MCP, or AI agents:\n *\n *     'meta' => array(\n *         'public' => true,\n *     ),\n *\n * The `public` flag seeds the default for each per-channel flag. For the REST\n * API it seeds `show_in_rest`, which lets the ability be invoked via HTTP\n * requests. Set a per-channel flag directly to override that default. For\n * example, keep a public ability out of the REST API:\n *\n *     'meta' => array(\n *         'public'       => true,\n *         'show_in_rest' => false,\n *     ),\n *\n * @since 6.9.0\n *\n * @see WP_Abilities_Registry::register()\n * @see wp_register_ability_category()\n * @see wp_unregister_ability()\n *\n * @param string               $name The name of the ability. Must be a namespaced string containing\n *                                   a prefix, e.g., `my-plugin/my-ability`. Can only contain lowercase\n *                                   alphanumeric characters, dashes, and forward slashes.\n * @param array<string, mixed> $args {\n *     An associative array of arguments for configuring the ability.\n *\n *     @type string               $label               Required. The human-readable label for the ability.\n *     @type string               $description         Required. A detailed description of what the ability does\n *                                                     and when it should be used.\n *     @type string               $category            Required. The ability category slug this ability belongs to.\n *                                                     The ability category must be registered via `wp_register_ability_category()`\n *                                                     before registering the ability.\n *     @type callable             $execute_callback    Required. A callback function to execute when the ability is invoked.\n *                                                     Receives optional mixed input data and must return either a result\n *                                                     value (any type) or a `WP_Error` object on failure.\n *     @type callable             $permission_callback Required. A callback function to check permissions before execution.\n *                                                     Receives optional mixed input data (same as `execute_callback`) and\n *                                                     must return `true`/`false` for simple checks, or `WP_Error` for\n *                                                     detailed error responses.\n *     @type array<string, mixed> $input_schema        Optional. JSON Schema definition for validating the ability's input.\n *                                                     Must be a valid JSON Schema object defining the structure and\n *                                                     constraints for input data. Used for automatic validation and\n *                                                     API documentation.\n *     @type array<string, mixed> $output_schema       Optional. JSON Schema definition for the ability's output.\n *                                                     Describes the structure of successful return values from\n *                                                     `execute_callback`. Used for documentation and validation.\n *     @type array<string, mixed> $meta                {\n *         Optional. Additional metadata for the ability.\n *\n *         @type array<string, bool|null> $annotations  {\n *             Optional. Semantic annotations describing the ability's behavioral characteristics.\n *             These annotations are hints for tooling and documentation.\n *\n *             @type bool|null $readonly    Optional. If true, the ability does not modify its environment.\n *             @type bool|null $destructive Optional. If true, the ability may perform destructive updates to its environment.\n *                                          If false, the ability performs only additive updates.\n *             @type bool|null $idempotent  Optional. If true, calling the ability repeatedly with the same arguments\n *                                          will have no additional effect on its environment.\n *         }\n *         @type bool                     $public       Optional. Whether the ability is meant to be available to\n *                                                      clients such as the REST API, MCP, or AI agents. Seeds\n *                                                      the default for per-channel flags like `$show_in_rest`.\n *                                                      Defaults to false.\n *         @type bool                     $show_in_rest Optional. Whether to expose this ability in the REST API.\n *                                                      When true, the ability can be invoked via HTTP requests.\n *                                                      Default is the value of `$public` when set, false otherwise.\n *     }\n *     @type string               $ability_class       Optional. Fully-qualified custom class name to instantiate\n *                                                     instead of the default `WP_Ability` class. The custom class\n *                                                     must extend `WP_Ability`. Useful for advanced customization\n *                                                     of ability behavior.\n * }\n * @return WP_Ability|null The registered ability instance on success, `null` on failure.\n */"
@@ -45790,7 +45965,7 @@
                     "type": "array"
                 }
             ],
-            "returnType": "?WP_Ability_Category",
+            "returnType": "?\\WP_Ability_Category",
             "since": "6.9.0",
             "file": "wp-includes/abilities-api.php",
             "doc": "/**\n * Registers a new ability category.\n *\n * Ability categories provide a way to organize and group related abilities for better\n * discoverability and management. Ability categories must be registered before abilities\n * that reference them.\n *\n * Ability categories must be registered on the `wp_abilities_api_categories_init` action hook.\n *\n * Example:\n *\n *     function my_plugin_register_categories() {\n *         wp_register_ability_category(\n *             'content-management',\n *             array(\n *                 'label'       => __( 'Content Management', 'my-plugin' ),\n *                 'description' => __( 'Abilities for managing and organizing content.', 'my-plugin' ),\n *             )\n *         );\n *     }\n *     add_action( 'wp_abilities_api_categories_init', 'my_plugin_register_categories' );\n *\n * @since 6.9.0\n *\n * @see WP_Ability_Categories_Registry::register()\n * @see wp_register_ability()\n * @see wp_unregister_ability_category()\n *\n * @param string               $slug The unique slug for the ability category. Must contain only lowercase\n *                                   alphanumeric characters and dashes (e.g., 'data-export').\n * @param array<string, mixed> $args {\n *     An associative array of arguments for the ability category.\n *\n *     @type string               $label       Required. The human-readable label for the ability category.\n *     @type string               $description Required. A description of what abilities in this category do.\n *     @type array<string, mixed> $meta        Optional. Additional metadata for the ability category.\n * }\n * @return WP_Ability_Category|null The registered ability category instance on success, `null` on failure.\n */"
@@ -45810,7 +45985,7 @@
             "parameters": [
                 {
                     "name": "block_type",
-                    "type": "WP_Block_Type"
+                    "type": "\\WP_Block_Type"
                 }
             ],
             "since": "7.0.0",
@@ -46391,7 +46566,7 @@
                 },
                 {
                     "name": "provider",
-                    "type": "WP_Sitemaps_Provider"
+                    "type": "\\WP_Sitemaps_Provider"
                 }
             ],
             "since": "5.5.0",
@@ -47653,7 +47828,7 @@
         },
         "wp_script_modules": {
             "parameters": [],
-            "returnType": "WP_Script_Modules",
+            "returnType": "\\WP_Script_Modules",
             "since": "6.5.0",
             "file": "wp-includes/script-modules.php",
             "doc": "/**\n * Retrieves the main WP_Script_Modules instance.\n *\n * This function provides access to the WP_Script_Modules instance, creating one\n * if it doesn't exist yet.\n *\n * @since 6.5.0\n *\n * @global WP_Script_Modules $wp_script_modules\n *\n * @return WP_Script_Modules The main WP_Script_Modules instance.\n */"
@@ -47769,15 +47944,15 @@
             "parameters": [
                 {
                     "name": "user",
-                    "type": "WP_User"
+                    "type": "\\WP_User"
                 },
                 {
                     "name": "comment",
-                    "type": "WP_Comment"
+                    "type": "\\WP_Comment"
                 },
                 {
                     "name": "post",
-                    "type": "?WP_Post"
+                    "type": "?\\WP_Post"
                 }
             ],
             "returnType": "bool",
@@ -49495,7 +49670,7 @@
                     "type": "string"
                 }
             ],
-            "returnType": "?WP_Ability",
+            "returnType": "?\\WP_Ability",
             "since": "6.9.0",
             "file": "wp-includes/abilities-api.php",
             "doc": "/**\n * Unregisters an ability from the Abilities API.\n *\n * Removes a previously registered ability from the global registry. Use this to\n * disable abilities provided by other plugins or when an ability is no longer needed.\n *\n * Can be called at any time after the ability has been registered.\n *\n * Example:\n *\n *     if ( wp_has_ability( 'other-plugin/some-ability' ) ) {\n *         wp_unregister_ability( 'other-plugin/some-ability' );\n *     }\n *\n * @since 6.9.0\n *\n * @see WP_Abilities_Registry::unregister()\n * @see wp_register_ability()\n *\n * @param string $name The name of the ability to unregister, including namespace prefix\n *                     (e.g., 'my-plugin/my-ability').\n * @return WP_Ability|null The unregistered ability instance on success, `null` on failure.\n */"
@@ -49507,7 +49682,7 @@
                     "type": "string"
                 }
             ],
-            "returnType": "?WP_Ability_Category",
+            "returnType": "?\\WP_Ability_Category",
             "since": "6.9.0",
             "file": "wp-includes/abilities-api.php",
             "doc": "/**\n * Unregisters an ability category.\n *\n * Removes a previously registered ability category from the global registry. Use this to\n * disable ability categories that are no longer needed.\n *\n * Can be called at any time after the ability category has been registered.\n *\n * Example:\n *\n *     if ( wp_has_ability_category( 'deprecated-category' ) ) {\n *         wp_unregister_ability_category( 'deprecated-category' );\n *     }\n *\n * @since 6.9.0\n *\n * @see WP_Ability_Categories_Registry::unregister()\n * @see wp_register_ability_category()\n *\n * @param string $slug The slug of the ability category to unregister.\n * @return WP_Ability_Category|null The unregistered ability category instance on success, `null` on failure.\n */"

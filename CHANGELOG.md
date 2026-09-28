@@ -7,6 +7,11 @@ promise in the README: code that calls a service keeps working unless WordPress 
 
 ### Added
 
+Every public WordPress 7.1.2 function is now wrapped: 2,279 methods in 109 services, from `Abilities` and `Ai` to
+`Widgets`. The 1,836 functions left out are private, deprecated, or ignored with a reason in `wpal.map.php` (hook
+callbacks, admin screen internals, installer internals…).
+
+
 The Api layer (PHP 8.4+), a designed API built on `Service`, starting with four services. `new Wpal()` is the entry
 point; each service also has an in-memory fake for tests (`Api\Testing\Fake*`).
 

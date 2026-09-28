@@ -151,4 +151,151 @@ class WpAssets implements Assets {
 	public function wp_styles() {
 		return wp_styles();
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_get_script_tag( $attributes ) {
+		return wp_get_script_tag( $attributes );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_print_script_tag( $attributes ) {
+		wp_print_script_tag( $attributes );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_get_inline_script_tag( $data, $attributes = array() ) {
+		return wp_get_inline_script_tag( $data, $attributes );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_print_inline_script_tag( $data, $attributes = array() ) {
+		wp_print_inline_script_tag( $data, $attributes );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_get_script_polyfill( $scripts, $tests ) {
+		return wp_get_script_polyfill( $scripts, $tests );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_scripts_get_suffix( $type = '' ) {
+		return wp_scripts_get_suffix( $type );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_print_head_scripts() {
+		return wp_print_head_scripts();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_print_footer_scripts() {
+		wp_print_footer_scripts();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_enqueue_block_style( $block_name, $args ) {
+		wp_enqueue_block_style( $block_name, $args );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_enqueue_block_support_styles( $style, $priority = 10 ) {
+		wp_enqueue_block_support_styles( $style, $priority );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_should_load_separate_core_block_assets() {
+		return wp_should_load_separate_core_block_assets();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_should_load_block_assets_on_demand() {
+		return wp_should_load_block_assets_on_demand();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_should_load_block_editor_scripts_and_styles() {
+		return wp_should_load_block_editor_scripts_and_styles();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_js_dataset_name( string $html_attribute_name ): ?string {
+		return wp_js_dataset_name( $html_attribute_name );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_html_custom_data_attribute_name( string $js_dataset_name ): ?string {
+		return wp_html_custom_data_attribute_name( $js_dataset_name );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_script_modules(): \WP_Script_Modules {
+		return wp_script_modules();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_register_script_module( string $id, string $src, array $deps = array(), $version = false, array $args = array() ) {
+		wp_register_script_module( $id, $src, $deps, $version, $args );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_enqueue_script_module( string $id, string $src = '', array $deps = array(), $version = false, array $args = array() ) {
+		wp_enqueue_script_module( $id, $src, $deps, $version, $args );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_dequeue_script_module( string $id ) {
+		wp_dequeue_script_module( $id );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_deregister_script_module( string $id ) {
+		wp_deregister_script_module( $id );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_set_script_module_translations( string $id, string $domain = 'default', string $path = '' ): bool {
+		return wp_set_script_module_translations( $id, $domain, $path );
+	}
 }

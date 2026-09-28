@@ -23,20 +23,22 @@ final class CoverageCommand implements Command {
 
 	public function usage(): string {
 		return <<<'TXT'
-wpal coverage [--wp=<spec>] [--untriaged] [--format=json]
+wpal coverage [--wp=<spec>] [--untriaged] [--fail-on-untriaged] [--format=json]
 
-  --wp=<spec>   current (api/wordpress.json, default), latest, a version, or a snapshot file.
-  --untriaged   List every untriaged function, grouped by source file.
+  --wp=<spec>            current (api/wordpress.json, default), latest, a version, or a snapshot file.
+  --untriaged            List every untriaged function, grouped by source file.
+  --fail-on-untriaged    Exit 1 when any function is untriaged (for CI).
 TXT;
 	}
 
 	public function run( Input $input, Output $output ): int {
-		$input->assertOptions( [ 'wp', 'untriaged', 'format' ] );
+		$input->assertOptions( [ 'wp', 'untriaged', 'fail-on-untriaged', 'format' ] );
 
 		$wordpress = $this->workspace->snapshot( $input->option( 'wp' ) );
 		$coverage  = ( new Coverage() )->compute( $wordpress, $this->workspace->serviceMethods( $wordpress ), $this->workspace->map() );
 
-		$result = $coverage['problems'] === [] ? self::OK : self::FOUND;
+		$untriagedCount = array_sum( array_map( 'count', $coverage['untriaged'] ) );
+		$result         = $coverage['problems'] === [] && ( $untriagedCount === 0 || ! $input->flag( 'fail-on-untriaged' ) ) ? self::OK : self::FOUND;
 
 		if ( $input->json() ) {
 			$output->json( [ 'wordpress' => $wordpress->version ] + $coverage );

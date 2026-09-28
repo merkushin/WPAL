@@ -32,4 +32,46 @@ final class WpScreen implements Screen {
 	public function convert_to_screen( $hook_name ) {
 		return convert_to_screen( $hook_name );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function register_column_headers( $screen, $columns ) {
+		register_column_headers( $screen, $columns );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_column_headers( $screen ) {
+		return get_column_headers( $screen );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function print_column_headers( $screen, $with_id = true ) {
+		print_column_headers( $screen, $with_id );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_hidden_columns( $screen ) {
+		return get_hidden_columns( $screen );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_hidden_meta_boxes( $screen ) {
+		return get_hidden_meta_boxes( $screen );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function meta_box_prefs( $screen ) {
+		meta_box_prefs( $screen );
+	}
 }

@@ -1100,4 +1100,138 @@ interface Comments {
 	 * @since 5.5.0
 	 */
 	public function _wp_check_for_scheduled_update_comment_type();
+
+	/**
+	 * Determines if a comment exists based on author and date.
+	 *
+	 * For best performance, use `$timezone = 'gmt'`, which queries a field that is properly indexed. The default value
+	 * for `$timezone` is 'blog' for legacy reasons.
+	 *
+	 * @since 2.0.0
+	 * @since 4.4.0 Added the `$timezone` parameter.
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @param string $comment_author Author of the comment.
+	 * @param string $comment_date   Date of the comment.
+	 * @param string $timezone       Timezone. Accepts 'blog' or 'gmt'. Default 'blog'.
+	 * @return string|null Comment post ID on success.
+	 */
+	public function comment_exists( $comment_author, $comment_date, $timezone = 'blog' );
+
+	/**
+	 * Returns a WP_Comment object based on comment ID.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param int $id ID of comment to retrieve.
+	 * @return WP_Comment|false Comment if found. False on failure.
+	 */
+	public function get_comment_to_edit( $id );
+
+	/**
+	 * Gets the number of pending comments on a post or posts.
+	 *
+	 * @since 2.3.0
+	 * @since 6.9.0 Exclude the 'note' comment type from the count.
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @param int|int[] $post_id Either a single Post ID or an array of Post IDs
+	 * @return int|int[] Either a single Posts pending comments as an int or an array of ints keyed on the Post IDs
+	 */
+	public function get_pending_comments_num( $post_id );
+
+	/**
+	 * Checks whether comment data passes internal checks or has disallowed content.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @param array $comment_data Array of arguments for inserting a comment.
+	 * @return int|string|WP_Error The approval status on success (0|1|'spam'|'trash'),
+	 *                             WP_Error otherwise.
+	 */
+	public function wp_check_comment_data( $comment_data );
+
+	/**
+	 * Queue comment meta for lazy-loading.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @param array $comment_ids List of comment IDs.
+	 */
+	public function wp_lazyload_comment_meta( array $comment_ids );
+
+	/**
+	 * Determines whether pings should be disabled for the current environment.
+	 *
+	 * By default, all pings (outgoing pingbacks, trackbacks, and ping service
+	 * notifications, as well as incoming pingbacks and trackbacks) are disabled
+	 * for non-production environments ('local', 'development', 'staging').
+	 *
+	 * @since 7.1.0
+	 *
+	 * @return bool True if pings should be disabled, false otherwise.
+	 */
+	public function wp_should_disable_pings_for_environment();
+
+	/**
+	 * Extracts the mentioned user IDs from note content.
+	 *
+	 * Mentions are stored as chips carrying the `wp-note-mention` class plus a
+	 * `user-N` class token holding the mentioned user's ID:
+	 * `<span class="wp-note-mention user-N">@Name</span>`. Only elements that
+	 * carry both classes are treated as mentions.
+	 *
+	 * @since 7.1.0
+	 *
+	 * @param string $content Note (comment) content, as stored.
+	 * @return int[] Unique, positive mentioned user IDs.
+	 * @phpstan-return list<positive-int>
+	 */
+	public function wp_get_note_mentioned_user_ids( string $content ): array;
+
+	/**
+	 * Sends a single note mention notification email.
+	 *
+	 * The email is composed in the recipient's locale, matching how other
+	 * user-directed notifications are composed, and links to the post editor the
+	 * same way the post author's note notification does.
+	 *
+	 * @since 7.1.0
+	 *
+	 * @param WP_User      $user    The recipient.
+	 * @param WP_Comment   $comment The note that triggered the notification.
+	 * @param WP_Post|null $post    The post the note belongs to.
+	 * @return bool Whether the email was accepted for delivery by {@see wp_mail()}.
+	 */
+	public function wp_send_note_notification( \WP_User $user, \WP_Comment $comment, ?\WP_Post $post ): bool;
+
+	/**
+	 * Notifies an author (and/or others) of a comment/trackback/pingback on a post.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int|WP_Comment $comment_id Comment ID or WP_Comment object.
+	 * @param string         $deprecated Not used.
+	 * @return bool True on completion. False if no email addresses were specified.
+	 */
+	public function wp_notify_postauthor( $comment_id, $deprecated = null );
+
+	/**
+	 * Notifies the moderator of the site about a new comment that is awaiting approval.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * Uses the {@see 'notify_moderator'} filter to determine whether the site moderator
+	 * should be notified, overriding the site setting.
+	 *
+	 * @param int $comment_id Comment ID.
+	 * @return true Always returns true.
+	 */
+	public function wp_notify_moderator( $comment_id );
 }

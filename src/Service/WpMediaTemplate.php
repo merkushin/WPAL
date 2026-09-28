@@ -25,4 +25,116 @@ final class WpMediaTemplate implements MediaTemplate {
 	public function wp_underscore_video_template() {
 		wp_underscore_video_template();
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_get_attachment_image( $attachment_id, $size = 'thumbnail', $icon = false, $attr = '' ) {
+		return wp_get_attachment_image( $attachment_id, $size, $icon, $attr );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_image_tag( $id, $alt, $title, $align, $size = 'medium' ) {
+		return get_image_tag( $id, $alt, $title, $align, $size );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_filter_content_tags( $content, $context = null ) {
+		return wp_filter_content_tags( $content, $context );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
+		return wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_img_tag_add_srcset_and_sizes_attr( $image, $context, $attachment_id ) {
+		return wp_img_tag_add_srcset_and_sizes_attr( $image, $context, $attachment_id );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_img_tag_add_width_and_height_attr( $image, $context, $attachment_id ) {
+		return wp_img_tag_add_width_and_height_attr( $image, $context, $attachment_id );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_img_tag_add_loading_optimization_attrs( $image, $context ) {
+		return wp_img_tag_add_loading_optimization_attrs( $image, $context );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_img_tag_add_auto_sizes( string $image ): string {
+		return wp_img_tag_add_auto_sizes( $image );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_iframe_tag_add_loading_attr( $iframe, $context ) {
+		return wp_iframe_tag_add_loading_attr( $iframe, $context );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function gallery_shortcode( $attr ) {
+		return gallery_shortcode( $attr );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function img_caption_shortcode( $attr, $content = '' ) {
+		return img_caption_shortcode( $attr, $content );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_audio_shortcode( $attr, $content = '' ) {
+		return wp_audio_shortcode( $attr, $content );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_video_shortcode( $attr, $content = '' ) {
+		return wp_video_shortcode( $attr, $content );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_playlist_shortcode( $attr ) {
+		return wp_playlist_shortcode( $attr );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_playlist_scripts( $type ) {
+		wp_playlist_scripts( $type );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_underscore_playlist_templates() {
+		wp_underscore_playlist_templates();
+	}
 }

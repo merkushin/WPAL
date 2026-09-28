@@ -207,4 +207,25 @@ final class WpAdminTemplate implements AdminTemplate {
 	public function wp_terms_checklist( $post_id = 0, $args = array() ) {
 		return wp_terms_checklist( $post_id, $args );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function show_message( $message ) {
+		show_message( $message );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_admin_notice( $message, $args = array() ) {
+		wp_admin_notice( $message, $args );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_get_admin_notice( $message, $args = array() ) {
+		return wp_get_admin_notice( $message, $args );
+	}
 }

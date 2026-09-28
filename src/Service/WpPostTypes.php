@@ -109,4 +109,11 @@ final class WpPostTypes implements PostTypes {
 	public function is_post_type_viewable( $post_type ) {
 		return is_post_type_viewable( $post_type );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function create_initial_post_types() {
+		create_initial_post_types();
+	}
 }

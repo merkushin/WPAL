@@ -4,94 +4,255 @@
 
 namespace Merkushin\Wpal;
 
+use Merkushin\Wpal\Service\Abilities;
+use Merkushin\Wpal\Service\AdminBar;
+use Merkushin\Wpal\Service\AdminPosts;
 use Merkushin\Wpal\Service\AdminTemplate;
+use Merkushin\Wpal\Service\AdminUsers;
+use Merkushin\Wpal\Service\Ai;
 use Merkushin\Wpal\Service\ArchiveTemplate;
+use Merkushin\Wpal\Service\Arrays;
 use Merkushin\Wpal\Service\Assets;
+use Merkushin\Wpal\Service\Auth;
 use Merkushin\Wpal\Service\AuthorTemplate;
 use Merkushin\Wpal\Service\Avatars;
+use Merkushin\Wpal\Service\BlockBindings;
+use Merkushin\Wpal\Service\BlockEditor;
+use Merkushin\Wpal\Service\BlockPatterns;
+use Merkushin\Wpal\Service\BlockSupports;
 use Merkushin\Wpal\Service\BlockTemplates;
+use Merkushin\Wpal\Service\Blocks;
 use Merkushin\Wpal\Service\Bookmarks;
+use Merkushin\Wpal\Service\Cache;
 use Merkushin\Wpal\Service\Capabilities;
+use Merkushin\Wpal\Service\Categories;
 use Merkushin\Wpal\Service\CommentTemplate;
 use Merkushin\Wpal\Service\Comments;
+use Merkushin\Wpal\Service\Connectors;
+use Merkushin\Wpal\Service\Cron;
+use Merkushin\Wpal\Service\Database;
+use Merkushin\Wpal\Service\Dates;
 use Merkushin\Wpal\Service\DocumentHead;
 use Merkushin\Wpal\Service\EditLinks;
 use Merkushin\Wpal\Service\Editor;
+use Merkushin\Wpal\Service\EmbedTemplate;
+use Merkushin\Wpal\Service\Embeds;
+use Merkushin\Wpal\Service\Emoji;
+use Merkushin\Wpal\Service\Environment;
+use Merkushin\Wpal\Service\Errors;
+use Merkushin\Wpal\Service\Escaping;
 use Merkushin\Wpal\Service\Feeds;
+use Merkushin\Wpal\Service\FileEditor;
+use Merkushin\Wpal\Service\Filesystem;
+use Merkushin\Wpal\Service\Fonts;
+use Merkushin\Wpal\Service\Formatting;
 use Merkushin\Wpal\Service\Forms;
+use Merkushin\Wpal\Service\GlobalStyles;
 use Merkushin\Wpal\Service\Hooks;
+use Merkushin\Wpal\Service\Http;
+use Merkushin\Wpal\Service\Https;
+use Merkushin\Wpal\Service\Icons;
+use Merkushin\Wpal\Service\Identifiers;
+use Merkushin\Wpal\Service\Images;
+use Merkushin\Wpal\Service\Importers;
+use Merkushin\Wpal\Service\Interactivity;
+use Merkushin\Wpal\Service\Json;
+use Merkushin\Wpal\Service\Kses;
 use Merkushin\Wpal\Service\Localization;
 use Merkushin\Wpal\Service\Login;
+use Merkushin\Wpal\Service\Mail;
+use Merkushin\Wpal\Service\Media;
 use Merkushin\Wpal\Service\MediaTemplate;
+use Merkushin\Wpal\Service\MediaUpload;
+use Merkushin\Wpal\Service\Meta;
 use Merkushin\Wpal\Service\MetaBoxes;
+use Merkushin\Wpal\Service\MimeTypes;
+use Merkushin\Wpal\Service\MultisiteUsers;
 use Merkushin\Wpal\Service\NavMenus;
 use Merkushin\Wpal\Service\Navigation;
+use Merkushin\Wpal\Service\Networks;
+use Merkushin\Wpal\Service\Nonces;
 use Merkushin\Wpal\Service\Options;
+use Merkushin\Wpal\Service\Passwords;
 use Merkushin\Wpal\Service\Permalinks;
 use Merkushin\Wpal\Service\Plugins;
 use Merkushin\Wpal\Service\PostAttachments;
+use Merkushin\Wpal\Service\PostFormats;
 use Merkushin\Wpal\Service\PostMeta;
 use Merkushin\Wpal\Service\PostStatuses;
 use Merkushin\Wpal\Service\PostTemplate;
 use Merkushin\Wpal\Service\PostThumbnails;
 use Merkushin\Wpal\Service\PostTypes;
 use Merkushin\Wpal\Service\Posts;
+use Merkushin\Wpal\Service\Privacy;
+use Merkushin\Wpal\Service\Query;
+use Merkushin\Wpal\Service\Redirects;
+use Merkushin\Wpal\Service\RestApi;
+use Merkushin\Wpal\Service\Revisions;
+use Merkushin\Wpal\Service\Rewrite;
+use Merkushin\Wpal\Service\Sanitization;
 use Merkushin\Wpal\Service\Screen;
 use Merkushin\Wpal\Service\Search;
+use Merkushin\Wpal\Service\Serialization;
 use Merkushin\Wpal\Service\Settings;
+use Merkushin\Wpal\Service\Shortcodes;
+use Merkushin\Wpal\Service\SiteHealth;
 use Merkushin\Wpal\Service\SiteIdentity;
+use Merkushin\Wpal\Service\Sitemaps;
+use Merkushin\Wpal\Service\Sites;
+use Merkushin\Wpal\Service\StyleEngine;
+use Merkushin\Wpal\Service\Tags;
 use Merkushin\Wpal\Service\Taxonomies;
 use Merkushin\Wpal\Service\Templates;
 use Merkushin\Wpal\Service\TermTemplate;
+use Merkushin\Wpal\Service\ThemeTemplate;
+use Merkushin\Wpal\Service\Themes;
 use Merkushin\Wpal\Service\Transient;
+use Merkushin\Wpal\Service\Updates;
 use Merkushin\Wpal\Service\Urls;
+use Merkushin\Wpal\Service\UserSettings;
+use Merkushin\Wpal\Service\Users;
+use Merkushin\Wpal\Service\Widgets;
+use Merkushin\Wpal\Service\WpAbilities;
+use Merkushin\Wpal\Service\WpAdminBar;
+use Merkushin\Wpal\Service\WpAdminPosts;
 use Merkushin\Wpal\Service\WpAdminTemplate;
+use Merkushin\Wpal\Service\WpAdminUsers;
+use Merkushin\Wpal\Service\WpAi;
 use Merkushin\Wpal\Service\WpArchiveTemplate;
+use Merkushin\Wpal\Service\WpArrays;
 use Merkushin\Wpal\Service\WpAssets;
+use Merkushin\Wpal\Service\WpAuth;
 use Merkushin\Wpal\Service\WpAuthorTemplate;
 use Merkushin\Wpal\Service\WpAvatars;
+use Merkushin\Wpal\Service\WpBlockBindings;
+use Merkushin\Wpal\Service\WpBlockEditor;
+use Merkushin\Wpal\Service\WpBlockPatterns;
+use Merkushin\Wpal\Service\WpBlockSupports;
 use Merkushin\Wpal\Service\WpBlockTemplates;
+use Merkushin\Wpal\Service\WpBlocks;
 use Merkushin\Wpal\Service\WpBookmarks;
+use Merkushin\Wpal\Service\WpCache;
 use Merkushin\Wpal\Service\WpCapabilities;
+use Merkushin\Wpal\Service\WpCategories;
 use Merkushin\Wpal\Service\WpCommentTemplate;
 use Merkushin\Wpal\Service\WpComments;
+use Merkushin\Wpal\Service\WpConnectors;
+use Merkushin\Wpal\Service\WpCron;
+use Merkushin\Wpal\Service\WpDatabase;
+use Merkushin\Wpal\Service\WpDates;
 use Merkushin\Wpal\Service\WpDocumentHead;
 use Merkushin\Wpal\Service\WpEditLinks;
 use Merkushin\Wpal\Service\WpEditor;
+use Merkushin\Wpal\Service\WpEmbedTemplate;
+use Merkushin\Wpal\Service\WpEmbeds;
+use Merkushin\Wpal\Service\WpEmoji;
+use Merkushin\Wpal\Service\WpEnvironment;
+use Merkushin\Wpal\Service\WpErrors;
+use Merkushin\Wpal\Service\WpEscaping;
 use Merkushin\Wpal\Service\WpFeeds;
+use Merkushin\Wpal\Service\WpFileEditor;
+use Merkushin\Wpal\Service\WpFilesystem;
+use Merkushin\Wpal\Service\WpFonts;
+use Merkushin\Wpal\Service\WpFormatting;
 use Merkushin\Wpal\Service\WpForms;
+use Merkushin\Wpal\Service\WpGlobalStyles;
 use Merkushin\Wpal\Service\WpHooks;
+use Merkushin\Wpal\Service\WpHttp;
+use Merkushin\Wpal\Service\WpHttps;
+use Merkushin\Wpal\Service\WpIcons;
+use Merkushin\Wpal\Service\WpIdentifiers;
+use Merkushin\Wpal\Service\WpImages;
+use Merkushin\Wpal\Service\WpImporters;
+use Merkushin\Wpal\Service\WpInteractivity;
+use Merkushin\Wpal\Service\WpJson;
+use Merkushin\Wpal\Service\WpKses;
 use Merkushin\Wpal\Service\WpLocalization;
 use Merkushin\Wpal\Service\WpLogin;
+use Merkushin\Wpal\Service\WpMail;
+use Merkushin\Wpal\Service\WpMedia;
 use Merkushin\Wpal\Service\WpMediaTemplate;
+use Merkushin\Wpal\Service\WpMediaUpload;
+use Merkushin\Wpal\Service\WpMeta;
 use Merkushin\Wpal\Service\WpMetaBoxes;
+use Merkushin\Wpal\Service\WpMimeTypes;
+use Merkushin\Wpal\Service\WpMultisiteUsers;
 use Merkushin\Wpal\Service\WpNavMenus;
 use Merkushin\Wpal\Service\WpNavigation;
+use Merkushin\Wpal\Service\WpNetworks;
+use Merkushin\Wpal\Service\WpNonces;
 use Merkushin\Wpal\Service\WpOptions;
+use Merkushin\Wpal\Service\WpPasswords;
 use Merkushin\Wpal\Service\WpPermalinks;
 use Merkushin\Wpal\Service\WpPlugins;
 use Merkushin\Wpal\Service\WpPostAttachments;
+use Merkushin\Wpal\Service\WpPostFormats;
 use Merkushin\Wpal\Service\WpPostMeta;
 use Merkushin\Wpal\Service\WpPostStatuses;
 use Merkushin\Wpal\Service\WpPostTemplate;
 use Merkushin\Wpal\Service\WpPostThumbnails;
 use Merkushin\Wpal\Service\WpPostTypes;
 use Merkushin\Wpal\Service\WpPosts;
+use Merkushin\Wpal\Service\WpPrivacy;
+use Merkushin\Wpal\Service\WpQuery;
+use Merkushin\Wpal\Service\WpRedirects;
+use Merkushin\Wpal\Service\WpRestApi;
+use Merkushin\Wpal\Service\WpRevisions;
+use Merkushin\Wpal\Service\WpRewrite;
+use Merkushin\Wpal\Service\WpSanitization;
 use Merkushin\Wpal\Service\WpScreen;
 use Merkushin\Wpal\Service\WpSearch;
+use Merkushin\Wpal\Service\WpSerialization;
 use Merkushin\Wpal\Service\WpSettings;
+use Merkushin\Wpal\Service\WpShortcodes;
+use Merkushin\Wpal\Service\WpSiteHealth;
 use Merkushin\Wpal\Service\WpSiteIdentity;
+use Merkushin\Wpal\Service\WpSitemaps;
+use Merkushin\Wpal\Service\WpSites;
+use Merkushin\Wpal\Service\WpStyleEngine;
+use Merkushin\Wpal\Service\WpTags;
 use Merkushin\Wpal\Service\WpTaxonomies;
 use Merkushin\Wpal\Service\WpTemplates;
 use Merkushin\Wpal\Service\WpTermTemplate;
+use Merkushin\Wpal\Service\WpThemeTemplate;
+use Merkushin\Wpal\Service\WpThemes;
 use Merkushin\Wpal\Service\WpTransient;
+use Merkushin\Wpal\Service\WpUpdates;
 use Merkushin\Wpal\Service\WpUrls;
+use Merkushin\Wpal\Service\WpUserSettings;
+use Merkushin\Wpal\Service\WpUsers;
+use Merkushin\Wpal\Service\WpWidgets;
 
 class ServiceFactory {
+	/**
+	 * @var Abilities|null
+	 */
+	private static $custom_abilities;
+
+	/**
+	 * @var AdminBar|null
+	 */
+	private static $custom_admin_bar;
+
+	/**
+	 * @var AdminPosts|null
+	 */
+	private static $custom_admin_posts;
+
 	/**
 	 * @var AdminTemplate|null
 	 */
 	private static $custom_admin_template;
+
+	/**
+	 * @var AdminUsers|null
+	 */
+	private static $custom_admin_users;
+
+	/**
+	 * @var Ai|null
+	 */
+	private static $custom_ai;
 
 	/**
 	 * @var ArchiveTemplate|null
@@ -99,9 +260,19 @@ class ServiceFactory {
 	private static $custom_archive_template;
 
 	/**
+	 * @var Arrays|null
+	 */
+	private static $custom_arrays;
+
+	/**
 	 * @var Assets|null
 	 */
 	private static $custom_assets;
+
+	/**
+	 * @var Auth|null
+	 */
+	private static $custom_auth;
 
 	/**
 	 * @var AuthorTemplate|null
@@ -114,9 +285,34 @@ class ServiceFactory {
 	private static $custom_avatars;
 
 	/**
+	 * @var BlockBindings|null
+	 */
+	private static $custom_block_bindings;
+
+	/**
+	 * @var BlockEditor|null
+	 */
+	private static $custom_block_editor;
+
+	/**
+	 * @var BlockPatterns|null
+	 */
+	private static $custom_block_patterns;
+
+	/**
+	 * @var BlockSupports|null
+	 */
+	private static $custom_block_supports;
+
+	/**
 	 * @var BlockTemplates|null
 	 */
 	private static $custom_block_templates;
+
+	/**
+	 * @var Blocks|null
+	 */
+	private static $custom_blocks;
 
 	/**
 	 * @var Bookmarks|null
@@ -124,9 +320,19 @@ class ServiceFactory {
 	private static $custom_bookmarks;
 
 	/**
+	 * @var Cache|null
+	 */
+	private static $custom_cache;
+
+	/**
 	 * @var Capabilities|null
 	 */
 	private static $custom_capabilities;
+
+	/**
+	 * @var Categories|null
+	 */
+	private static $custom_categories;
 
 	/**
 	 * @var CommentTemplate|null
@@ -137,6 +343,26 @@ class ServiceFactory {
 	 * @var Comments|null
 	 */
 	private static $custom_comments;
+
+	/**
+	 * @var Connectors|null
+	 */
+	private static $custom_connectors;
+
+	/**
+	 * @var Cron|null
+	 */
+	private static $custom_cron;
+
+	/**
+	 * @var Database|null
+	 */
+	private static $custom_database;
+
+	/**
+	 * @var Dates|null
+	 */
+	private static $custom_dates;
 
 	/**
 	 * @var DocumentHead|null
@@ -154,9 +380,59 @@ class ServiceFactory {
 	private static $custom_editor;
 
 	/**
+	 * @var EmbedTemplate|null
+	 */
+	private static $custom_embed_template;
+
+	/**
+	 * @var Embeds|null
+	 */
+	private static $custom_embeds;
+
+	/**
+	 * @var Emoji|null
+	 */
+	private static $custom_emoji;
+
+	/**
+	 * @var Environment|null
+	 */
+	private static $custom_environment;
+
+	/**
+	 * @var Errors|null
+	 */
+	private static $custom_errors;
+
+	/**
+	 * @var Escaping|null
+	 */
+	private static $custom_escaping;
+
+	/**
 	 * @var Feeds|null
 	 */
 	private static $custom_feeds;
+
+	/**
+	 * @var FileEditor|null
+	 */
+	private static $custom_file_editor;
+
+	/**
+	 * @var Filesystem|null
+	 */
+	private static $custom_filesystem;
+
+	/**
+	 * @var Fonts|null
+	 */
+	private static $custom_fonts;
+
+	/**
+	 * @var Formatting|null
+	 */
+	private static $custom_formatting;
 
 	/**
 	 * @var Forms|null
@@ -164,9 +440,59 @@ class ServiceFactory {
 	private static $custom_forms;
 
 	/**
+	 * @var GlobalStyles|null
+	 */
+	private static $custom_global_styles;
+
+	/**
 	 * @var Hooks|null
 	 */
 	private static $custom_hooks;
+
+	/**
+	 * @var Http|null
+	 */
+	private static $custom_http;
+
+	/**
+	 * @var Https|null
+	 */
+	private static $custom_https;
+
+	/**
+	 * @var Icons|null
+	 */
+	private static $custom_icons;
+
+	/**
+	 * @var Identifiers|null
+	 */
+	private static $custom_identifiers;
+
+	/**
+	 * @var Images|null
+	 */
+	private static $custom_images;
+
+	/**
+	 * @var Importers|null
+	 */
+	private static $custom_importers;
+
+	/**
+	 * @var Interactivity|null
+	 */
+	private static $custom_interactivity;
+
+	/**
+	 * @var Json|null
+	 */
+	private static $custom_json;
+
+	/**
+	 * @var Kses|null
+	 */
+	private static $custom_kses;
 
 	/**
 	 * @var Localization|null
@@ -179,14 +505,44 @@ class ServiceFactory {
 	private static $custom_login;
 
 	/**
+	 * @var Mail|null
+	 */
+	private static $custom_mail;
+
+	/**
+	 * @var Media|null
+	 */
+	private static $custom_media;
+
+	/**
 	 * @var MediaTemplate|null
 	 */
 	private static $custom_media_template;
 
 	/**
+	 * @var MediaUpload|null
+	 */
+	private static $custom_media_upload;
+
+	/**
+	 * @var Meta|null
+	 */
+	private static $custom_meta;
+
+	/**
 	 * @var MetaBoxes|null
 	 */
 	private static $custom_meta_boxes;
+
+	/**
+	 * @var MimeTypes|null
+	 */
+	private static $custom_mime_types;
+
+	/**
+	 * @var MultisiteUsers|null
+	 */
+	private static $custom_multisite_users;
 
 	/**
 	 * @var NavMenus|null
@@ -199,9 +555,24 @@ class ServiceFactory {
 	private static $custom_navigation;
 
 	/**
+	 * @var Networks|null
+	 */
+	private static $custom_networks;
+
+	/**
+	 * @var Nonces|null
+	 */
+	private static $custom_nonces;
+
+	/**
 	 * @var Options|null
 	 */
 	private static $custom_options;
+
+	/**
+	 * @var Passwords|null
+	 */
+	private static $custom_passwords;
 
 	/**
 	 * @var Permalinks|null
@@ -217,6 +588,11 @@ class ServiceFactory {
 	 * @var PostAttachments|null
 	 */
 	private static $custom_post_attachments;
+
+	/**
+	 * @var PostFormats|null
+	 */
+	private static $custom_post_formats;
 
 	/**
 	 * @var PostMeta|null
@@ -249,6 +625,41 @@ class ServiceFactory {
 	private static $custom_posts;
 
 	/**
+	 * @var Privacy|null
+	 */
+	private static $custom_privacy;
+
+	/**
+	 * @var Query|null
+	 */
+	private static $custom_query;
+
+	/**
+	 * @var Redirects|null
+	 */
+	private static $custom_redirects;
+
+	/**
+	 * @var RestApi|null
+	 */
+	private static $custom_rest_api;
+
+	/**
+	 * @var Revisions|null
+	 */
+	private static $custom_revisions;
+
+	/**
+	 * @var Rewrite|null
+	 */
+	private static $custom_rewrite;
+
+	/**
+	 * @var Sanitization|null
+	 */
+	private static $custom_sanitization;
+
+	/**
 	 * @var Screen|null
 	 */
 	private static $custom_screen;
@@ -259,14 +670,49 @@ class ServiceFactory {
 	private static $custom_search;
 
 	/**
+	 * @var Serialization|null
+	 */
+	private static $custom_serialization;
+
+	/**
 	 * @var Settings|null
 	 */
 	private static $custom_settings;
 
 	/**
+	 * @var Shortcodes|null
+	 */
+	private static $custom_shortcodes;
+
+	/**
+	 * @var SiteHealth|null
+	 */
+	private static $custom_site_health;
+
+	/**
 	 * @var SiteIdentity|null
 	 */
 	private static $custom_site_identity;
+
+	/**
+	 * @var Sitemaps|null
+	 */
+	private static $custom_sitemaps;
+
+	/**
+	 * @var Sites|null
+	 */
+	private static $custom_sites;
+
+	/**
+	 * @var StyleEngine|null
+	 */
+	private static $custom_style_engine;
+
+	/**
+	 * @var Tags|null
+	 */
+	private static $custom_tags;
 
 	/**
 	 * @var Taxonomies|null
@@ -284,14 +730,80 @@ class ServiceFactory {
 	private static $custom_term_template;
 
 	/**
+	 * @var ThemeTemplate|null
+	 */
+	private static $custom_theme_template;
+
+	/**
+	 * @var Themes|null
+	 */
+	private static $custom_themes;
+
+	/**
 	 * @var Transient|null
 	 */
 	private static $custom_transient;
 
 	/**
+	 * @var Updates|null
+	 */
+	private static $custom_updates;
+
+	/**
 	 * @var Urls|null
 	 */
 	private static $custom_urls;
+
+	/**
+	 * @var UserSettings|null
+	 */
+	private static $custom_user_settings;
+
+	/**
+	 * @var Users|null
+	 */
+	private static $custom_users;
+
+	/**
+	 * @var Widgets|null
+	 */
+	private static $custom_widgets;
+
+	public static function set_custom_abilities( ?Abilities $custom_abilities ): void {
+		self::$custom_abilities = $custom_abilities;
+	}
+
+	public static function create_abilities(): Abilities {
+		if ( self::$custom_abilities ) {
+			return self::$custom_abilities;
+		}
+
+		return new WpAbilities();
+	}
+
+	public static function set_custom_admin_bar( ?AdminBar $custom_admin_bar ): void {
+		self::$custom_admin_bar = $custom_admin_bar;
+	}
+
+	public static function create_admin_bar(): AdminBar {
+		if ( self::$custom_admin_bar ) {
+			return self::$custom_admin_bar;
+		}
+
+		return new WpAdminBar();
+	}
+
+	public static function set_custom_admin_posts( ?AdminPosts $custom_admin_posts ): void {
+		self::$custom_admin_posts = $custom_admin_posts;
+	}
+
+	public static function create_admin_posts(): AdminPosts {
+		if ( self::$custom_admin_posts ) {
+			return self::$custom_admin_posts;
+		}
+
+		return new WpAdminPosts();
+	}
 
 	public static function set_custom_admin_template( ?AdminTemplate $custom_admin_template ): void {
 		self::$custom_admin_template = $custom_admin_template;
@@ -303,6 +815,30 @@ class ServiceFactory {
 		}
 
 		return new WpAdminTemplate();
+	}
+
+	public static function set_custom_admin_users( ?AdminUsers $custom_admin_users ): void {
+		self::$custom_admin_users = $custom_admin_users;
+	}
+
+	public static function create_admin_users(): AdminUsers {
+		if ( self::$custom_admin_users ) {
+			return self::$custom_admin_users;
+		}
+
+		return new WpAdminUsers();
+	}
+
+	public static function set_custom_ai( ?Ai $custom_ai ): void {
+		self::$custom_ai = $custom_ai;
+	}
+
+	public static function create_ai(): Ai {
+		if ( self::$custom_ai ) {
+			return self::$custom_ai;
+		}
+
+		return new WpAi();
 	}
 
 	public static function set_custom_archive_template( ?ArchiveTemplate $custom_archive_template ): void {
@@ -317,6 +853,18 @@ class ServiceFactory {
 		return new WpArchiveTemplate();
 	}
 
+	public static function set_custom_arrays( ?Arrays $custom_arrays ): void {
+		self::$custom_arrays = $custom_arrays;
+	}
+
+	public static function create_arrays(): Arrays {
+		if ( self::$custom_arrays ) {
+			return self::$custom_arrays;
+		}
+
+		return new WpArrays();
+	}
+
 	public static function set_custom_assets( ?Assets $custom_assets ): void {
 		self::$custom_assets = $custom_assets;
 	}
@@ -327,6 +875,18 @@ class ServiceFactory {
 		}
 
 		return new WpAssets();
+	}
+
+	public static function set_custom_auth( ?Auth $custom_auth ): void {
+		self::$custom_auth = $custom_auth;
+	}
+
+	public static function create_auth(): Auth {
+		if ( self::$custom_auth ) {
+			return self::$custom_auth;
+		}
+
+		return new WpAuth();
 	}
 
 	public static function set_custom_author_template( ?AuthorTemplate $custom_author_template ): void {
@@ -353,6 +913,54 @@ class ServiceFactory {
 		return new WpAvatars();
 	}
 
+	public static function set_custom_block_bindings( ?BlockBindings $custom_block_bindings ): void {
+		self::$custom_block_bindings = $custom_block_bindings;
+	}
+
+	public static function create_block_bindings(): BlockBindings {
+		if ( self::$custom_block_bindings ) {
+			return self::$custom_block_bindings;
+		}
+
+		return new WpBlockBindings();
+	}
+
+	public static function set_custom_block_editor( ?BlockEditor $custom_block_editor ): void {
+		self::$custom_block_editor = $custom_block_editor;
+	}
+
+	public static function create_block_editor(): BlockEditor {
+		if ( self::$custom_block_editor ) {
+			return self::$custom_block_editor;
+		}
+
+		return new WpBlockEditor();
+	}
+
+	public static function set_custom_block_patterns( ?BlockPatterns $custom_block_patterns ): void {
+		self::$custom_block_patterns = $custom_block_patterns;
+	}
+
+	public static function create_block_patterns(): BlockPatterns {
+		if ( self::$custom_block_patterns ) {
+			return self::$custom_block_patterns;
+		}
+
+		return new WpBlockPatterns();
+	}
+
+	public static function set_custom_block_supports( ?BlockSupports $custom_block_supports ): void {
+		self::$custom_block_supports = $custom_block_supports;
+	}
+
+	public static function create_block_supports(): BlockSupports {
+		if ( self::$custom_block_supports ) {
+			return self::$custom_block_supports;
+		}
+
+		return new WpBlockSupports();
+	}
+
 	public static function set_custom_block_templates( ?BlockTemplates $custom_block_templates ): void {
 		self::$custom_block_templates = $custom_block_templates;
 	}
@@ -363,6 +971,18 @@ class ServiceFactory {
 		}
 
 		return new WpBlockTemplates();
+	}
+
+	public static function set_custom_blocks( ?Blocks $custom_blocks ): void {
+		self::$custom_blocks = $custom_blocks;
+	}
+
+	public static function create_blocks(): Blocks {
+		if ( self::$custom_blocks ) {
+			return self::$custom_blocks;
+		}
+
+		return new WpBlocks();
 	}
 
 	public static function set_custom_bookmarks( ?Bookmarks $custom_bookmarks ): void {
@@ -377,6 +997,18 @@ class ServiceFactory {
 		return new WpBookmarks();
 	}
 
+	public static function set_custom_cache( ?Cache $custom_cache ): void {
+		self::$custom_cache = $custom_cache;
+	}
+
+	public static function create_cache(): Cache {
+		if ( self::$custom_cache ) {
+			return self::$custom_cache;
+		}
+
+		return new WpCache();
+	}
+
 	public static function set_custom_capabilities( ?Capabilities $custom_capabilities ): void {
 		self::$custom_capabilities = $custom_capabilities;
 	}
@@ -387,6 +1019,18 @@ class ServiceFactory {
 		}
 
 		return new WpCapabilities();
+	}
+
+	public static function set_custom_categories( ?Categories $custom_categories ): void {
+		self::$custom_categories = $custom_categories;
+	}
+
+	public static function create_categories(): Categories {
+		if ( self::$custom_categories ) {
+			return self::$custom_categories;
+		}
+
+		return new WpCategories();
 	}
 
 	public static function set_custom_comment_template( ?CommentTemplate $custom_comment_template ): void {
@@ -411,6 +1055,54 @@ class ServiceFactory {
 		}
 
 		return new WpComments();
+	}
+
+	public static function set_custom_connectors( ?Connectors $custom_connectors ): void {
+		self::$custom_connectors = $custom_connectors;
+	}
+
+	public static function create_connectors(): Connectors {
+		if ( self::$custom_connectors ) {
+			return self::$custom_connectors;
+		}
+
+		return new WpConnectors();
+	}
+
+	public static function set_custom_cron( ?Cron $custom_cron ): void {
+		self::$custom_cron = $custom_cron;
+	}
+
+	public static function create_cron(): Cron {
+		if ( self::$custom_cron ) {
+			return self::$custom_cron;
+		}
+
+		return new WpCron();
+	}
+
+	public static function set_custom_database( ?Database $custom_database ): void {
+		self::$custom_database = $custom_database;
+	}
+
+	public static function create_database(): Database {
+		if ( self::$custom_database ) {
+			return self::$custom_database;
+		}
+
+		return new WpDatabase();
+	}
+
+	public static function set_custom_dates( ?Dates $custom_dates ): void {
+		self::$custom_dates = $custom_dates;
+	}
+
+	public static function create_dates(): Dates {
+		if ( self::$custom_dates ) {
+			return self::$custom_dates;
+		}
+
+		return new WpDates();
 	}
 
 	public static function set_custom_document_head( ?DocumentHead $custom_document_head ): void {
@@ -449,6 +1141,78 @@ class ServiceFactory {
 		return new WpEditor();
 	}
 
+	public static function set_custom_embed_template( ?EmbedTemplate $custom_embed_template ): void {
+		self::$custom_embed_template = $custom_embed_template;
+	}
+
+	public static function create_embed_template(): EmbedTemplate {
+		if ( self::$custom_embed_template ) {
+			return self::$custom_embed_template;
+		}
+
+		return new WpEmbedTemplate();
+	}
+
+	public static function set_custom_embeds( ?Embeds $custom_embeds ): void {
+		self::$custom_embeds = $custom_embeds;
+	}
+
+	public static function create_embeds(): Embeds {
+		if ( self::$custom_embeds ) {
+			return self::$custom_embeds;
+		}
+
+		return new WpEmbeds();
+	}
+
+	public static function set_custom_emoji( ?Emoji $custom_emoji ): void {
+		self::$custom_emoji = $custom_emoji;
+	}
+
+	public static function create_emoji(): Emoji {
+		if ( self::$custom_emoji ) {
+			return self::$custom_emoji;
+		}
+
+		return new WpEmoji();
+	}
+
+	public static function set_custom_environment( ?Environment $custom_environment ): void {
+		self::$custom_environment = $custom_environment;
+	}
+
+	public static function create_environment(): Environment {
+		if ( self::$custom_environment ) {
+			return self::$custom_environment;
+		}
+
+		return new WpEnvironment();
+	}
+
+	public static function set_custom_errors( ?Errors $custom_errors ): void {
+		self::$custom_errors = $custom_errors;
+	}
+
+	public static function create_errors(): Errors {
+		if ( self::$custom_errors ) {
+			return self::$custom_errors;
+		}
+
+		return new WpErrors();
+	}
+
+	public static function set_custom_escaping( ?Escaping $custom_escaping ): void {
+		self::$custom_escaping = $custom_escaping;
+	}
+
+	public static function create_escaping(): Escaping {
+		if ( self::$custom_escaping ) {
+			return self::$custom_escaping;
+		}
+
+		return new WpEscaping();
+	}
+
 	public static function set_custom_feeds( ?Feeds $custom_feeds ): void {
 		self::$custom_feeds = $custom_feeds;
 	}
@@ -459,6 +1223,54 @@ class ServiceFactory {
 		}
 
 		return new WpFeeds();
+	}
+
+	public static function set_custom_file_editor( ?FileEditor $custom_file_editor ): void {
+		self::$custom_file_editor = $custom_file_editor;
+	}
+
+	public static function create_file_editor(): FileEditor {
+		if ( self::$custom_file_editor ) {
+			return self::$custom_file_editor;
+		}
+
+		return new WpFileEditor();
+	}
+
+	public static function set_custom_filesystem( ?Filesystem $custom_filesystem ): void {
+		self::$custom_filesystem = $custom_filesystem;
+	}
+
+	public static function create_filesystem(): Filesystem {
+		if ( self::$custom_filesystem ) {
+			return self::$custom_filesystem;
+		}
+
+		return new WpFilesystem();
+	}
+
+	public static function set_custom_fonts( ?Fonts $custom_fonts ): void {
+		self::$custom_fonts = $custom_fonts;
+	}
+
+	public static function create_fonts(): Fonts {
+		if ( self::$custom_fonts ) {
+			return self::$custom_fonts;
+		}
+
+		return new WpFonts();
+	}
+
+	public static function set_custom_formatting( ?Formatting $custom_formatting ): void {
+		self::$custom_formatting = $custom_formatting;
+	}
+
+	public static function create_formatting(): Formatting {
+		if ( self::$custom_formatting ) {
+			return self::$custom_formatting;
+		}
+
+		return new WpFormatting();
 	}
 
 	public static function set_custom_forms( ?Forms $custom_forms ): void {
@@ -473,6 +1285,18 @@ class ServiceFactory {
 		return new WpForms();
 	}
 
+	public static function set_custom_global_styles( ?GlobalStyles $custom_global_styles ): void {
+		self::$custom_global_styles = $custom_global_styles;
+	}
+
+	public static function create_global_styles(): GlobalStyles {
+		if ( self::$custom_global_styles ) {
+			return self::$custom_global_styles;
+		}
+
+		return new WpGlobalStyles();
+	}
+
 	public static function set_custom_hooks( ?Hooks $hooks ): void {
 		self::$custom_hooks = $hooks;
 	}
@@ -483,6 +1307,114 @@ class ServiceFactory {
 		}
 
 		return new WpHooks();
+	}
+
+	public static function set_custom_http( ?Http $custom_http ): void {
+		self::$custom_http = $custom_http;
+	}
+
+	public static function create_http(): Http {
+		if ( self::$custom_http ) {
+			return self::$custom_http;
+		}
+
+		return new WpHttp();
+	}
+
+	public static function set_custom_https( ?Https $custom_https ): void {
+		self::$custom_https = $custom_https;
+	}
+
+	public static function create_https(): Https {
+		if ( self::$custom_https ) {
+			return self::$custom_https;
+		}
+
+		return new WpHttps();
+	}
+
+	public static function set_custom_icons( ?Icons $custom_icons ): void {
+		self::$custom_icons = $custom_icons;
+	}
+
+	public static function create_icons(): Icons {
+		if ( self::$custom_icons ) {
+			return self::$custom_icons;
+		}
+
+		return new WpIcons();
+	}
+
+	public static function set_custom_identifiers( ?Identifiers $custom_identifiers ): void {
+		self::$custom_identifiers = $custom_identifiers;
+	}
+
+	public static function create_identifiers(): Identifiers {
+		if ( self::$custom_identifiers ) {
+			return self::$custom_identifiers;
+		}
+
+		return new WpIdentifiers();
+	}
+
+	public static function set_custom_images( ?Images $custom_images ): void {
+		self::$custom_images = $custom_images;
+	}
+
+	public static function create_images(): Images {
+		if ( self::$custom_images ) {
+			return self::$custom_images;
+		}
+
+		return new WpImages();
+	}
+
+	public static function set_custom_importers( ?Importers $custom_importers ): void {
+		self::$custom_importers = $custom_importers;
+	}
+
+	public static function create_importers(): Importers {
+		if ( self::$custom_importers ) {
+			return self::$custom_importers;
+		}
+
+		return new WpImporters();
+	}
+
+	public static function set_custom_interactivity( ?Interactivity $custom_interactivity ): void {
+		self::$custom_interactivity = $custom_interactivity;
+	}
+
+	public static function create_interactivity(): Interactivity {
+		if ( self::$custom_interactivity ) {
+			return self::$custom_interactivity;
+		}
+
+		return new WpInteractivity();
+	}
+
+	public static function set_custom_json( ?Json $custom_json ): void {
+		self::$custom_json = $custom_json;
+	}
+
+	public static function create_json(): Json {
+		if ( self::$custom_json ) {
+			return self::$custom_json;
+		}
+
+		return new WpJson();
+	}
+
+	public static function set_custom_kses( ?Kses $custom_kses ): void {
+		self::$custom_kses = $custom_kses;
+	}
+
+	public static function create_kses(): Kses {
+		if ( self::$custom_kses ) {
+			return self::$custom_kses;
+		}
+
+		return new WpKses();
 	}
 
 	public static function set_custom_localization( ?Localization $custom_localization ): void {
@@ -509,6 +1441,30 @@ class ServiceFactory {
 		return new WpLogin();
 	}
 
+	public static function set_custom_mail( ?Mail $custom_mail ): void {
+		self::$custom_mail = $custom_mail;
+	}
+
+	public static function create_mail(): Mail {
+		if ( self::$custom_mail ) {
+			return self::$custom_mail;
+		}
+
+		return new WpMail();
+	}
+
+	public static function set_custom_media( ?Media $custom_media ): void {
+		self::$custom_media = $custom_media;
+	}
+
+	public static function create_media(): Media {
+		if ( self::$custom_media ) {
+			return self::$custom_media;
+		}
+
+		return new WpMedia();
+	}
+
 	public static function set_custom_media_template( ?MediaTemplate $custom_media_template ): void {
 		self::$custom_media_template = $custom_media_template;
 	}
@@ -521,6 +1477,30 @@ class ServiceFactory {
 		return new WpMediaTemplate();
 	}
 
+	public static function set_custom_media_upload( ?MediaUpload $custom_media_upload ): void {
+		self::$custom_media_upload = $custom_media_upload;
+	}
+
+	public static function create_media_upload(): MediaUpload {
+		if ( self::$custom_media_upload ) {
+			return self::$custom_media_upload;
+		}
+
+		return new WpMediaUpload();
+	}
+
+	public static function set_custom_meta( ?Meta $custom_meta ): void {
+		self::$custom_meta = $custom_meta;
+	}
+
+	public static function create_meta(): Meta {
+		if ( self::$custom_meta ) {
+			return self::$custom_meta;
+		}
+
+		return new WpMeta();
+	}
+
 	public static function set_custom_meta_boxes( ?MetaBoxes $custom_meta_boxes ): void {
 		self::$custom_meta_boxes = $custom_meta_boxes;
 	}
@@ -531,6 +1511,30 @@ class ServiceFactory {
 		}
 
 		return new WpMetaBoxes();
+	}
+
+	public static function set_custom_mime_types( ?MimeTypes $custom_mime_types ): void {
+		self::$custom_mime_types = $custom_mime_types;
+	}
+
+	public static function create_mime_types(): MimeTypes {
+		if ( self::$custom_mime_types ) {
+			return self::$custom_mime_types;
+		}
+
+		return new WpMimeTypes();
+	}
+
+	public static function set_custom_multisite_users( ?MultisiteUsers $custom_multisite_users ): void {
+		self::$custom_multisite_users = $custom_multisite_users;
+	}
+
+	public static function create_multisite_users(): MultisiteUsers {
+		if ( self::$custom_multisite_users ) {
+			return self::$custom_multisite_users;
+		}
+
+		return new WpMultisiteUsers();
 	}
 
 	public static function set_custom_nav_menus( ?NavMenus $custom_nav_menus ): void {
@@ -557,6 +1561,30 @@ class ServiceFactory {
 		return new WpNavigation();
 	}
 
+	public static function set_custom_networks( ?Networks $custom_networks ): void {
+		self::$custom_networks = $custom_networks;
+	}
+
+	public static function create_networks(): Networks {
+		if ( self::$custom_networks ) {
+			return self::$custom_networks;
+		}
+
+		return new WpNetworks();
+	}
+
+	public static function set_custom_nonces( ?Nonces $custom_nonces ): void {
+		self::$custom_nonces = $custom_nonces;
+	}
+
+	public static function create_nonces(): Nonces {
+		if ( self::$custom_nonces ) {
+			return self::$custom_nonces;
+		}
+
+		return new WpNonces();
+	}
+
 	public static function set_custom_options( ?Options $custom_options ): void {
 		self::$custom_options = $custom_options;
 	}
@@ -567,6 +1595,18 @@ class ServiceFactory {
 		}
 
 		return new WpOptions();
+	}
+
+	public static function set_custom_passwords( ?Passwords $custom_passwords ): void {
+		self::$custom_passwords = $custom_passwords;
+	}
+
+	public static function create_passwords(): Passwords {
+		if ( self::$custom_passwords ) {
+			return self::$custom_passwords;
+		}
+
+		return new WpPasswords();
 	}
 
 	public static function set_custom_permalinks( ?Permalinks $custom_permalinks ): void {
@@ -603,6 +1643,18 @@ class ServiceFactory {
 		}
 
 		return new WpPostAttachments();
+	}
+
+	public static function set_custom_post_formats( ?PostFormats $custom_post_formats ): void {
+		self::$custom_post_formats = $custom_post_formats;
+	}
+
+	public static function create_post_formats(): PostFormats {
+		if ( self::$custom_post_formats ) {
+			return self::$custom_post_formats;
+		}
+
+		return new WpPostFormats();
 	}
 
 	public static function set_custom_post_meta( ?PostMeta $custom_post_meta ): void {
@@ -677,6 +1729,90 @@ class ServiceFactory {
 		return new WpPosts();
 	}
 
+	public static function set_custom_privacy( ?Privacy $custom_privacy ): void {
+		self::$custom_privacy = $custom_privacy;
+	}
+
+	public static function create_privacy(): Privacy {
+		if ( self::$custom_privacy ) {
+			return self::$custom_privacy;
+		}
+
+		return new WpPrivacy();
+	}
+
+	public static function set_custom_query( ?Query $custom_query ): void {
+		self::$custom_query = $custom_query;
+	}
+
+	public static function create_query(): Query {
+		if ( self::$custom_query ) {
+			return self::$custom_query;
+		}
+
+		return new WpQuery();
+	}
+
+	public static function set_custom_redirects( ?Redirects $custom_redirects ): void {
+		self::$custom_redirects = $custom_redirects;
+	}
+
+	public static function create_redirects(): Redirects {
+		if ( self::$custom_redirects ) {
+			return self::$custom_redirects;
+		}
+
+		return new WpRedirects();
+	}
+
+	public static function set_custom_rest_api( ?RestApi $custom_rest_api ): void {
+		self::$custom_rest_api = $custom_rest_api;
+	}
+
+	public static function create_rest_api(): RestApi {
+		if ( self::$custom_rest_api ) {
+			return self::$custom_rest_api;
+		}
+
+		return new WpRestApi();
+	}
+
+	public static function set_custom_revisions( ?Revisions $custom_revisions ): void {
+		self::$custom_revisions = $custom_revisions;
+	}
+
+	public static function create_revisions(): Revisions {
+		if ( self::$custom_revisions ) {
+			return self::$custom_revisions;
+		}
+
+		return new WpRevisions();
+	}
+
+	public static function set_custom_rewrite( ?Rewrite $custom_rewrite ): void {
+		self::$custom_rewrite = $custom_rewrite;
+	}
+
+	public static function create_rewrite(): Rewrite {
+		if ( self::$custom_rewrite ) {
+			return self::$custom_rewrite;
+		}
+
+		return new WpRewrite();
+	}
+
+	public static function set_custom_sanitization( ?Sanitization $custom_sanitization ): void {
+		self::$custom_sanitization = $custom_sanitization;
+	}
+
+	public static function create_sanitization(): Sanitization {
+		if ( self::$custom_sanitization ) {
+			return self::$custom_sanitization;
+		}
+
+		return new WpSanitization();
+	}
+
 	public static function set_custom_screen( ?Screen $custom_screen ): void {
 		self::$custom_screen = $custom_screen;
 	}
@@ -701,6 +1837,18 @@ class ServiceFactory {
 		return new WpSearch();
 	}
 
+	public static function set_custom_serialization( ?Serialization $custom_serialization ): void {
+		self::$custom_serialization = $custom_serialization;
+	}
+
+	public static function create_serialization(): Serialization {
+		if ( self::$custom_serialization ) {
+			return self::$custom_serialization;
+		}
+
+		return new WpSerialization();
+	}
+
 	public static function set_custom_settings( ?Settings $custom_settings ): void {
 		self::$custom_settings = $custom_settings;
 	}
@@ -713,6 +1861,30 @@ class ServiceFactory {
 		return new WpSettings();
 	}
 
+	public static function set_custom_shortcodes( ?Shortcodes $custom_shortcodes ): void {
+		self::$custom_shortcodes = $custom_shortcodes;
+	}
+
+	public static function create_shortcodes(): Shortcodes {
+		if ( self::$custom_shortcodes ) {
+			return self::$custom_shortcodes;
+		}
+
+		return new WpShortcodes();
+	}
+
+	public static function set_custom_site_health( ?SiteHealth $custom_site_health ): void {
+		self::$custom_site_health = $custom_site_health;
+	}
+
+	public static function create_site_health(): SiteHealth {
+		if ( self::$custom_site_health ) {
+			return self::$custom_site_health;
+		}
+
+		return new WpSiteHealth();
+	}
+
 	public static function set_custom_site_identity( ?SiteIdentity $custom_site_identity ): void {
 		self::$custom_site_identity = $custom_site_identity;
 	}
@@ -723,6 +1895,54 @@ class ServiceFactory {
 		}
 
 		return new WpSiteIdentity();
+	}
+
+	public static function set_custom_sitemaps( ?Sitemaps $custom_sitemaps ): void {
+		self::$custom_sitemaps = $custom_sitemaps;
+	}
+
+	public static function create_sitemaps(): Sitemaps {
+		if ( self::$custom_sitemaps ) {
+			return self::$custom_sitemaps;
+		}
+
+		return new WpSitemaps();
+	}
+
+	public static function set_custom_sites( ?Sites $custom_sites ): void {
+		self::$custom_sites = $custom_sites;
+	}
+
+	public static function create_sites(): Sites {
+		if ( self::$custom_sites ) {
+			return self::$custom_sites;
+		}
+
+		return new WpSites();
+	}
+
+	public static function set_custom_style_engine( ?StyleEngine $custom_style_engine ): void {
+		self::$custom_style_engine = $custom_style_engine;
+	}
+
+	public static function create_style_engine(): StyleEngine {
+		if ( self::$custom_style_engine ) {
+			return self::$custom_style_engine;
+		}
+
+		return new WpStyleEngine();
+	}
+
+	public static function set_custom_tags( ?Tags $custom_tags ): void {
+		self::$custom_tags = $custom_tags;
+	}
+
+	public static function create_tags(): Tags {
+		if ( self::$custom_tags ) {
+			return self::$custom_tags;
+		}
+
+		return new WpTags();
 	}
 
 	public static function set_custom_taxonomies( ?Taxonomies $custom_taxonomies ): void {
@@ -761,6 +1981,30 @@ class ServiceFactory {
 		return new WpTermTemplate();
 	}
 
+	public static function set_custom_theme_template( ?ThemeTemplate $custom_theme_template ): void {
+		self::$custom_theme_template = $custom_theme_template;
+	}
+
+	public static function create_theme_template(): ThemeTemplate {
+		if ( self::$custom_theme_template ) {
+			return self::$custom_theme_template;
+		}
+
+		return new WpThemeTemplate();
+	}
+
+	public static function set_custom_themes( ?Themes $custom_themes ): void {
+		self::$custom_themes = $custom_themes;
+	}
+
+	public static function create_themes(): Themes {
+		if ( self::$custom_themes ) {
+			return self::$custom_themes;
+		}
+
+		return new WpThemes();
+	}
+
 	public static function set_custom_transient( ?Transient $custom_transient ): void {
 		self::$custom_transient = $custom_transient;
 	}
@@ -773,6 +2017,18 @@ class ServiceFactory {
 		return new WpTransient();
 	}
 
+	public static function set_custom_updates( ?Updates $custom_updates ): void {
+		self::$custom_updates = $custom_updates;
+	}
+
+	public static function create_updates(): Updates {
+		if ( self::$custom_updates ) {
+			return self::$custom_updates;
+		}
+
+		return new WpUpdates();
+	}
+
 	public static function set_custom_urls( ?Urls $custom_urls ): void {
 		self::$custom_urls = $custom_urls;
 	}
@@ -783,5 +2039,41 @@ class ServiceFactory {
 		}
 
 		return new WpUrls();
+	}
+
+	public static function set_custom_user_settings( ?UserSettings $custom_user_settings ): void {
+		self::$custom_user_settings = $custom_user_settings;
+	}
+
+	public static function create_user_settings(): UserSettings {
+		if ( self::$custom_user_settings ) {
+			return self::$custom_user_settings;
+		}
+
+		return new WpUserSettings();
+	}
+
+	public static function set_custom_users( ?Users $custom_users ): void {
+		self::$custom_users = $custom_users;
+	}
+
+	public static function create_users(): Users {
+		if ( self::$custom_users ) {
+			return self::$custom_users;
+		}
+
+		return new WpUsers();
+	}
+
+	public static function set_custom_widgets( ?Widgets $custom_widgets ): void {
+		self::$custom_widgets = $custom_widgets;
+	}
+
+	public static function create_widgets(): Widgets {
+		if ( self::$custom_widgets ) {
+			return self::$custom_widgets;
+		}
+
+		return new WpWidgets();
 	}
 }

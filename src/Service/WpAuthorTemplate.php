@@ -109,4 +109,18 @@ final class WpAuthorTemplate implements AuthorTemplate {
 	public function wp_list_authors( $args = '' ) {
 		return wp_list_authors( $args );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_list_users( $args = array() ) {
+		return wp_list_users( $args );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_dropdown_users( $args = '' ) {
+		return wp_dropdown_users( $args );
+	}
 }

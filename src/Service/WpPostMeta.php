@@ -81,4 +81,46 @@ final class WpPostMeta implements PostMeta {
 	public function update_postmeta_cache( $post_ids ) {
 		return update_postmeta_cache( $post_ids );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function add_meta( $post_id ) {
+		return add_meta( $post_id );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function update_meta( $meta_id, $meta_key, $meta_value ) {
+		return update_meta( $meta_id, $meta_key, $meta_value );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function delete_meta( $mid ) {
+		return delete_meta( $mid );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function has_meta( $post_id ) {
+		return has_meta( $post_id );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_post_meta_by_id( $mid ) {
+		return get_post_meta_by_id( $mid );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_meta_keys() {
+		return get_meta_keys();
+	}
 }

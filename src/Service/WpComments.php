@@ -480,4 +480,74 @@ class WpComments implements Comments {
 	public function _wp_check_for_scheduled_update_comment_type() {
 		_wp_check_for_scheduled_update_comment_type();
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function comment_exists( $comment_author, $comment_date, $timezone = 'blog' ) {
+		return comment_exists( $comment_author, $comment_date, $timezone );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_comment_to_edit( $id ) {
+		return get_comment_to_edit( $id );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_pending_comments_num( $post_id ) {
+		return get_pending_comments_num( $post_id );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_check_comment_data( $comment_data ) {
+		return wp_check_comment_data( $comment_data );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_lazyload_comment_meta( array $comment_ids ) {
+		wp_lazyload_comment_meta( $comment_ids );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_should_disable_pings_for_environment() {
+		return wp_should_disable_pings_for_environment();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_get_note_mentioned_user_ids( string $content ): array {
+		return wp_get_note_mentioned_user_ids( $content );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_send_note_notification( \WP_User $user, \WP_Comment $comment, ?\WP_Post $post ): bool {
+		return wp_send_note_notification( $user, $comment, $post );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_notify_postauthor( $comment_id, $deprecated = null ) {
+		return wp_notify_postauthor( $comment_id, $deprecated );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_notify_moderator( $comment_id ) {
+		return wp_notify_moderator( $comment_id );
+	}
 }

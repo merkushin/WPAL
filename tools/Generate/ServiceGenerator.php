@@ -180,7 +180,7 @@ final class ServiceGenerator {
 			return false;
 		}
 
-		return strtolower( $m[1] ) !== 'void';
+		return ! in_array( strtolower( $m[1] ), [ 'void', 'never' ], true );
 	}
 
 	/**

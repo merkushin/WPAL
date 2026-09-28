@@ -60,6 +60,24 @@ class WordPressParserTest extends TestCase
 		self::assertTrue( $parameters[3]->byRef );
 	}
 
+	public function testParse_WhenDefaultIsClassConstant_ResolvesItsValue(): void
+	{
+		$mode = self::fn( 'send_message' )->parameters[1];
+
+		self::assertSame( '\\WP_Thing::MODE', $mode->default );
+		self::assertSame( 'fast', $mode->defaultValue );
+	}
+
+	public function testParse_WhenTypesNameClasses_QualifiesThemIncludingImports(): void
+	{
+		$function = self::fn( 'send_message' );
+
+		self::assertSame( '\\Vendor\\AiClient\\Message', $function->parameters[0]->type );
+		self::assertSame( '\\WP_Thing', $function->returnType );
+		self::assertStringContainsString( '@param \\Vendor\\AiClient\\Message $message', (string) $function->doc );
+		self::assertStringContainsString( '@return \\Vendor\\AiClient\\Message|WP_Error The reply.', (string) $function->doc );
+	}
+
 	public function testParse_WhenConstantDefinedInsideFunction_ResolvesIt(): void
 	{
 		self::assertSame( 3600, self::$snapshot->constants['HOUR_IN_SECONDS'] );

@@ -11,4 +11,95 @@ final class WpBookmarks implements Bookmarks {
 	public function wp_list_bookmarks( $args = '' ) {
 		return wp_list_bookmarks( $args );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_bookmark( $bookmark, $output = 'OBJECT', $filter = 'raw' ) {
+		return get_bookmark( $bookmark, $output, $filter );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_bookmark_field( $field, $bookmark, $context = 'display' ) {
+		return get_bookmark_field( $field, $bookmark, $context );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_bookmarks( $args = '' ) {
+		return get_bookmarks( $args );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_link_to_edit( $link ) {
+		return get_link_to_edit( $link );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_default_link_to_edit() {
+		return get_default_link_to_edit();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_insert_link( $linkdata, $wp_error = false ) {
+		return wp_insert_link( $linkdata, $wp_error );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_update_link( $linkdata ) {
+		return wp_update_link( $linkdata );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_delete_link( $link_id ) {
+		return wp_delete_link( $link_id );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_get_link_cats( $link_id = 0 ) {
+		return wp_get_link_cats( $link_id );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_set_link_cats( $link_id = 0, $link_categories = array() ) {
+		wp_set_link_cats( $link_id, $link_categories );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function sanitize_bookmark( $bookmark, $context = 'display' ) {
+		return sanitize_bookmark( $bookmark, $context );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function sanitize_bookmark_field( $field, $value, $bookmark_id, $context ) {
+		return sanitize_bookmark_field( $field, $value, $bookmark_id, $context );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function clean_bookmark_cache( $bookmark_id ) {
+		clean_bookmark_cache( $bookmark_id );
+	}
 }

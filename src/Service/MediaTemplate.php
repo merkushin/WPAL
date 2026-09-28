@@ -27,4 +27,356 @@ interface MediaTemplate {
 	 * @since 3.9.0
 	 */
 	public function wp_underscore_video_template();
+
+	/**
+	 * Gets an HTML img element representing an image attachment.
+	 *
+	 * While `$size` will accept an array, it is better to register a size with
+	 * add_image_size() so that a cropped version is generated. It's much more
+	 * efficient than having to find the closest-sized image and then having the
+	 * browser scale down the image.
+	 *
+	 * @since 2.5.0
+	 * @since 4.4.0 The `$srcset` and `$sizes` attributes were added.
+	 * @since 5.5.0 The `$loading` attribute was added.
+	 * @since 6.1.0 The `$decoding` attribute was added.
+	 *
+	 * @param int          $attachment_id Image attachment ID.
+	 * @param string|int[] $size          Optional. Image size. Accepts any registered image size name, or an array
+	 *                                    of width and height values in pixels (in that order). Default 'thumbnail'.
+	 * @param bool         $icon          Optional. Whether the image should be treated as an icon. Default false.
+	 * @param string|array $attr {
+	 *     Optional. Attributes for the image markup.
+	 *
+	 *     @type string       $src           Image attachment URL.
+	 *     @type string       $class         CSS class name or space-separated list of classes.
+	 *                                       Default `attachment-$size_class size-$size_class`,
+	 *                                       where `$size_class` is the image size being requested.
+	 *     @type string       $alt           Image description for the alt attribute.
+	 *     @type string       $srcset        The 'srcset' attribute value.
+	 *     @type string       $sizes         The 'sizes' attribute value.
+	 *     @type string|false $loading       The 'loading' attribute value. Passing a value of false
+	 *                                       will result in the attribute being omitted for the image.
+	 *                                       Default determined by {@see wp_get_loading_optimization_attributes()}.
+	 *     @type string       $decoding      The 'decoding' attribute value. Possible values are
+	 *                                       'async' (default), 'sync', or 'auto'. Passing false or an empty
+	 *                                       string will result in the attribute being omitted.
+	 *     @type string       $fetchpriority The 'fetchpriority' attribute value, whether `high`, `low`, or `auto`.
+	 *                                       Default determined by {@see wp_get_loading_optimization_attributes()}.
+	 * }
+	 * @return string HTML img element or empty string on failure.
+	 */
+	public function wp_get_attachment_image( $attachment_id, $size = 'thumbnail', $icon = false, $attr = '' );
+
+	/**
+	 * Gets an img tag for an image attachment, scaling it down if requested.
+	 *
+	 * The {@see 'get_image_tag_class'} filter allows for changing the class name for the
+	 * image without having to use regular expressions on the HTML content. The
+	 * parameters are: what WordPress will use for the class, the Attachment ID,
+	 * image align value, and the size the image should be.
+	 *
+	 * The second filter, {@see 'get_image_tag'}, has the HTML content, which can then be
+	 * further manipulated by a plugin to change all attribute values and even HTML
+	 * content.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param int          $id    Attachment ID.
+	 * @param string       $alt   Image description for the alt attribute.
+	 * @param string       $title Image description for the title attribute.
+	 * @param string       $align Part of the class name for aligning the image.
+	 * @param string|int[] $size  Optional. Image size. Accepts any registered image size name, or an array of
+	 *                            width and height values in pixels (in that order). Default 'medium'.
+	 * @return string HTML IMG element for given image attachment.
+	 */
+	public function get_image_tag( $id, $alt, $title, $align, $size = 'medium' );
+
+	/**
+	 * Filters specific tags in post content and modifies their markup.
+	 *
+	 * Modifies HTML tags in post content to include new browser and HTML technologies
+	 * that may not have existed at the time of post creation. These modifications currently
+	 * include adding `srcset`, `sizes`, and `loading` attributes to `img` HTML tags, as well
+	 * as adding `loading` attributes to `iframe` HTML tags.
+	 * Future similar optimizations should be added/expected here.
+	 *
+	 * @since 5.5.0
+	 * @since 5.7.0 Now supports adding `loading` attributes to `iframe` tags.
+	 *
+	 * @see wp_img_tag_add_width_and_height_attr()
+	 * @see wp_img_tag_add_srcset_and_sizes_attr()
+	 * @see wp_img_tag_add_loading_optimization_attrs()
+	 * @see wp_iframe_tag_add_loading_attr()
+	 *
+	 * @param string $content The HTML content to be filtered.
+	 * @param string $context Optional. Additional context to pass to the filters.
+	 *                        Defaults to `current_filter()` when not set.
+	 * @return string Converted content with images modified.
+	 */
+	public function wp_filter_content_tags( $content, $context = null );
+
+	/**
+	 * Adds 'srcset' and 'sizes' attributes to an existing 'img' element.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @see wp_calculate_image_srcset()
+	 * @see wp_calculate_image_sizes()
+	 *
+	 * @param string $image         An HTML 'img' element to be filtered.
+	 * @param array  $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
+	 * @param int    $attachment_id Image attachment ID.
+	 * @return string Converted 'img' element with 'srcset' and 'sizes' attributes added.
+	 */
+	public function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id );
+
+	/**
+	 * Adds `srcset` and `sizes` attributes to an existing `img` HTML tag.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $image         The HTML `img` tag where the attribute should be added.
+	 * @param string $context       Additional context to pass to the filters.
+	 * @param int    $attachment_id Image attachment ID.
+	 * @return string Converted 'img' element with 'loading' attribute added.
+	 */
+	public function wp_img_tag_add_srcset_and_sizes_attr( $image, $context, $attachment_id );
+
+	/**
+	 * Adds `width` and `height` attributes to an `img` HTML tag.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $image         The HTML `img` tag where the attribute should be added.
+	 * @param string $context       Additional context to pass to the filters.
+	 * @param int    $attachment_id Image attachment ID.
+	 * @return string Converted 'img' element with 'width' and 'height' attributes added.
+	 */
+	public function wp_img_tag_add_width_and_height_attr( $image, $context, $attachment_id );
+
+	/**
+	 * Adds optimization attributes to an `img` HTML tag.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @param string $image   The HTML `img` tag where the attribute should be added.
+	 * @param string $context Additional context to pass to the filters.
+	 * @return string Converted `img` tag with optimization attributes added.
+	 */
+	public function wp_img_tag_add_loading_optimization_attrs( $image, $context );
+
+	/**
+	 * Adds 'auto' to the sizes attribute to the image, if the image is lazy loaded and does not already include it.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @param string $image The image tag markup being filtered.
+	 * @return string The filtered image tag markup.
+	 */
+	public function wp_img_tag_add_auto_sizes( string $image ): string;
+
+	/**
+	 * Adds `loading` attribute to an `iframe` HTML tag.
+	 *
+	 * @since 5.7.0
+	 *
+	 * @param string $iframe  The HTML `iframe` tag where the attribute should be added.
+	 * @param string $context Additional context to pass to the filters.
+	 * @return string Converted `iframe` tag with `loading` attribute added.
+	 */
+	public function wp_iframe_tag_add_loading_attr( $iframe, $context );
+
+	/**
+	 * Builds the Gallery shortcode output.
+	 *
+	 * This implements the functionality of the Gallery Shortcode for displaying
+	 * WordPress images on a post.
+	 *
+	 * @since 2.5.0
+	 * @since 2.8.0 Added the `$attr` parameter to set the shortcode output. New attributes included
+	 *              such as `size`, `itemtag`, `icontag`, `captiontag`, and columns. Changed markup from
+	 *              `div` tags to `dl`, `dt` and `dd` tags. Support more than one gallery on the
+	 *              same page.
+	 * @since 2.9.0 Added support for `include` and `exclude` to shortcode.
+	 * @since 3.5.0 Use get_post() instead of global `$post`. Handle mapping of `ids` to `include`
+	 *              and `orderby`.
+	 * @since 3.6.0 Added validation for tags used in gallery shortcode. Add orientation information to items.
+	 * @since 3.7.0 Introduced the `link` attribute.
+	 * @since 3.9.0 `html5` gallery support, accepting 'itemtag', 'icontag', and 'captiontag' attributes.
+	 * @since 4.0.0 Removed use of `extract()`.
+	 * @since 4.1.0 Added attribute to `wp_get_attachment_link()` to output `aria-describedby`.
+	 * @since 4.2.0 Passed the shortcode instance ID to `post_gallery` and `post_playlist` filters.
+	 * @since 4.6.0 Standardized filter docs to match documentation standards for PHP.
+	 * @since 5.1.0 Code cleanup for WPCS 1.0.0 coding standards.
+	 * @since 5.3.0 Saved progress of intermediate image creation after upload.
+	 * @since 5.5.0 Ensured that galleries can be output as a list of links in feeds.
+	 * @since 5.6.0 Replaced order-style PHP type conversion functions with typecasts. Fix logic for
+	 *              an array of image dimensions.
+	 *
+	 * @param array $attr {
+	 *     Attributes of the gallery shortcode.
+	 *
+	 *     @type string       $order      Order of the images in the gallery. Default 'ASC'. Accepts 'ASC', 'DESC'.
+	 *     @type string       $orderby    The field to use when ordering the images. Default 'menu_order ID'.
+	 *                                    Accepts any valid SQL ORDERBY statement.
+	 *     @type int          $id         Post ID.
+	 *     @type string       $itemtag    HTML tag to use for each image in the gallery.
+	 *                                    Default 'dl', or 'figure' when the theme registers HTML5 gallery support.
+	 *     @type string       $icontag    HTML tag to use for each image's icon.
+	 *                                    Default 'dt', or 'div' when the theme registers HTML5 gallery support.
+	 *     @type string       $captiontag HTML tag to use for each image's caption.
+	 *                                    Default 'dd', or 'figcaption' when the theme registers HTML5 gallery support.
+	 *     @type int          $columns    Number of columns of images to display. Default 3.
+	 *     @type string|int[] $size       Size of the images to display. Accepts any registered image size name, or an array
+	 *                                    of width and height values in pixels (in that order). Default 'thumbnail'.
+	 *     @type string       $ids        A comma-separated list of IDs of attachments to display. Default empty.
+	 *     @type string       $include    A comma-separated list of IDs of attachments to include. Default empty.
+	 *     @type string       $exclude    A comma-separated list of IDs of attachments to exclude. Default empty.
+	 *     @type string       $link       What to link each image to. Default empty (links to the attachment page).
+	 *                                    Accepts 'file', 'none'.
+	 * }
+	 * @return string HTML content to display gallery.
+	 */
+	public function gallery_shortcode( $attr );
+
+	/**
+	 * Builds the Caption shortcode output.
+	 *
+	 * Allows a plugin to replace the content that would otherwise be returned. The
+	 * filter is {@see 'img_caption_shortcode'} and passes an empty string, the attr
+	 * parameter and the content parameter values.
+	 *
+	 * The supported attributes for the shortcode are 'id', 'caption_id', 'align',
+	 * 'width', 'caption', and 'class'.
+	 *
+	 * @since 2.6.0
+	 * @since 3.9.0 The `class` attribute was added.
+	 * @since 5.1.0 The `caption_id` attribute was added.
+	 * @since 5.9.0 The `$content` parameter default value changed from `null` to `''`.
+	 *
+	 * @param array  $attr {
+	 *     Attributes of the caption shortcode.
+	 *
+	 *     @type string $id         ID of the image and caption container element, i.e. `<figure>` or `<div>`.
+	 *     @type string $caption_id ID of the caption element, i.e. `<figcaption>` or `<p>`.
+	 *     @type string $align      Class name that aligns the caption. Default 'alignnone'. Accepts 'alignleft',
+	 *                              'aligncenter', alignright', 'alignnone'.
+	 *     @type int    $width      The width of the caption, in pixels.
+	 *     @type string $caption    The caption text.
+	 *     @type string $class      Additional class name(s) added to the caption container.
+	 * }
+	 * @param string $content Optional. Shortcode content. Default empty string.
+	 * @return string HTML content to display the caption.
+	 */
+	public function img_caption_shortcode( $attr, $content = '' );
+
+	/**
+	 * Builds the Audio shortcode output.
+	 *
+	 * This implements the functionality of the Audio Shortcode for displaying
+	 * WordPress mp3s in a post.
+	 *
+	 * @since 3.6.0
+	 * @since 6.8.0 Added the 'muted' attribute.
+	 *
+	 * @param array  $attr {
+	 *     Attributes of the audio shortcode.
+	 *
+	 *     @type string $src      URL to the source of the audio file. Default empty.
+	 *     @type string $loop     The 'loop' attribute for the `<audio>` element. Default empty.
+	 *     @type string $autoplay The 'autoplay' attribute for the `<audio>` element. Default empty.
+	 *     @type string $muted    The 'muted' attribute for the `<audio>` element. Default 'false'.
+	 *     @type string $preload  The 'preload' attribute for the `<audio>` element. Default 'none'.
+	 *     @type string $class    The 'class' attribute for the `<audio>` element. Default 'wp-audio-shortcode'.
+	 *     @type string $style    The 'style' attribute for the `<audio>` element. Default 'width: 100%;'.
+	 * }
+	 * @param string $content Shortcode content.
+	 * @return string|null HTML content to display audio.
+	 */
+	public function wp_audio_shortcode( $attr, $content = '' );
+
+	/**
+	 * Builds the Video shortcode output.
+	 *
+	 * This implements the functionality of the Video Shortcode for displaying
+	 * WordPress mp4s in a post.
+	 *
+	 * @since 3.6.0
+	 *
+	 * @global int $content_width
+	 *
+	 * @param array  $attr {
+	 *     Attributes of the shortcode.
+	 *
+	 *     @type string $src      URL to the source of the video file. Default empty.
+	 *     @type int    $height   Height of the video embed in pixels. Default 360.
+	 *     @type int    $width    Width of the video embed in pixels. Default $content_width or 640.
+	 *     @type string $poster   The 'poster' attribute for the `<video>` element. Default empty.
+	 *     @type string $loop     The 'loop' attribute for the `<video>` element. Default empty.
+	 *     @type string $autoplay The 'autoplay' attribute for the `<video>` element. Default empty.
+	 *     @type string $muted    The 'muted' attribute for the `<video>` element. Default false.
+	 *     @type string $preload  The 'preload' attribute for the `<video>` element.
+	 *                            Default 'metadata'.
+	 *     @type string $class    The 'class' attribute for the `<video>` element.
+	 *                            Default 'wp-video-shortcode'.
+	 * }
+	 * @param string $content Shortcode content.
+	 * @return string|null HTML content to display video.
+	 */
+	public function wp_video_shortcode( $attr, $content = '' );
+
+	/**
+	 * Builds the Playlist shortcode output.
+	 *
+	 * This implements the functionality of the playlist shortcode for displaying
+	 * a collection of WordPress audio or video files in a post.
+	 *
+	 * @since 3.9.0
+	 *
+	 * @global int $content_width
+	 *
+	 * @param array $attr {
+	 *     Array of default playlist attributes.
+	 *
+	 *     @type string  $type         Type of playlist to display. Accepts 'audio' or 'video'. Default 'audio'.
+	 *     @type string  $order        Designates ascending or descending order of items in the playlist.
+	 *                                 Accepts 'ASC', 'DESC'. Default 'ASC'.
+	 *     @type string  $orderby      Any column, or columns, to sort the playlist. If $ids are
+	 *                                 passed, this defaults to the order of the $ids array ('post__in').
+	 *                                 Otherwise default is 'menu_order ID'.
+	 *     @type int     $id           If an explicit $ids array is not present, this parameter
+	 *                                 will determine which attachments are used for the playlist.
+	 *                                 Default is the current post ID.
+	 *     @type array   $ids          Create a playlist out of these explicit attachment IDs. If empty,
+	 *                                 a playlist will be created from all $type attachments of $id.
+	 *                                 Default empty.
+	 *     @type array   $exclude      List of specific attachment IDs to exclude from the playlist. Default empty.
+	 *     @type string  $style        Playlist style to use. Accepts 'light' or 'dark'. Default 'light'.
+	 *     @type bool    $tracklist    Whether to show or hide the playlist. Default true.
+	 *     @type bool    $tracknumbers Whether to show or hide the numbers next to entries in the playlist. Default true.
+	 *     @type bool    $images       Show or hide the video or audio thumbnail (Featured Image/post
+	 *                                 thumbnail). Default true.
+	 *     @type bool    $artists      Whether to show or hide artist name in the playlist. Default true.
+	 * }
+	 *
+	 * @return string Playlist output. Empty string if the passed type is unsupported.
+	 */
+	public function wp_playlist_shortcode( $attr );
+
+	/**
+	 * Outputs and enqueues default scripts and styles for playlists.
+	 *
+	 * @since 3.9.0
+	 *
+	 * @param string $type Type of playlist. Accepts 'audio' or 'video'.
+	 */
+	public function wp_playlist_scripts( $type );
+
+	/**
+	 * Outputs the templates used by playlists.
+	 *
+	 * @since 3.9.0
+	 */
+	public function wp_underscore_playlist_templates();
 }

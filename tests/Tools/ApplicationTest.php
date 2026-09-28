@@ -87,6 +87,18 @@ class ApplicationTest extends TestCase
 		self::assertContains( 'Hooks::gone_function() wraps a function WordPress 9.9.1 doesn\'t have.', $data['problems'] );
 	}
 
+	public function testCoverage_WhenFailOnUntriaged_ExitsFoundForUntriagedFunctions(): void
+	{
+		$this->wpal( 'snapshot', '--source=' . __DIR__ . '/fixtures/wordpress' );
+		file_put_contents( $this->root . '/src/Service/Hooks.php', "<?php\nnamespace Merkushin\\Wpal\\Service;\ninterface Hooks {}\n" );
+
+		[ $lenient ] = $this->wpal( 'coverage' );
+		[ $strict ]  = $this->wpal( 'coverage', '--fail-on-untriaged' );
+
+		self::assertSame( Command::OK, $lenient );
+		self::assertSame( Command::FOUND, $strict );
+	}
+
 	public function testFix_WhenMapChanges_RegeneratesAndCheckDetectsStaleFiles(): void
 	{
 		$this->wpal( 'snapshot', '--source=' . __DIR__ . '/fixtures/wordpress' );

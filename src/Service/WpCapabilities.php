@@ -116,4 +116,18 @@ class WpCapabilities implements Capabilities {
 	public function wp_maybe_grant_site_health_caps( $allcaps, $caps, $args, $user ) {
 		return wp_maybe_grant_site_health_caps( $allcaps, $caps, $args, $user );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function current_user_can_for_site( $site_id, $capability, ...$args ) {
+		return current_user_can_for_site( $site_id, $capability, ...$args );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function user_can_for_site( $user, $site_id, $capability, ...$args ) {
+		return user_can_for_site( $user, $site_id, $capability, ...$args );
+	}
 }

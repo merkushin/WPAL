@@ -137,4 +137,11 @@ final class WpHooks implements Hooks {
 	public function do_action_deprecated( string $hook_name, array $args, string $version, string $replacement = '', string $message = '' ) {
 		do_action_deprecated( $hook_name, $args, $version, $replacement, $message );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function did_filter( $hook_name ) {
+		return did_filter( $hook_name );
+	}
 }

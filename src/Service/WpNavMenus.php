@@ -25,4 +25,144 @@ final class WpNavMenus implements NavMenus {
 	public function wp_nav_menu_remove_menu_item_has_children_class( $classes, $menu_item, $args = false, $depth = false ) {
 		return wp_nav_menu_remove_menu_item_has_children_class( $classes, $menu_item, $args, $depth );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function register_nav_menus( $locations = array() ) {
+		register_nav_menus( $locations );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function register_nav_menu( $location, $description ) {
+		register_nav_menu( $location, $description );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function unregister_nav_menu( $location ) {
+		return unregister_nav_menu( $location );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_registered_nav_menus() {
+		return get_registered_nav_menus();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_nav_menu_locations() {
+		return get_nav_menu_locations();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function has_nav_menu( $location ) {
+		return has_nav_menu( $location );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_map_nav_menu_locations( $new_nav_menu_locations, $old_nav_menu_locations ) {
+		return wp_map_nav_menu_locations( $new_nav_menu_locations, $old_nav_menu_locations );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function is_nav_menu( $menu ) {
+		return is_nav_menu( $menu );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function is_nav_menu_item( $menu_item_id = 0 ) {
+		return is_nav_menu_item( $menu_item_id );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_get_nav_menus( $args = array() ) {
+		return wp_get_nav_menus( $args );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_get_nav_menu_object( $menu ) {
+		return wp_get_nav_menu_object( $menu );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_get_nav_menu_name( $location ) {
+		return wp_get_nav_menu_name( $location );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_get_nav_menu_items( $menu, $args = array() ) {
+		return wp_get_nav_menu_items( $menu, $args );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_get_associated_nav_menu_items( $object_id = 0, $object_type = 'post_type', $taxonomy = '' ) {
+		return wp_get_associated_nav_menu_items( $object_id, $object_type, $taxonomy );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_setup_nav_menu_item( $menu_item ) {
+		return wp_setup_nav_menu_item( $menu_item );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function update_menu_item_cache( $menu_items ) {
+		update_menu_item_cache( $menu_items );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_create_nav_menu( $menu_name ) {
+		return wp_create_nav_menu( $menu_name );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
+		return wp_update_nav_menu_object( $menu_id, $menu_data );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_delete_nav_menu( $menu ) {
+		return wp_delete_nav_menu( $menu );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item_data = array(), $fire_after_hooks = true ) {
+		return wp_update_nav_menu_item( $menu_id, $menu_item_db_id, $menu_item_data, $fire_after_hooks );
+	}
 }
