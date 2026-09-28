@@ -28,6 +28,12 @@ final class SignatureBuilder {
 					return $this->constants[ $name ];
 				}
 			}
+			if ( $expr instanceof Expr\ClassConstFetch && $expr->class instanceof Node\Name && $expr->name instanceof Node\Identifier ) {
+				$name = ltrim( $expr->class->toString(), '\\' ) . '::' . $expr->name->toString();
+				if ( array_key_exists( $name, $this->constants ) ) {
+					return $this->constants[ $name ];
+				}
+			}
 
 			throw new ConstExprEvaluationException( 'Unresolvable expression' );
 		} );
@@ -48,7 +54,8 @@ final class SignatureBuilder {
 		$resolved = false;
 		$value    = null;
 		if ( $param->default !== null ) {
-			$default = $this->printer->prettyPrintExpr( $param->default );
+			// Name resolution prints global constants as `\OBJECT` and `\null`; keep them as written.
+			$default = (string) preg_replace( '/\\\\([A-Za-z_]\w*)(?![\w\\\\]|\s*(?:::|\())/', '$1', $this->printer->prettyPrintExpr( $param->default ) );
 			try {
 				$value    = $this->evaluator->evaluateDirectly( $param->default );
 				$resolved = true;
@@ -80,6 +87,10 @@ final class SignatureBuilder {
 		}
 		if ( $type instanceof Node\IntersectionType ) {
 			return implode( '&', array_map( fn ( $t ): string => (string) $this->type( $t ), $type->types ) );
+		}
+		if ( $type instanceof Node\Name\FullyQualified ) {
+			// A class: keep the leading backslash so it can be written into any namespace.
+			return $type->toCodeString();
 		}
 		if ( $type instanceof Node\Identifier || $type instanceof Node\Name ) {
 			return $type->toString();

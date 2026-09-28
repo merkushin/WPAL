@@ -8,6 +8,7 @@ use PhpParser\Node\Stmt;
 use PhpParser\NodeFinder;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor;
+use PhpParser\NodeVisitor\NameResolver;
 use PhpParser\NodeVisitorAbstract;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
@@ -63,7 +64,7 @@ final class WordPressParser {
 	public function parse( string $root ): Snapshot {
 		$root = rtrim( $root, '/' );
 
-		/** @var array<string, array{node: Stmt\Function_, file: string, pluggable: bool}> $found */
+		/** @var array<string, array{node: Stmt\Function_, file: string, pluggable: bool, uses: array<string, string>}> $found */
 		$found = [];
 		/** @var array<string, Expr> $defines */
 		$defines = [];
@@ -75,7 +76,12 @@ final class WordPressParser {
 			} catch ( \PhpParser\Error $e ) {
 				throw new RuntimeException( "Cannot parse {$relative}: {$e->getMessage()}", 0, $e );
 			}
-			$this->collect( $ast, $relative, $found, $defines );
+			$uses = $this->imports( $ast );
+			// Resolve class names in signatures against the file's namespace and `use` imports.
+			$resolver = new NodeTraverser();
+			$resolver->addVisitor( new NameResolver() );
+			$ast = $resolver->traverse( $ast );
+			$this->collect( $ast, $relative, $uses, $found, $defines );
 		}
 
 		$constants = $this->resolveConstants( $defines );
@@ -83,7 +89,7 @@ final class WordPressParser {
 
 		$functions = [];
 		foreach ( $found as $key => $item ) {
-			$functions[ $key ] = $this->signature( $item['node'], $item['file'], $item['pluggable'], $builder );
+			$functions[ $key ] = $this->signature( $item['node'], $item['file'], $item['pluggable'], $item['uses'], $builder );
 		}
 
 		return new Snapshot( $this->version( $root ), $functions, $constants );
@@ -129,23 +135,56 @@ final class WordPressParser {
 	}
 
 	/**
-	 * @param Node[]                                                                  $ast
-	 * @param array<string, array{node: Stmt\Function_, file: string, pluggable: bool}> $found
-	 * @param array<string, Expr>                                                      $defines
+	 * Class imports (`use Foo\Bar;`) of a file: alias => fully qualified name.
+	 *
+	 * @param Node[] $ast
+	 * @return array<string, string>
 	 */
-	private function collect( array $ast, string $file, array &$found, array &$defines ): void {
-		$visitor = new class( $file, $found, $defines ) extends NodeVisitorAbstract {
+	private function imports( array $ast ): array {
+		$imports = [];
+		foreach ( $this->finder->findInstanceOf( $ast, Stmt\Use_::class ) as $use ) {
+			/** @var Stmt\Use_ $use */
+			if ( $use->type !== Stmt\Use_::TYPE_NORMAL ) {
+				continue;
+			}
+			foreach ( $use->uses as $item ) {
+				$imports[ $item->getAlias()->toString() ] = $item->name->toString();
+			}
+		}
+
+		return $imports;
+	}
+
+	/**
+	 * @param Node[]                                                                                                   $ast
+	 * @param array<string, string>                                                                                   $uses
+	 * @param array<string, array{node: Stmt\Function_, file: string, pluggable: bool, uses: array<string, string>}> $found
+	 * @param array<string, Expr>                                                                                     $defines
+	 */
+	private function collect( array $ast, string $file, array $uses, array &$found, array &$defines ): void {
+		$visitor = new class( $file, $uses, $found, $defines ) extends NodeVisitorAbstract {
 			private int $guards = 0;
 
 			/**
-			 * @param array<string, array{node: Stmt\Function_, file: string, pluggable: bool}> $found
-			 * @param array<string, Expr>                                                      $defines
+			 * @param array<string, string>                                                                                   $uses
+			 * @param array<string, array{node: Stmt\Function_, file: string, pluggable: bool, uses: array<string, string>}> $found
+			 * @param array<string, Expr>                                                                                     $defines
 			 */
-			public function __construct( private string $file, private array &$found, private array &$defines ) {
+			public function __construct( private string $file, private array $uses, private array &$found, private array &$defines ) {
 			}
 
 			public function enterNode( Node $node ): ?int {
 				if ( $node instanceof Stmt\ClassLike ) {
+					// Class constants can be parameter defaults (WP_REST_Server::CREATABLE).
+					$class = $node->namespacedName ?? $node->name;
+					if ( $class !== null ) {
+						foreach ( $node->getConstants() as $constants ) {
+							foreach ( $constants->consts as $constant ) {
+								$this->defines[ $class->toString() . '::' . $constant->name->toString() ] ??= $constant->value;
+							}
+						}
+					}
+
 					return NodeVisitor::DONT_TRAVERSE_CHILDREN;
 				}
 				if ( $node instanceof Stmt\If_ && $this->isFunctionExistsGuard( $node->cond ) ) {
@@ -158,7 +197,7 @@ final class WordPressParser {
 					}
 					$key = $node->name->toLowerString();
 					// The first declaration wins; later ones are fallbacks for older environments.
-					$this->found[ $key ] ??= [ 'node' => $node, 'file' => $this->file, 'pluggable' => $this->guards > 0 ];
+					$this->found[ $key ] ??= [ 'node' => $node, 'file' => $this->file, 'pluggable' => $this->guards > 0, 'uses' => $this->uses ];
 
 					return NodeVisitor::DONT_TRAVERSE_CHILDREN;
 				}
@@ -228,8 +267,11 @@ final class WordPressParser {
 		return $constants;
 	}
 
-	private function signature( Stmt\Function_ $node, string $file, bool $pluggable, SignatureBuilder $builder ): FunctionSignature {
-		$doc  = new DocBlock( $node->getDocComment()?->getText() );
+	/**
+	 * @param array<string, string> $uses The file's class imports, to qualify short names in the docblock.
+	 */
+	private function signature( Stmt\Function_ $node, string $file, bool $pluggable, array $uses, SignatureBuilder $builder ): FunctionSignature {
+		$doc  = new DocBlock( $this->qualifyImports( $node->getDocComment()?->getText(), $uses ) );
 		$name = $node->name->toString();
 
 		$deprecated = $doc->first( 'deprecated' );
@@ -247,6 +289,27 @@ final class WordPressParser {
 			str_starts_with( $name, '_' ) || $doc->first( 'access' ) === 'private',
 			$file,
 			$pluggable,
+		);
+	}
+
+	/**
+	 * Rewrites docblock types that use a file's imports (`Message`) to fully qualified names (`\Foo\Message`).
+	 *
+	 * @param array<string, string> $uses
+	 */
+	private function qualifyImports( ?string $doc, array $uses ): ?string {
+		if ( $doc === null || $uses === [] ) {
+			return $doc;
+		}
+
+		return (string) preg_replace_callback(
+			'/(@(?:param|return|var|type|global|throws)\s+)([^\s$]+)/',
+			static fn ( array $m ): string => $m[1] . preg_replace_callback(
+				'/(?<![\\\\\w])([A-Za-z_]\w*)(?![\\\\\w])/',
+				static fn ( array $t ): string => isset( $uses[ $t[1] ] ) ? '\\' . $uses[ $t[1] ] : $t[1],
+				$m[2]
+			),
+			$doc
 		);
 	}
 

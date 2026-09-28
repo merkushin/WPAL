@@ -32,5 +32,7 @@ function internal_but_unprefixed() {}
 function get_the_ID() {}
 
 class WP_Thing {
+	const MODE = 'fast';
+
 	public function get_thing() {}
 }

@@ -37,7 +37,13 @@ class CoverageTest extends TestCase
 			],
 			$coverage['ignored']
 		);
-		self::assertSame( [ 'wp-includes/functions.php' => [ 'get_the_ID', 'wp_initial_constants' ] ], $coverage['untriaged'] );
+		self::assertSame(
+			[
+				'wp-includes/functions.php' => [ 'get_the_ID', 'wp_initial_constants' ],
+				'wp-includes/imports.php'   => [ 'send_message' ],
+			],
+			$coverage['untriaged']
+		);
 	}
 
 	public function testCompute_WhenMapAssignsUnwrappedFunction_ReportsItAsPlanned(): void
