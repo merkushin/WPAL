@@ -40,6 +40,7 @@ jobs:
         run: |
           bin/wpal snapshot "${{ steps.diff.outputs.latest }}"
           bin/wpal fix
+          bin/wpal docs
           bin/wpal check
           bin/wpal coverage > build/coverage.txt || true
           {
@@ -71,3 +72,5 @@ jobs:
             api/wordpress.json
             src
             tests/ServiceFactoryTest.php
+            docs
+            llms.txt

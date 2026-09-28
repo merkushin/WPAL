@@ -7,6 +7,17 @@ promise in the README: code that calls a service keeps working unless WordPress 
 
 ### Added
 
+AI and agents:
+
+- `abilities()`: describe abilities fluently (`define()->label()->...->register()`); WPAL registers them on the
+  right hook whenever you call it and validates them up front. `execute()` runs one and throws instead of returning
+  `WP_Error`. `FakeAbilities` runs them in tests, with a pretend user's capabilities.
+- `ai()`: prompts through WordPress's AI Client with `generateText()` and `generateJson()`. `FakeAi` returns scripted
+  responses and records prompts.
+- `llms.txt`, `docs/api.md` and `docs/services.md`, generated from the code by `bin/wpal docs` and checked in CI, so
+  coding agents get accurate docs.
+
+
 Every public WordPress 7.1.2 function is now wrapped: 2,279 methods in 109 services, from `Abilities` and `Ai` to
 `Widgets`. The 1,836 functions left out are private, deprecated, or ignored with a reason in `wpal.map.php` (hook
 callbacks, admin screen internals, installer internals…).

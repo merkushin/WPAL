@@ -1,0 +1,23 @@
+# WPAL
+
+> WPAL is a PHP library for writing WordPress plugins with a typed, testable API instead of calling WordPress functions directly. The Api layer (PHP 8.4+, entry point `new Merkushin\Wpal\Wpal()`) is a designed API with value objects, exceptions instead of WP_Error, and in-memory fakes for tests. The Service layer (PHP 7.4+) wraps all 2279 public WordPress 7.1.2 functions in 109 services with WordPress's own signatures.
+
+When writing plugin code with WPAL:
+
+- Prefer the Api layer: `$wp = new Wpal(); $wp->hooks()`, `->options()`, `->assets()`, `->posts()`, `->abilities()`, `->ai()`.
+- For anything the Api doesn't cover, use the Service layer: `ServiceFactory::create_<service>()->wordpress_function_name( ... )` with WordPress's own arguments. Find the service in the Service index.
+- Don't call WordPress functions directly in code you want to unit-test; go through WPAL so tests can swap in fakes.
+- In tests, pass fakes: `new Wpal( hooks: new FakeHooks(), options: new FakeOptions( [ ... ] ), ai: new FakeAi( [ 'response' ] ) )`. Use `ServiceFactory::set_custom_<service>( $mock )` for Service-layer doubles.
+- Api methods throw `WordPressError` (with `errorCode`) instead of returning `WP_Error`; `find()` returns null, `get()` throws.
+- Register abilities with `$wp->abilities()->define( 'my-plugin/name' )->...->register()` at any time; WPAL registers them on the right hook.
+
+## Docs
+
+- [Api reference](https://github.com/merkushin/WPAL/blob/main/docs/api.md): every Api interface, builder, value object and fake, with signatures.
+- [Service index](https://github.com/merkushin/WPAL/blob/main/docs/services.md): which service wraps which WordPress function.
+- [README](https://github.com/merkushin/WPAL/blob/main/README.md): overview, examples, compatibility promise.
+
+## Contributing
+
+- [AGENTS.md](https://github.com/merkushin/WPAL/blob/main/AGENTS.md): layout, generated code, Api design rules, bin/wpal.
+- [Triage skill](https://github.com/merkushin/WPAL/blob/main/.claude/skills/triage-wordpress-functions/SKILL.md): how WordPress functions are assigned to services.
