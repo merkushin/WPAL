@@ -33,7 +33,10 @@ return [
 			'single_tag_title', 'single_term_title', 'the_archive_description', 'the_archive_title', 'wp_get_archives',
 		],
 		'Assets'          => [
-			'wp_enqueue_script', 'wp_add_inline_script', 'wp_enqueue_style', 'add_thickbox',
+			'wp_enqueue_script', 'wp_add_inline_script', 'wp_enqueue_style', 'add_thickbox', 'wp_register_script',
+			'wp_register_style', 'wp_dequeue_script', 'wp_dequeue_style', 'wp_deregister_script', 'wp_deregister_style',
+			'wp_script_is', 'wp_style_is', 'wp_add_inline_style', 'wp_localize_script', 'wp_set_script_translations',
+			'wp_script_add_data', 'wp_style_add_data', 'wp_print_scripts', 'wp_print_styles', 'wp_scripts', 'wp_styles',
 		],
 		'AuthorTemplate'  => [
 			'get_author_posts_url', 'get_the_author', 'get_the_author_link', 'get_the_author_meta',
@@ -180,6 +183,14 @@ return [
 			'previous_posts_link', 'the_comments_navigation', 'the_comments_pagination', 'the_post_navigation',
 			'the_posts_navigation', 'the_posts_pagination', 'wp_link_pages',
 		],
+		'Options'         => [
+			'get_option', 'get_options', 'add_option', 'update_option', 'delete_option', 'wp_load_alloptions',
+			'wp_prime_option_caches', 'wp_set_option_autoload', 'wp_set_options_autoload',
+			'wp_set_option_autoload_values', 'wp_protect_special_option', 'get_site_option', 'add_site_option',
+			'update_site_option', 'delete_site_option', 'wp_prime_site_option_caches', 'wp_load_core_site_options',
+			'get_network_option', 'add_network_option', 'update_network_option', 'delete_network_option',
+			'wp_prime_network_option_caches',
+		],
 		'Permalinks'      => [
 			'get_attachment_link', 'get_category_link', 'get_day_link', 'get_month_link', 'get_page_link',
 			'get_permalink', 'get_post_permalink', 'get_post_type_archive_link', 'get_preview_post_link',
@@ -268,7 +279,8 @@ return [
 		],
 		'Settings'        => [
 			'add_settings_error', 'add_settings_field', 'add_settings_section', 'do_settings_fields',
-			'do_settings_sections', 'get_settings_errors', 'settings_errors',
+			'do_settings_sections', 'get_settings_errors', 'settings_errors', 'register_setting', 'unregister_setting',
+			'get_registered_settings',
 		],
 		'SiteIdentity'    => [
 			'bloginfo', 'get_bloginfo', 'get_custom_logo', 'get_language_attributes', 'get_site_icon_url',
@@ -316,7 +328,8 @@ return [
 			'wp_list_categories', 'wp_tag_cloud',
 		],
 		'Transient'       => [
-			'get_transient', 'set_transient', 'delete_transient',
+			'get_transient', 'set_transient', 'delete_transient', 'get_site_transient', 'set_site_transient',
+			'delete_site_transient', 'delete_expired_transients',
 		],
 		'Urls'            => [
 			'admin_url', 'content_url', 'get_admin_url', 'get_dashboard_url', 'get_edit_profile_url', 'get_home_url',

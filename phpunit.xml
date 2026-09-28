@@ -11,6 +11,11 @@
 		<testsuite name="unit">
 			<directory>tests</directory>
 			<exclude>tests/Tools</exclude>
+			<exclude>tests/Api</exclude>
+		</testsuite>
+		<!-- The Api layer needs PHP 8.4+. -->
+		<testsuite name="api">
+			<directory phpVersion="8.4.0" phpVersionOperator=">=">tests/Api</directory>
 		</testsuite>
 		<!-- bin/wpal and its tests need PHP 8.1+. -->
 		<testsuite name="tools">

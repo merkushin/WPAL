@@ -8,7 +8,7 @@ without WordPress and, eventually, use a far better API than WordPress's own.
 | Namespace | What it is | PHP |
 | --- | --- | --- |
 | `Merkushin\Wpal\Service` | Bindings: one method per WordPress function, grouped into domain services (`Posts`, `Hooks`, `Assets`…). Each service is an interface plus a `Wp<Name>` class that calls the WordPress function. Generated. | 7.4 |
-| `Merkushin\Wpal\Api` | The designed API built on `Service` (not started yet). | 8.4 |
+| `Merkushin\Wpal\Api` | The designed API built on `Service`; entry point `Merkushin\Wpal\Wpal`. | 8.4 |
 
 `ServiceFactory` hands out services: `create_<service>()` returns the `Wp*` class, `set_custom_<service>()` swaps in a
 test double.
@@ -30,6 +30,31 @@ they drift from what `bin/wpal fix` produces): change the map and regenerate.
 CI enforces the promise: `bin/wpal check` proves `Service` mirrors WordPress, and `roave/backward-compatibility-check`
 fails on any other break (`.roave-backward-compatibility-check.xml` allows added methods and parameters and
 WordPress-mirroring renames and defaults in `Service`).
+
+## Api design rules
+
+The Api layer is the product: it should be the best WordPress API there is. Every service follows these rules.
+
+- **Shape.** A small interface in `Api` (`Api\Options`), a `final` implementation built on `Service` in
+  `Api\WordPress` (`WordPressOptions`), and an in-memory `final` fake in `Api\Testing` (`FakeOptions`) that behaves
+  like WordPress for tests. `Wpal` exposes it lazily (`$wp->options()`) and accepts it as a named constructor argument.
+- **Only through Service.** Api code never calls WordPress functions directly, so it stays testable without WordPress
+  and `bin/wpal` tracks every WordPress call it depends on.
+- **Names.** camelCase methods named for what they do (`onAction()`, `applyFilters()`), not WordPress's function names.
+  Options go in named arguments with sensible defaults, not positional lists.
+- **Types.** Full native types. No `$output = OBJECT` switches, no `false`-means-missing: return `null` for "not
+  found" (`find()`), throw when a thing must exist (`get()` → `PostNotFound`), and throw `WordPressError` instead of
+  returning `WP_Error`. All exceptions implement `Api\Exception\WpalException`.
+- **Values.** Data leaves as `final readonly` value objects (`Post`), never raw `WP_Post`/arrays. Enums for closed sets
+  (`SortBy`, `LoadingStrategy`); strings for sets plugins extend (post types, statuses).
+- **Builders.** Fluent, ending in a verb (`->enqueue()`, `->get()`), with state exposed as `public private(set)`
+  properties. Query builders are immutable (each method returns a copy). Mark the method that starts a builder
+  `#[\NoDiscard]`.
+- **Hide WordPress's sharp edges.** E.g. hook callbacks get as many arguments as they declare (no `$accepted_args`),
+  script data is JSON-encoded safely (no `wp_localize_script()` stringification).
+- **Compatibility.** Strict semver: `roave/backward-compatibility-check` guards `Api` with no exceptions.
+- **PHP.** `src/Api` needs 8.4 (asymmetric visibility, property hooks, readonly classes, enums); `src/Wpal.php` must
+  parse on 7.4 so older PHP gets a clear error.
 
 ## bin/wpal
 
@@ -80,7 +105,8 @@ Skip private (`_`-prefixed) and deprecated functions; `coverage` flags them if l
 ## Code style
 
 - `declare(strict_types=1);`, tabs, WordPress-style spacing inside parentheses, snake_case method names.
-- Code in `src/` must stay valid PHP 7.4: no promoted properties, `readonly`, `match`, enums, `mixed` or union types.
+- Code in `src/Service`, `src/ServiceFactory.php` and `src/Wpal.php` must stay valid PHP 7.4: no promoted properties,
+  `readonly`, `match`, enums, `mixed` or union types. `src/Api` is PHP 8.4.
 - `tools/` (bin/wpal) is PHP 8.1+ and never ships in the package.
 
 ## Commands
@@ -88,7 +114,7 @@ Skip private (`_`-prefixed) and deprecated functions; `coverage` flags them if l
 ```bash
 composer install
 composer test      # PHPUnit
-composer phpstan   # PHPStan: src at PHP 7.4 with WordPress stubs, tools at PHP 8.1
+composer phpstan   # PHPStan: Service at PHP 7.4, Api at 8.4, tools at 8.1
 composer phpcs     # PHPCompatibility: Service must stay PHP 7.4
 composer check     # all of the above
 bin/wpal help      # the drift and coverage tool

@@ -85,6 +85,12 @@ parameters:
 			path: src/Service/Plugins.php
 
 		-
+			message: '#^Default value of the parameter \#3 \$deprecated \(''''\) of method Merkushin\\Wpal\\Service\\Settings\:\:unregister_setting\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			identifier: parameter.defaultValue
+			count: 1
+			path: src/Service/Settings.php
+
+		-
 			message: '#^Method Merkushin\\Wpal\\Service\\WpAdminTemplate\:\:parent_dropdown\(\) never returns void so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
@@ -185,6 +191,12 @@ parameters:
 			identifier: return.unusedType
 			count: 1
 			path: src/Service/WpNavigation.php
+
+		-
+			message: '#^Parameter \#3 \$deprecated of function get_site_option expects true, bool given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/WpOptions.php
 
 		-
 			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_comments_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
@@ -299,6 +311,18 @@ parameters:
 			identifier: return.unusedType
 			count: 1
 			path: src/Service/WpSearch.php
+
+		-
+			message: '#^Default value of the parameter \#3 \$deprecated \(''''\) of method Merkushin\\Wpal\\Service\\WpSettings\:\:unregister_setting\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			identifier: parameter.defaultValue
+			count: 1
+			path: src/Service/WpSettings.php
+
+		-
+			message: '#^Parameter \#3 \$deprecated of function unregister_setting expects '''', callable\(\)\: mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/WpSettings.php
 
 		-
 			message: '#^Method Merkushin\\Wpal\\Service\\WpTaxonomies\:\:update_object_term_cache\(\) never returns void so it can be removed from the return type\.$#'

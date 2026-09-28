@@ -12,7 +12,8 @@
 	"autoload-dev": {
 		"psr-4": {
 			"Merkushin\\Wpal\\Tools\\": "tools/",
-			"Merkushin\\Wpal\\Tests\\Tools\\": "tests/Tools/"
+			"Merkushin\\Wpal\\Tests\\Tools\\": "tests/Tools/",
+			"Merkushin\\Wpal\\Tests\\Api\\": "tests/Api/"
 		}
 	},
 	"authors": [
@@ -38,6 +39,7 @@
 		"phpstan": [
 			"@php bin/split-stubs.php vendor/php-stubs/wordpress-stubs/wordpress-stubs.php build/wordpress-stubs",
 			"phpstan analyse --memory-limit=512M",
+			"phpstan analyse --memory-limit=512M -c phpstan-api.neon.dist",
 			"phpstan analyse --memory-limit=512M -c phpstan-tools.neon.dist"
 		],
 		"phpcs": "phpcs",

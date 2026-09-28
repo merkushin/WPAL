@@ -26,6 +26,7 @@ use Merkushin\Wpal\Service\MediaTemplate;
 use Merkushin\Wpal\Service\MetaBoxes;
 use Merkushin\Wpal\Service\NavMenus;
 use Merkushin\Wpal\Service\Navigation;
+use Merkushin\Wpal\Service\Options;
 use Merkushin\Wpal\Service\Permalinks;
 use Merkushin\Wpal\Service\Plugins;
 use Merkushin\Wpal\Service\PostAttachments;
@@ -66,6 +67,7 @@ use Merkushin\Wpal\Service\WpMediaTemplate;
 use Merkushin\Wpal\Service\WpMetaBoxes;
 use Merkushin\Wpal\Service\WpNavMenus;
 use Merkushin\Wpal\Service\WpNavigation;
+use Merkushin\Wpal\Service\WpOptions;
 use Merkushin\Wpal\Service\WpPermalinks;
 use Merkushin\Wpal\Service\WpPlugins;
 use Merkushin\Wpal\Service\WpPostAttachments;
@@ -195,6 +197,11 @@ class ServiceFactory {
 	 * @var Navigation|null
 	 */
 	private static $custom_navigation;
+
+	/**
+	 * @var Options|null
+	 */
+	private static $custom_options;
 
 	/**
 	 * @var Permalinks|null
@@ -548,6 +555,18 @@ class ServiceFactory {
 		}
 
 		return new WpNavigation();
+	}
+
+	public static function set_custom_options( ?Options $custom_options ): void {
+		self::$custom_options = $custom_options;
+	}
+
+	public static function create_options(): Options {
+		if ( self::$custom_options ) {
+			return self::$custom_options;
+		}
+
+		return new WpOptions();
 	}
 
 	public static function set_custom_permalinks( ?Permalinks $custom_permalinks ): void {

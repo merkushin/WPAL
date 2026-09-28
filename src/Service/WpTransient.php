@@ -25,4 +25,32 @@ final class WpTransient implements Transient {
 	public function delete_transient( string $transient ): bool {
 		return delete_transient( $transient );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_site_transient( $transient ) {
+		return get_site_transient( $transient );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function set_site_transient( $transient, $value, $expiration = 0 ) {
+		return set_site_transient( $transient, $value, $expiration );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function delete_site_transient( $transient ) {
+		return delete_site_transient( $transient );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function delete_expired_transients( $force_db = false ) {
+		delete_expired_transients( $force_db );
+	}
 }

@@ -202,4 +202,82 @@ interface Settings {
 	 *                               already been submitted.
 	 */
 	public function settings_errors( $setting = '', $sanitize = false, $hide_on_update = false );
+
+	/**
+	 * Registers a setting and its data.
+	 *
+	 * @since 2.7.0
+	 * @since 3.0.0 The `misc` option group was deprecated.
+	 * @since 3.5.0 The `privacy` option group was deprecated.
+	 * @since 4.7.0 `$args` can be passed to set flags on the setting, similar to `register_meta()`.
+	 * @since 5.5.0 `$new_whitelist_options` was renamed to `$new_allowed_options`.
+	 *              Please consider writing more inclusive code.
+	 * @since 6.6.0 Added the `label` argument.
+	 *
+	 * @global array $new_allowed_options
+	 * @global array $wp_registered_settings
+	 *
+	 * @param string $option_group A settings group name. Should correspond to an allowed option key name.
+	 *                             Default allowed option key names include 'general', 'discussion', 'media',
+	 *                             'reading', 'writing', and 'options'.
+	 * @param string $option_name The name of an option to sanitize and save.
+	 * @param array  $args {
+	 *     Data used to describe the setting when registered.
+	 *
+	 *     @type string     $type              The type of data associated with this setting.
+	 *                                         Valid values are 'string', 'boolean', 'integer', 'number', 'array', and 'object'.
+	 *     @type string     $label             A label of the data attached to this setting.
+	 *     @type string     $description       A description of the data attached to this setting.
+	 *     @type callable   $sanitize_callback A callback function that sanitizes the option's value.
+	 *     @type bool|array $show_in_rest      Whether data associated with this setting should be included in the REST API.
+	 *                                         When registering complex settings, this argument may optionally be an
+	 *                                         array with a 'schema' key.
+	 *     @type mixed      $default           Default value when calling `get_option()`.
+	 * }
+	 */
+	public function register_setting( $option_group, $option_name, $args = array() );
+
+	/**
+	 * Unregisters a setting.
+	 *
+	 * @since 2.7.0
+	 * @since 4.7.0 `$sanitize_callback` was deprecated. The callback from `register_setting()` is now used instead.
+	 * @since 5.5.0 `$new_whitelist_options` was renamed to `$new_allowed_options`.
+	 *              Please consider writing more inclusive code.
+	 *
+	 * @global array $new_allowed_options
+	 * @global array $wp_registered_settings
+	 *
+	 * @param string   $option_group The settings group name used during registration.
+	 * @param string   $option_name  The name of the option to unregister.
+	 * @param callable $deprecated   Optional. Deprecated.
+	 */
+	public function unregister_setting( $option_group, $option_name, $deprecated = '' );
+
+	/**
+	 * Retrieves an array of registered settings.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @global array $wp_registered_settings
+	 *
+	 * @return array {
+	 *     List of registered settings, keyed by option name.
+	 *
+	 *     @type array ...$0 {
+	 *         Data used to describe the setting when registered.
+	 *
+	 *         @type string     $type              The type of data associated with this setting.
+	 *                                             Valid values are 'string', 'boolean', 'integer', 'number', 'array', and 'object'.
+	 *         @type string     $label             A label of the data attached to this setting.
+	 *         @type string     $description       A description of the data attached to this setting.
+	 *         @type callable   $sanitize_callback A callback function that sanitizes the option's value.
+	 *         @type bool|array $show_in_rest      Whether data associated with this setting should be included in the REST API.
+	 *                                             When registering complex settings, this argument may optionally be an
+	 *                                             array with a 'schema' key.
+	 *         @type mixed      $default           Default value when calling `get_option()`.
+	 *     }
+	 * }
+	 */
+	public function get_registered_settings();
 }
