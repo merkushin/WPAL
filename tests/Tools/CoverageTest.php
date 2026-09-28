@@ -18,7 +18,7 @@ class CoverageTest extends TestCase
 	{
 		$wordpress = ( new WordPressParser() )->parse( __DIR__ . '/fixtures/wordpress' );
 		$methods   = ( new ServiceParser() )->parse( __DIR__ . '/fixtures/service', $wordpress->constants );
-		$map       = new Map( [ '/^wp_ajax_/' => 'admin AJAX handler' ], [ 'wp-includes/pluggable.php' => 'pluggable' ] );
+		$map       = new Map( [], [ '/^wp_ajax_/' => 'admin AJAX handler' ], [ 'wp-includes/pluggable.php' => 'pluggable' ] );
 
 		$coverage = ( new Coverage() )->compute( $wordpress, $methods, $map );
 
@@ -33,6 +33,50 @@ class CoverageTest extends TestCase
 			$coverage['ignored']
 		);
 		self::assertSame( [ 'wp-includes/functions.php' => [ 'wp_initial_constants' ] ], $coverage['untriaged'] );
+	}
+
+	public function testCompute_WhenMapAssignsUnwrappedFunction_ReportsItAsPlanned(): void
+	{
+		$coverage = $this->compute( new Map( [ 'Mail' => [ 'wp_mail' ], 'Setup' => [ '/^wp_initial_/' ] ] ) );
+
+		self::assertSame( [ 'Mail' => [ 'wp_mail' ], 'Setup' => [ 'wp_initial_constants' ] ], $coverage['planned'] );
+		self::assertArrayNotHasKey( 'wp-includes/functions.php', $coverage['untriaged'] );
+		self::assertSame( [], $coverage['problems'] );
+	}
+
+	public function testCompute_WhenMapHasMistakes_ReportsProblems(): void
+	{
+		$coverage = $this->compute(
+			new Map(
+				[
+					'Mail'    => [ 'wp_mail', 'no_such_function' ],
+					'Email'   => [ 'wp_mail' ],
+					'Filters' => [ 'has_filter' ],
+					'Legacy'  => [ '_private_helper' ],
+				]
+			)
+		);
+
+		self::assertSame(
+			[
+				'_private_helper() is listed under Legacy but is private.',
+				'has_filter() is listed under Filters but wrapped in Hooks.',
+				'no_such_function() is listed under Mail but WordPress 9.9.1 has no such function.',
+				'wp_mail() is listed under Mail and Email.',
+			],
+			$coverage['problems']
+		);
+	}
+
+	/**
+	 * @return array{planned: array<string, string[]>, untriaged: array<string, string[]>, problems: string[]}
+	 */
+	private function compute( Map $map ): array
+	{
+		$wordpress = ( new WordPressParser() )->parse( __DIR__ . '/fixtures/wordpress' );
+		$methods   = ( new ServiceParser() )->parse( __DIR__ . '/fixtures/service', $wordpress->constants );
+
+		return ( new Coverage() )->compute( $wordpress, $methods, $map );
 	}
 
 	public function testIgnoreReason_WhenDeprecated_PrefersDeprecated(): void

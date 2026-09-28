@@ -39,21 +39,27 @@ Dev-only tool (PHP 8.1+, code in `tools/`) that keeps `Service` in step with Wor
 | `bin/wpal snapshot [<version>\|latest]` | Parse a WordPress release into `api/wordpress.json`, the version `Service` targets |
 | `bin/wpal check [--wp=<spec>]` | Compare `src/Service` with WordPress: renamed/added/removed parameters, changed defaults, deprecations |
 | `bin/wpal diff <from> [<to>]` | What WordPress added, removed, deprecated or re-signed between two versions |
-| `bin/wpal coverage [--untriaged]` | Wrapped vs ignored vs untriaged WordPress functions |
+| `bin/wpal coverage [--untriaged]` | Wrapped vs planned vs ignored vs untriaged WordPress functions; flags mistakes in `wpal.map.php` |
 
 A `<spec>` is `current` (the committed `api/wordpress.json`), `latest`, a version such as `7.0`, or a snapshot file.
 Downloads and snapshots are cached in `build/`.
 
-`wpal.map.php` lists WordPress functions WPAL deliberately doesn't wrap, with a reason. Private and deprecated
-functions are ignored automatically. Add an entry there instead of leaving a function untriaged when it isn't API
-(handlers, internals, polyfills).
+`wpal.map.php` says where WordPress functions belong:
+
+- `services`: the service each function goes into, including ones not wrapped yet ("planned"). Theme template tags
+  have their own `*Template` services (`PostTemplate`, `CommentTemplate`…) rather than growing the domain services.
+- `ignore` / `ignore_files`: functions WPAL deliberately doesn't wrap, with a reason (handlers, internals, polyfills).
+  Private and deprecated functions are ignored automatically.
+
+Triage an untriaged function by adding it to one of these, never by leaving it out.
 
 When a new WordPress version ships: `bin/wpal diff current latest` to see what changed, then `bin/wpal snapshot latest`
 and `bin/wpal check` to see what `Service` must follow.
 
 ## Adding a WordPress function
 
-1. Pick the service by domain, not by WordPress source file. If none fits, create a new service: interface,
+1. Use the service `wpal.map.php` assigns; if it has none, pick one by domain, not by WordPress source file, and add
+   the function to the map. If no service fits, create a new one: interface,
    `final class Wp<Name>`, and a `create_*()` / `set_custom_*()` pair in `ServiceFactory` with tests in
    `tests/ServiceFactoryTest.php` (including the `tearDown()` reset).
 2. Copy the signature from the current WordPress source exactly. Add native types only where WordPress guarantees
