@@ -33,6 +33,8 @@ final class WordPressError extends RuntimeException implements WpalException {
 
 	/**
 	 * Whether a WordPress return value is a `WP_Error`.
+	 *
+	 * @phpstan-assert-if-true \WP_Error $value
 	 */
 	public static function isWpError( mixed $value ): bool {
 		return is_object( $value ) && is_a( $value, 'WP_Error' );

@@ -40,20 +40,53 @@ What changes compared to WordPress:
   throw `WordPressError`.
 - Scripts are built fluently; `data()` passes JSON-encoded data safely instead of `wp_localize_script()`'s strings.
 
+### Abilities and AI
+
+Describe what your plugin can do as an ability, and AI agents, the REST API and other plugins can discover and run
+it. WPAL registers it on the right hook, whenever you call `register()`:
+
+```php
+$wp->abilities()->define( 'my-plugin/summarize-post' )
+	->label( 'Summarize post' )
+	->description( 'Returns a one-paragraph summary of a post.' )
+	->category( 'content' )
+	->input( [ 'type' => 'object', 'properties' => [ 'id' => [ 'type' => 'integer' ] ], 'required' => [ 'id' ] ] )
+	->readonly()
+	->public()
+	->requireCapability( 'read' )
+	->execute( fn ( array $input ): string => $wp->ai()
+		->prompt( $wp->posts()->get( $input['id'] )->content )
+		->system( 'Summarize in one paragraph.' )
+		->generateText() )
+	->register();
+
+$summary = $wp->abilities()->execute( 'my-plugin/summarize-post', [ 'id' => 42 ] );
+```
+
+`ai()` uses the site's configured provider through WordPress's AI Client; `generateText()` and `generateJson()` throw
+`WordPressError` instead of returning `WP_Error`.
+
 ### Testing
 
 Pass in-memory fakes for the services your code uses; they behave like WordPress without it:
 
 ```php
+use Merkushin\Wpal\Api\Testing\FakeAi;
 use Merkushin\Wpal\Api\Testing\FakeHooks;
 use Merkushin\Wpal\Api\Testing\FakeOptions;
 use Merkushin\Wpal\Wpal;
 
-$wp = new Wpal( hooks: new FakeHooks(), options: new FakeOptions( [ 'my_plugin_limit' => '3' ] ) );
+$wp = new Wpal(
+	hooks: new FakeHooks(),
+	options: new FakeOptions( [ 'my_plugin_limit' => '3' ] ),
+	ai: new FakeAi( [ 'A short summary.' ] ), // scripted responses; prompts are recorded
+);
 
 ( new MyPlugin( $wp ) )->boot();
 $wp->hooks()->doAction( 'init' );
 ```
+
+The full reference is in [docs/api.md](docs/api.md). Coding agents: start with [llms.txt](llms.txt).
 
 ## Service
 
@@ -67,7 +100,7 @@ $assets->wp_enqueue_script( 'my-plugin', plugins_url( 'build/app.js', __FILE__ )
 ```
 
 In tests, swap a service for a mock with `ServiceFactory::set_custom_assets( $mock )`; the Api's default services pick
-it up too.
+it up too. [docs/services.md](docs/services.md) lists which service wraps which function.
 
 ## Requirements
 

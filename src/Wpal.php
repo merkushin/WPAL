@@ -2,10 +2,14 @@
 
 namespace Merkushin\Wpal;
 
+use Merkushin\Wpal\Api\Abilities;
+use Merkushin\Wpal\Api\Ai;
 use Merkushin\Wpal\Api\Assets;
 use Merkushin\Wpal\Api\Hooks;
 use Merkushin\Wpal\Api\Options;
 use Merkushin\Wpal\Api\Posts;
+use Merkushin\Wpal\Api\WordPress\WordPressAbilities;
+use Merkushin\Wpal\Api\WordPress\WordPressAi;
 use Merkushin\Wpal\Api\WordPress\WordPressAssets;
 use Merkushin\Wpal\Api\WordPress\WordPressHooks;
 use Merkushin\Wpal\Api\WordPress\WordPressOptions;
@@ -38,17 +42,32 @@ final class Wpal {
 	/** @var Posts|null */
 	private $posts;
 
-	public function __construct( ?Hooks $hooks = null, ?Options $options = null, ?Assets $assets = null, ?Posts $posts = null ) {
+	/** @var Abilities|null */
+	private $abilities;
+
+	/** @var Ai|null */
+	private $ai;
+
+	public function __construct(
+		?Hooks $hooks = null,
+		?Options $options = null,
+		?Assets $assets = null,
+		?Posts $posts = null,
+		?Abilities $abilities = null,
+		?Ai $ai = null
+	) {
 		if ( PHP_VERSION_ID < self::MINIMUM_PHP_VERSION_ID ) {
 			throw new RuntimeException(
 				'WPAL\'s Api layer needs PHP 8.4 or later; this is PHP ' . PHP_VERSION . '. On older PHP, use Merkushin\\Wpal\\ServiceFactory.'
 			);
 		}
 
-		$this->hooks   = $hooks;
-		$this->options = $options;
-		$this->assets  = $assets;
-		$this->posts   = $posts;
+		$this->hooks     = $hooks;
+		$this->options   = $options;
+		$this->assets    = $assets;
+		$this->posts     = $posts;
+		$this->abilities = $abilities;
+		$this->ai        = $ai;
 	}
 
 	public function hooks(): Hooks {
@@ -81,5 +100,25 @@ final class Wpal {
 		}
 
 		return $this->posts;
+	}
+
+	public function abilities(): Abilities {
+		if ( $this->abilities === null ) {
+			$this->abilities = new WordPressAbilities(
+				ServiceFactory::create_abilities(),
+				ServiceFactory::create_hooks(),
+				ServiceFactory::create_capabilities()
+			);
+		}
+
+		return $this->abilities;
+	}
+
+	public function ai(): Ai {
+		if ( $this->ai === null ) {
+			$this->ai = new WordPressAi( ServiceFactory::create_ai() );
+		}
+
+		return $this->ai;
 	}
 }

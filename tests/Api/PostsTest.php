@@ -11,6 +11,7 @@ use Merkushin\Wpal\Api\Posts\SortBy;
 use Merkushin\Wpal\Api\Testing\FakePosts;
 use Merkushin\Wpal\Api\WordPress\WordPressPosts;
 use Merkushin\Wpal\Service\Posts as PostsService;
+use Merkushin\Wpal\Tests\Api\Stubs\Stubs;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
@@ -26,9 +27,7 @@ class PostsTest extends TestCase
 {
 	public static function setUpBeforeClass(): void
 	{
-		if ( ! class_exists( 'WP_Error' ) ) {
-			require __DIR__ . '/Stubs/WP_Error.php';
-		}
+		Stubs::load( 'WP_Error' );
 	}
 
 	public function testFind_WhenPostExists_MapsItToPost(): void
@@ -85,7 +84,7 @@ class PostsTest extends TestCase
 	public function testCreate_WhenWordPressReturnsError_ThrowsWordPressError(): void
 	{
 		$service = $this->createMock( PostsService::class );
-		$service->method( 'wp_insert_post' )->willReturn( new \WP_Error( 'invalid_post_type', 'Invalid post type.' ) );
+		$service->method( 'wp_insert_post' )->willReturn( Stubs::error( 'invalid_post_type', 'Invalid post type.' ) );
 
 		try {
 			( new WordPressPosts( $service ) )->create( title: 'x', type: 'nope' );

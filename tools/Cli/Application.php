@@ -6,6 +6,7 @@ use Merkushin\Wpal\Tools\Command\CheckCommand;
 use Merkushin\Wpal\Tools\Command\Command;
 use Merkushin\Wpal\Tools\Command\CoverageCommand;
 use Merkushin\Wpal\Tools\Command\DiffCommand;
+use Merkushin\Wpal\Tools\Command\DocsCommand;
 use Merkushin\Wpal\Tools\Command\FixCommand;
 use Merkushin\Wpal\Tools\Command\SnapshotCommand;
 use Merkushin\Wpal\Tools\Workspace;
@@ -22,7 +23,7 @@ final class Application {
 	 * @param resource|null $errors Defaults to STDERR.
 	 */
 	public function __construct( Workspace $workspace, private Output $output = new Output(), private $errors = null ) {
-		foreach ( [ new SnapshotCommand( $workspace ), new DiffCommand( $workspace ), new CheckCommand( $workspace ), new FixCommand( $workspace ), new CoverageCommand( $workspace ) ] as $command ) {
+		foreach ( [ new SnapshotCommand( $workspace ), new DiffCommand( $workspace ), new CheckCommand( $workspace ), new FixCommand( $workspace ), new CoverageCommand( $workspace ), new DocsCommand( $workspace ) ] as $command ) {
 			$this->commands[ $command->name() ] = $command;
 		}
 	}

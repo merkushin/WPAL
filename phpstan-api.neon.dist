@@ -10,5 +10,8 @@ parameters:
 	excludePaths:
 		# Stands in for WordPress's WP_Error in tests.
 		- tests/Api/Stubs
+	scanFiles:
+		# Builds the stand-ins; scanned for its signatures only.
+		- tests/Api/Stubs/Stubs.php
 	scanDirectories:
 		- build/wordpress-stubs

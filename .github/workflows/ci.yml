@@ -52,6 +52,7 @@ jobs:
       - run: bin/wpal fix --check
       - run: bin/wpal check
       - run: bin/wpal coverage --fail-on-untriaged
+      - run: bin/wpal docs --check
 
   phpcs:
     name: PHP compatibility
