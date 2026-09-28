@@ -25,4 +25,11 @@ final class WpScreen implements Screen {
 	public function add_screen_option( $option, $args = array() ) {
 		add_screen_option( $option, $args );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function convert_to_screen( $hook_name ) {
+		return convert_to_screen( $hook_name );
+	}
 }

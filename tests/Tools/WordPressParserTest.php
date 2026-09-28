@@ -116,6 +116,7 @@ class WordPressParserTest extends TestCase
 		unlink( $file );
 
 		self::assertSame( self::$snapshot->version, $loaded->version );
+		self::assertSame( 'get_the_ID', $loaded->get( 'get_the_id' )?->name );
 		self::assertEquals( self::$snapshot->functions, $loaded->functions );
 		self::assertSame( self::$snapshot->constants, $loaded->constants );
 	}

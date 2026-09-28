@@ -3272,7 +3272,7 @@
             "doc": "/**\n * Sorts a multidimensional array by first member of each top level member.\n *\n * Used by uasort() as a callback, should not be used directly.\n *\n * @since 2.9.0\n * @access private\n *\n * @param array $a\n * @param array $b\n * @return int\n */",
             "private": true
         },
-        "_usort_terms_by_id": {
+        "_usort_terms_by_ID": {
             "parameters": [
                 {
                     "name": "a"
@@ -7448,7 +7448,7 @@
             "file": "wp-includes/formatting.php",
             "doc": "/**\n * Adds backslashes before letters and before a number at the start of a string.\n *\n * @since 0.71\n *\n * @param string $value Value to which backslashes will be added.\n * @return string String with backslashes inserted.\n */"
         },
-        "balancetags": {
+        "balanceTags": {
             "parameters": [
                 {
                     "name": "text"
@@ -8760,7 +8760,7 @@
             "file": "wp-includes/comment-template.php",
             "doc": "/**\n * Displays HTML content for cancel comment reply link.\n *\n * @since 2.7.0\n *\n * @param string $link_text Optional. Text to display for cancel reply link. If empty,\n *                     defaults to 'Click here to cancel reply'. Default empty.\n */"
         },
-        "capital_p_dangit": {
+        "capital_P_dangit": {
             "parameters": [
                 {
                     "name": "text"
@@ -9270,7 +9270,7 @@
             "file": "wp-includes/comment-template.php",
             "doc": "/**\n * Displays the HTML email link to the author of the current comment.\n *\n * Care should be taken to protect the email address and assure that email\n * harvesters do not capture your commenter's email address. Most assume that\n * their email address will not appear in raw form on the site. Doing so will\n * enable anyone, including those that people don't want to get the email\n * address and use it for their own means good and bad.\n *\n * @since 0.71\n * @since 4.6.0 Added the `$comment` parameter.\n *\n * @param string         $link_text Optional. Text to display instead of the comment author's email address.\n *                                  Default empty.\n * @param string         $before    Optional. Text or HTML to display before the email link. Default empty.\n * @param string         $after     Optional. Text or HTML to display after the email link. Default empty.\n * @param int|WP_Comment $comment   Optional. Comment ID or WP_Comment object. Default is the current comment.\n */"
         },
-        "comment_author_ip": {
+        "comment_author_IP": {
             "parameters": [
                 {
                     "name": "comment_id",
@@ -9479,7 +9479,7 @@
             "file": "wp-includes/feed.php",
             "doc": "/**\n * Displays the feed GUID for the current comment.\n *\n * @since 2.5.0\n *\n * @param int|WP_Comment $comment_id Optional comment object or ID. Defaults to global comment object.\n */"
         },
-        "comment_id": {
+        "comment_ID": {
             "parameters": [],
             "since": "0.71",
             "file": "wp-includes/comment-template.php",
@@ -10113,7 +10113,7 @@
             "file": "wp-includes/functions.php",
             "doc": "/**\n * Retrieves the date in localized format, based on a sum of Unix timestamp and\n * timezone offset in seconds.\n *\n * If the locale specifies the locale month and weekday, then the locale will\n * take over the format for the date. If it isn't, then the date format string\n * will be used instead.\n *\n * Note that due to the way WP typically generates a sum of timestamp and offset\n * with `strtotime()`, it implies offset added at a _current_ time, not at the time\n * the timestamp represents. Storing such timestamps or calculating them differently\n * will lead to invalid output.\n *\n * @since 0.71\n * @since 5.3.0 Converted into a wrapper for wp_date().\n *\n * @param string   $format                Format to display the date.\n * @param int|bool $timestamp_with_offset Optional. A sum of Unix timestamp and timezone offset\n *                                        in seconds. Default false.\n * @param bool     $gmt                   Optional. Whether to use GMT timezone. Only applies\n *                                        if timestamp is not provided. Default false.\n * @return string The date, translated if locale specifies it.\n */"
         },
-        "dbdelta": {
+        "dbDelta": {
             "parameters": [
                 {
                     "name": "queries",
@@ -11882,7 +11882,7 @@
             "file": "wp-includes/option.php",
             "doc": "/**\n * Filters the default value for the option.\n *\n * For settings which register a default setting in `register_setting()`, this\n * function is added as a filter to `default_option_{$option}`.\n *\n * @since 4.7.0\n *\n * @param mixed  $default_value  Existing default value to return.\n * @param string $option         Option name.\n * @param bool   $passed_default Was `get_option()` passed a default value?\n * @return mixed Filtered default value.\n */"
         },
-        "filter_ssl": {
+        "filter_SSL": {
             "parameters": [
                 {
                     "name": "url"
@@ -12649,7 +12649,7 @@
             "file": "wp-includes/deprecated.php",
             "doc": "/**\n * Retrieve icon URL and Path.\n *\n * @since 2.1.0\n * @deprecated 2.5.0 Use wp_get_attachment_image_src()\n * @see wp_get_attachment_image_src()\n *\n * @param int  $id       Optional. Post ID.\n * @param bool $fullsize Optional. Whether to have full image. Default false.\n * @return array Icon URL and full path to file, respectively.\n */"
         },
-        "get_attachment_innerhtml": {
+        "get_attachment_innerHTML": {
             "parameters": [
                 {
                     "name": "id",
@@ -13463,7 +13463,7 @@
             "file": "wp-includes/comment-template.php",
             "doc": "/**\n * Retrieves HTML content for cancel comment reply link.\n *\n * @since 2.7.0\n * @since 6.2.0 Added the `$post` parameter.\n *\n * @param string           $link_text Optional. Text to display for cancel reply link. If empty,\n *                                    defaults to 'Click here to cancel reply'. Default empty.\n * @param int|WP_Post|null $post      Optional. The post the comment thread is being\n *                                    displayed for. Defaults to the current global post.\n * @return string\n */"
         },
-        "get_cat_id": {
+        "get_cat_ID": {
             "parameters": [
                 {
                     "name": "cat_name"
@@ -13802,7 +13802,7 @@
             "file": "wp-includes/comment-template.php",
             "doc": "/**\n * Returns the HTML email link to the author of the current comment.\n *\n * Care should be taken to protect the email address and assure that email\n * harvesters do not capture your commenter's email address. Most assume that\n * their email address will not appear in raw form on the site. Doing so will\n * enable anyone, including those that people don't want to get the email\n * address and use it for their own means good and bad.\n *\n * @since 2.7.0\n * @since 4.6.0 Added the `$comment` parameter.\n *\n * @param string         $link_text Optional. Text to display instead of the comment author's email address.\n *                                  Default empty.\n * @param string         $before    Optional. Text or HTML to display before the email link. Default empty.\n * @param string         $after     Optional. Text or HTML to display after the email link. Default empty.\n * @param int|WP_Comment $comment   Optional. Comment ID or WP_Comment object. Default is the current comment.\n * @return string HTML markup for the comment author email link. By default, the email address is obfuscated\n *                via the {@see 'comment_email'} filter with antispambot().\n */"
         },
-        "get_comment_author_ip": {
+        "get_comment_author_IP": {
             "parameters": [
                 {
                     "name": "comment_id",
@@ -13962,7 +13962,7 @@
             "file": "wp-includes/feed.php",
             "doc": "/**\n * Retrieves the feed GUID for the current comment.\n *\n * @since 2.5.0\n *\n * @param int|WP_Comment $comment_id Optional comment object or ID. Defaults to global comment object.\n * @return string|false GUID for comment on success, false on failure.\n */"
         },
-        "get_comment_id": {
+        "get_comment_ID": {
             "parameters": [],
             "since": "1.5.0",
             "file": "wp-includes/comment-template.php",
@@ -18604,7 +18604,7 @@
             "file": "wp-includes/deprecated.php",
             "doc": "/**\n * Retrieve the ICQ number of the author of the current post.\n *\n * @since 1.5.0\n * @deprecated 2.8.0 Use get_the_author_meta()\n * @see get_the_author_meta()\n *\n * @return string The author's ICQ number.\n */"
         },
-        "get_the_author_id": {
+        "get_the_author_ID": {
             "parameters": [],
             "since": "1.5.0",
             "deprecated": "2.8.0",
@@ -18713,7 +18713,7 @@
             "file": "wp-includes/category-template.php",
             "doc": "/**\n * Retrieves post categories.\n *\n * This tag may be used outside The Loop by passing a post ID as the parameter.\n *\n * Note: This function only returns results from the default \"category\" taxonomy.\n * For custom taxonomies use get_the_terms().\n *\n * @since 0.71\n *\n * @param int|false $post_id Optional. The post ID. Defaults to current post ID.\n * @return WP_Term[] Array of WP_Term objects, one for each category assigned to the post.\n */"
         },
-        "get_the_category_by_id": {
+        "get_the_category_by_ID": {
             "parameters": [
                 {
                     "name": "cat_id"
@@ -18868,7 +18868,7 @@
             "file": "wp-includes/post-template.php",
             "doc": "/**\n * Retrieves the Post Global Unique Identifier (guid).\n *\n * The guid will appear to be a link, but should not be used as an link to the\n * post. The reason you should not use it as a link, is because of moving the\n * blog across domains.\n *\n * @since 1.5.0\n *\n * @param int|WP_Post $post Optional. Post ID or post object. Default is global $post.\n * @return string\n */"
         },
-        "get_the_id": {
+        "get_the_ID": {
             "parameters": [],
             "since": "2.1.0",
             "file": "wp-includes/post-template.php",
@@ -23974,7 +23974,7 @@
             "file": "wp-admin/includes/theme.php",
             "doc": "/**\n * Renders an admin notice in case some themes have been paused due to errors.\n *\n * @since 5.2.0\n *\n * @global string                       $pagenow        The filename of the current screen.\n * @global WP_Paused_Extensions_Storage $_paused_themes\n */"
         },
-        "pclziputilcopyblock": {
+        "PclZipUtilCopyBlock": {
             "parameters": [
                 {
                     "name": "p_src"
@@ -23993,7 +23993,7 @@
             ],
             "file": "wp-admin/includes/class-pclzip.php"
         },
-        "pclziputiloptiontext": {
+        "PclZipUtilOptionText": {
             "parameters": [
                 {
                     "name": "p_option"
@@ -24001,7 +24001,7 @@
             ],
             "file": "wp-admin/includes/class-pclzip.php"
         },
-        "pclziputilpathinclusion": {
+        "PclZipUtilPathInclusion": {
             "parameters": [
                 {
                     "name": "p_dir"
@@ -24012,7 +24012,7 @@
             ],
             "file": "wp-admin/includes/class-pclzip.php"
         },
-        "pclziputilpathreduction": {
+        "PclZipUtilPathReduction": {
             "parameters": [
                 {
                     "name": "p_dir"
@@ -24020,7 +24020,7 @@
             ],
             "file": "wp-admin/includes/class-pclzip.php"
         },
-        "pclziputilrename": {
+        "PclZipUtilRename": {
             "parameters": [
                 {
                     "name": "p_src"
@@ -24031,7 +24031,7 @@
             ],
             "file": "wp-admin/includes/class-pclzip.php"
         },
-        "pclziputiltranslatewinpath": {
+        "PclZipUtilTranslateWinPath": {
             "parameters": [
                 {
                     "name": "p_path"
@@ -29357,7 +29357,7 @@
             "file": "wp-admin/includes/misc.php",
             "doc": "/**\n * Updates the htaccess file with the current rules if it is writable.\n *\n * Always writes to the file if it exists and is writable to ensure that we\n * blank out old rules.\n *\n * @since 1.5.0\n *\n * @global WP_Rewrite $wp_rewrite WordPress rewrite component.\n *\n * @return bool|null True on write success, false on failure. Null in multisite.\n */"
         },
-        "savedomdocument": {
+        "saveDomDocument": {
             "parameters": [
                 {
                     "name": "doc"
@@ -30638,7 +30638,7 @@
             "file": "wp-includes/deprecated.php",
             "doc": "/**\n * Display the ICQ number of the author of the current post.\n *\n * @since 0.71\n * @deprecated 2.8.0 Use the_author_meta()\n * @see the_author_meta()\n */"
         },
-        "the_author_id": {
+        "the_author_ID": {
             "parameters": [],
             "since": "0.71",
             "deprecated": "2.8.0",
@@ -30798,7 +30798,7 @@
             "file": "wp-includes/deprecated.php",
             "doc": "/**\n * Prints a category with optional text before and after.\n *\n * @since 0.71\n * @deprecated 0.71 Use get_the_category_by_ID()\n * @see get_the_category_by_ID()\n *\n * @param string $before Optional. Text to display before the category. Default empty.\n * @param string $after  Optional. Text to display after the category. Default empty.\n */"
         },
-        "the_category_id": {
+        "the_category_ID": {
             "parameters": [
                 {
                     "name": "display",
@@ -31082,7 +31082,7 @@
             "file": "wp-includes/theme.php",
             "doc": "/**\n * Displays header video URL.\n *\n * @since 4.7.0\n */"
         },
-        "the_id": {
+        "the_ID": {
             "parameters": [],
             "since": "0.71",
             "file": "wp-includes/post-template.php",
@@ -38551,7 +38551,7 @@
             "file": "wp-includes/functions.php",
             "doc": "/**\n * Wrapper for PHP filesize with filters and casting the result as an integer.\n *\n * @since 6.0.0\n * @since 7.1.0 The return value is now ensured to always be greater than or equal to zero.\n *\n * @link https://www.php.net/manual/en/function.filesize.php\n *\n * @param string $path Path to the file.\n * @return int The size of the file in bytes, or 0 in the event of an error.\n * @phpstan-return non-negative-int\n */"
         },
-        "wp_filesystem": {
+        "WP_Filesystem": {
             "parameters": [
                 {
                     "name": "args",
@@ -49523,7 +49523,7 @@
             "file": "wp-includes/fonts.php",
             "doc": "/**\n * Unregisters a font collection from the Font Library.\n *\n * @since 6.5.0\n *\n * @param string $slug Font collection slug.\n * @return bool True if the font collection was unregistered successfully, else false.\n */"
         },
-        "wp_unregister_globals": {
+        "wp_unregister_GLOBALS": {
             "parameters": [],
             "since": "2.1.0",
             "deprecated": "5.5.0",
@@ -50517,7 +50517,7 @@
             "file": "wp-includes/ms-deprecated.php",
             "doc": "/**\n * Adds an 'updated=true' argument to a URL.\n *\n * @since MU (3.0.0)\n * @deprecated 3.3.0 Use add_query_arg()\n * @see add_query_arg()\n *\n * @param string $url Optional. Redirect URL. Default empty.\n * @return string\n */"
         },
-        "wpmu_checkavailablespace": {
+        "wpmu_checkAvailableSpace": {
             "parameters": [],
             "deprecated": "3.0.0",
             "file": "wp-admin/includes/ms-deprecated.php",

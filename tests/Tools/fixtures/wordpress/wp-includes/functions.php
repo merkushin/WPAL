@@ -12,7 +12,7 @@ function wp_initial_constants() {
  * @since 3.0.0
  *
  * @param int $id Thing ID.
- * @return WP_Post|stdClass|null The thing.
+ * @return WP_Post|stdClass|SimplePie\SimplePie|null The thing.
  */
 function get_thing( $id, $output = OBJECT, array $args = array(), &$found = null ) {}
 
@@ -28,6 +28,8 @@ function renamed_function() {
  * @access private
  */
 function internal_but_unprefixed() {}
+
+function get_the_ID() {}
 
 class WP_Thing {
 	public function get_thing() {}

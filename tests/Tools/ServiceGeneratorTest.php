@@ -72,12 +72,12 @@ class ServiceGeneratorTest extends TestCase
 		);
 	}
 
-	public function testGenerate_WhenDocNamesGlobalClasses_ImportsThem(): void
+	public function testGenerate_WhenDocNamesClasses_ImportsGlobalOnesAndQualifiesNamespacedOnes(): void
 	{
 		$interface = self::$files['src/Service/Things.php'];
 
 		self::assertStringContainsString( "use stdClass;\nuse WP_Post;\n", $interface );
-		self::assertStringContainsString( "\t * @return WP_Post|stdClass|null The thing.\n", $interface );
+		self::assertStringContainsString( "\t * @return WP_Post|stdClass|\\SimplePie\\SimplePie|null The thing.\n", $interface );
 	}
 
 	public function testGenerate_WhenFunctionReturnsValue_ReturnsIt(): void

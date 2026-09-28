@@ -98,4 +98,15 @@ interface Assets {
 	 *                                 '(orientation: portrait)' and '(max-width: 640px)'.
 	 */
 	public function wp_enqueue_style( string $handle, string $src = '', array $deps = array(), $ver = false, string $media = 'all' ): void;
+
+	/**
+	 * Enqueues the default ThickBox js and css.
+	 *
+	 * If any of the settings need to be changed, this can be done with another js
+	 * file similar to media-upload.js. That file should
+	 * require array('thickbox') to ensure it is loaded after.
+	 *
+	 * @since 2.5.0
+	 */
+	public function add_thickbox();
 }
