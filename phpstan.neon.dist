@@ -1,5 +1,5 @@
 # Service layer: must stay PHP 7.4 compatible (WordPress's own minimum).
-# The Api layer (PHP 8.4) will get its own config: phpstan-api.neon.dist.
+# The Api layer (PHP 8.4) has its own config: phpstan-api.neon.dist.
 #
 # Run through `composer phpstan`: it first splits the WordPress stubs into build/wordpress-stubs.
 # With the single 6 MB stubs file, PHPStan re-parses the whole file for every WordPress symbol it

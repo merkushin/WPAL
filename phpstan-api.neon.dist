@@ -1,0 +1,14 @@
+# The Api layer and its tests: PHP 8.4+.
+parameters:
+	level: 8
+	phpVersion: 80400
+	paths:
+		- src/Api
+		# Parses on PHP 7.4 (phpcs.xml.dist checks that), but refers to the Api classes.
+		- src/Wpal.php
+		- tests/Api
+	excludePaths:
+		# Stands in for WordPress's WP_Error in tests.
+		- tests/Api/Stubs
+	scanDirectories:
+		- build/wordpress-stubs

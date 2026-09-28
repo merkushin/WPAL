@@ -7,6 +7,22 @@ promise in the README: code that calls a service keeps working unless WordPress 
 
 ### Added
 
+The Api layer (PHP 8.4+), a designed API built on `Service`, starting with four services. `new Wpal()` is the entry
+point; each service also has an in-memory fake for tests (`Api\Testing\Fake*`).
+
+- `hooks()`: `onAction()`/`onFilter()` return a `Subscription` you can `remove()`; callbacks receive as many arguments
+  as they declare.
+- `options()`: `get()` returns your default instead of `false`; typed `string()`, `int()`, `bool()`, `array()`.
+- `assets()`: fluent `script()`/`style()` builders with `defer()`, `async()`, `inFooter()`, safe `data()` and
+  `translations()`.
+- `posts()`: `find()`/`get()` return `Post` value objects; immutable `query()` builder; `create()`/`update()` with named
+  arguments throw `WordPressError` instead of returning `WP_Error`.
+
+New and extended services the Api builds on: `Options` (options, site and network options), more of `Assets`
+(register, dequeue, inline styles, translations), site transients in `Transient`, and `register_setting()` in
+`Settings`.
+
+
 474 methods and 26 services covering WordPress's template tags and the rest of its template files, 887 methods in all:
 
 - Theme output: `PostTemplate`, `CommentTemplate`, `TermTemplate`, `AuthorTemplate`, `ArchiveTemplate`,

@@ -4,12 +4,14 @@
 
 	<file>src/Service</file>
 	<file>src/ServiceFactory.php</file>
+	<!-- The Api entry point must parse on PHP 7.4 to report the version requirement. -->
+	<file>src/Wpal.php</file>
 
 	<arg name="extensions" value="php"/>
 	<arg name="colors"/>
 	<arg value="sp"/>
 
-	<!-- The Api layer (src/Api) will get its own ruleset targeting PHP 8.4. -->
+	<!-- src/Api needs PHP 8.4 and is checked by phpstan-api.neon.dist instead. -->
 	<config name="testVersion" value="7.4-"/>
 	<rule ref="PHPCompatibility"/>
 </ruleset>
