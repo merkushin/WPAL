@@ -1526,4 +1526,47 @@ interface Taxonomies {
 	 * @return mixed Original value of $check, or false if term meta is not supported.
 	 */
 	public function wp_check_term_meta_support_prefilter( $check );
+
+	/**
+	 * Determines whether a term is publicly viewable.
+	 *
+	 * A term is considered publicly viewable if its taxonomy is viewable.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param int|WP_Term $term Term ID or term object.
+	 * @return bool Whether the term is publicly viewable.
+	 */
+	public function is_term_publicly_viewable( $term );
+
+	/**
+	 * Gets comma-separated list of terms available to edit for the given post ID.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param int    $post_id
+	 * @param string $taxonomy Optional. The taxonomy for which to retrieve terms. Default 'post_tag'.
+	 * @return string|false|WP_Error
+	 */
+	public function get_terms_to_edit( $post_id, $taxonomy = 'post_tag' );
+
+	/**
+	 * Adds a new term to the database if it does not already exist.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param string $tag_name The term name.
+	 * @param string $taxonomy Optional. The taxonomy within which to create the term. Default 'post_tag'.
+	 * @return array|WP_Error
+	 */
+	public function wp_create_term( $tag_name, $taxonomy = 'post_tag' );
+
+	/**
+	 * Queue term meta for lazy-loading.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @param array $term_ids List of term IDs.
+	 */
+	public function wp_lazyload_term_meta( array $term_ids );
 }

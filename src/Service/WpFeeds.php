@@ -312,4 +312,11 @@ final class WpFeeds implements Feeds {
 	public function wp_title_rss( $deprecated = '&#8211;' ) {
 		wp_title_rss( $deprecated );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function do_feed() {
+		do_feed();
+	}
 }

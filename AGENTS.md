@@ -79,7 +79,9 @@ Downloads and snapshots are cached in `build/`.
 - `ignore` / `ignore_files`: functions WPAL deliberately doesn't wrap, with a reason (handlers, internals, polyfills).
   Private and deprecated functions are ignored automatically.
 
-Triage an untriaged function by adding it to one of these, never by leaving it out.
+Every WordPress function is wrapped or ignored with a reason: CI runs `bin/wpal coverage --fail-on-untriaged`. To
+triage new ones (e.g. after a WordPress update), follow the `triage-wordpress-functions` skill in
+`.claude/skills/`: its rules decide wrap vs ignore, the ignore reasons, and service naming.
 
 Other map sections: `types` pins native types that shipped before the generator (never add new ones; the generator
 otherwise uses WordPress's own types), and `extendable` lists `Wp*` classes that stay non-final because they shipped
@@ -92,8 +94,9 @@ methods.
 
 ## Adding a WordPress function
 
-1. Find the function's service: `planned` in `wpal.map.php` may already assign one. Otherwise pick one by domain, not
-   by WordPress source file; a new service name is fine when nothing fits.
+1. Find the function's service: `planned` in `wpal.map.php` may already assign one. Otherwise follow the
+   `triage-wordpress-functions` skill: pick by domain, not by WordPress source file; a new service is fine when
+   nothing fits.
 2. Add the function to that service under `services` (and remove it from `planned`). The list order is the method
    order.
 3. Run `bin/wpal fix`. It writes the interface, the `Wp*` class, docblocks and imports, and the `ServiceFactory` pair

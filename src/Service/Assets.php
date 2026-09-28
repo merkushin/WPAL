@@ -4,6 +4,8 @@
 
 namespace Merkushin\Wpal\Service;
 
+use WP_Screen;
+use WP_Script_Modules;
 use WP_Scripts;
 use WP_Styles;
 
@@ -433,4 +435,400 @@ interface Assets {
 	 * @return WP_Styles WP_Styles instance.
 	 */
 	public function wp_styles();
+
+	/**
+	 * Formats `<script>` loader tags.
+	 *
+	 * It is possible to inject attributes in the `<script>` tag via the {@see 'wp_script_attributes'} filter.
+	 * Automatically injects type attribute if needed.
+	 *
+	 * @since 5.7.0
+	 *
+	 * @param array<string, string|bool> $attributes Key-value pairs representing `<script>` tag attributes.
+	 * @return string String containing `<script>` opening and closing tags.
+	 */
+	public function wp_get_script_tag( $attributes );
+
+	/**
+	 * Prints formatted `<script>` loader tag.
+	 *
+	 * It is possible to inject attributes in the `<script>` tag via the {@see 'wp_script_attributes'} filter.
+	 * Automatically injects type attribute if needed.
+	 *
+	 * @since 5.7.0
+	 *
+	 * @param array<string, string|bool> $attributes Key-value pairs representing `<script>` tag attributes.
+	 */
+	public function wp_print_script_tag( $attributes );
+
+	/**
+	 * Constructs an inline script tag.
+	 *
+	 * It is possible to inject attributes in the `<script>` tag via the {@see 'wp_inline_script_attributes'} filter.
+	 *
+	 * If the `$data` is unsafe to embed in a `<script>` tag, an empty script tag with the provided
+	 * attributes will be returned. JavaScript and JSON contents can be escaped, so this is only likely
+	 * to be a problem with unusual content types.
+	 *
+	 * Example:
+	 *
+	 *     // The dangerous JavaScript in this example will be safely escaped.
+	 *     // A string with the script tag and the desired contents will be returned.
+	 *     wp_get_inline_script_tag( 'console.log( "</script>" );' );
+	 *
+	 *     // This data is unsafe and `text/plain` cannot be escaped.
+	 *     // The following will return `""` to indicate failure:
+	 *     wp_get_inline_script_tag( '</script>', array( 'type' => 'text/plain' ) );
+	 *
+	 * @since 5.7.0
+	 * @since 7.0.0 Returns an empty string if the data cannot be safely embedded in a script tag.
+	 *
+	 * @param string                     $data       Data for script tag: JavaScript, importmap, speculationrules, etc.
+	 * @param array<string, string|bool> $attributes Optional. Key-value pairs representing `<script>` tag attributes.
+	 * @return string HTML script tag containing the provided $data or the empty string `""` if the data cannot be safely embedded in a script tag.
+	 */
+	public function wp_get_inline_script_tag( $data, $attributes = array() );
+
+	/**
+	 * Prints an inline script tag.
+	 *
+	 * It is possible to inject attributes in the `<script>` tag via the {@see 'wp_inline_script_attributes'} filter.
+	 * Automatically injects type attribute if needed.
+	 *
+	 * @since 5.7.0
+	 *
+	 * @param string                     $data       Data for script tag: JavaScript, importmap, speculationrules, etc.
+	 * @param array<string, string|bool> $attributes Optional. Key-value pairs representing `<script>` tag attributes.
+	 */
+	public function wp_print_inline_script_tag( $data, $attributes = array() );
+
+	/**
+	 * Returns contents of an inline script used in appending polyfill scripts for
+	 * browsers which fail the provided tests. The provided array is a mapping from
+	 * a condition to verify feature support to its polyfill script handle.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param WP_Scripts $scripts WP_Scripts object.
+	 * @param string[]   $tests   Features to detect.
+	 * @return string Conditional polyfill inline script.
+	 */
+	public function wp_get_script_polyfill( $scripts, $tests );
+
+	/**
+	 * Returns the suffix that can be used for the scripts.
+	 *
+	 * There are two suffix types, the normal one and the dev suffix.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param string $type The type of suffix to retrieve.
+	 * @return string The script suffix.
+	 */
+	public function wp_scripts_get_suffix( $type = '' );
+
+	/**
+	 * Prints the script queue in the HTML head on the front end.
+	 *
+	 * Postpones the scripts that were queued for the footer.
+	 * wp_print_footer_scripts() is called in the footer to print these scripts.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @global WP_Scripts $wp_scripts
+	 *
+	 * @return string[] Handles of the scripts that were printed.
+	 */
+	public function wp_print_head_scripts();
+
+	/**
+	 * Hooks to print the scripts and styles in the footer.
+	 *
+	 * @since 2.8.0
+	 */
+	public function wp_print_footer_scripts();
+
+	/**
+	 * Enqueues a stylesheet for a specific block.
+	 *
+	 * If the theme has opted-in to load block styles on demand,
+	 * then the stylesheet will be enqueued on-render,
+	 * otherwise when the block inits.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param string                                   $block_name The block-name, including namespace.
+	 * @param array<string, string|string[]|bool|null> $args       {
+	 *     An array of arguments. See wp_register_style() for full information about each argument.
+	 *
+	 *     @type string           $handle The handle for the stylesheet.
+	 *     @type string|false     $src    The source URL of the stylesheet.
+	 *     @type string[]         $deps   Array of registered stylesheet handles this stylesheet depends on.
+	 *     @type string|bool|null $ver    Stylesheet version number.
+	 *     @type string           $media  The media for which this stylesheet has been defined.
+	 *     @type string|null      $path   Absolute path to the stylesheet, so that it can potentially be inlined.
+	 * }
+	 */
+	public function wp_enqueue_block_style( $block_name, $args );
+
+	/**
+	 * Hooks inline styles in the proper place, depending on the active theme.
+	 *
+	 * @since 5.9.1
+	 * @since 6.1.0 Added the `$priority` parameter.
+	 *
+	 * For block themes, styles are loaded in the head.
+	 * For classic ones, styles are loaded in the body because the wp_head action happens before render_block.
+	 *
+	 * @link https://core.trac.wordpress.org/ticket/53494.
+	 *
+	 * @param string $style    String containing the CSS styles to be added.
+	 * @param int    $priority To set the priority for the add_action.
+	 */
+	public function wp_enqueue_block_support_styles( $style, $priority = 10 );
+
+	/**
+	 * Checks whether separate styles should be loaded for core blocks.
+	 *
+	 * When this function returns true, other functions ensure that core blocks use their own separate stylesheets.
+	 * When this function returns false, all core blocks will use the single combined 'wp-block-library' stylesheet.
+	 *
+	 * As a side effect, the return value will by default result in block assets to be loaded on demand, via the
+	 * {@see wp_should_load_block_assets_on_demand()} function. This behavior can be separately altered via that function.
+	 *
+	 * This only affects front end and not the block editor screens.
+	 *
+	 * @since 5.8.0
+	 * @see wp_should_load_block_assets_on_demand()
+	 * @see wp_enqueue_registered_block_scripts_and_styles()
+	 * @see register_block_style_handle()
+	 *
+	 * @return bool Whether separate core block assets will be loaded.
+	 */
+	public function wp_should_load_separate_core_block_assets();
+
+	/**
+	 * Checks whether block styles should be loaded only on-render.
+	 *
+	 * When this function returns true, other functions ensure that blocks only load their assets on-render.
+	 * When this function returns false, all block assets are loaded regardless of whether they are rendered in a page.
+	 *
+	 * The default return value depends on the result of {@see wp_should_load_separate_core_block_assets()}, which controls
+	 * whether Core block stylesheets should be loaded separately or via a combined 'wp-block-library' stylesheet.
+	 *
+	 * This only affects front end and not the block editor screens.
+	 *
+	 * @since 6.8.0
+	 * @see wp_should_load_separate_core_block_assets()
+	 *
+	 * @return bool Whether to load block assets only when they are rendered.
+	 */
+	public function wp_should_load_block_assets_on_demand();
+
+	/**
+	 * Checks if the editor scripts and styles for all registered block types
+	 * should be enqueued on the current screen.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @global WP_Screen $current_screen WordPress current screen object.
+	 *
+	 * @return bool Whether scripts and styles should be enqueued.
+	 */
+	public function wp_should_load_block_editor_scripts_and_styles();
+
+	/**
+	 * Return the corresponding JavaScript `dataset` name for an attribute
+	 * if it represents a custom data attribute, or `null` if not.
+	 *
+	 * Custom data attributes appear in an element's `dataset` property in a
+	 * browser, but there's a specific way the names are translated from HTML
+	 * into JavaScript. This function indicates how the name would appear in
+	 * JavaScript if a browser would recognize it as a custom data attribute.
+	 *
+	 * Example:
+	 *
+	 *     // Dash-letter pairs turn into capital letters.
+	 *     'postId'       === wp_js_dataset_name( 'data-post-id' );
+	 *     'Before'       === wp_js_dataset_name( 'data--before' );
+	 *     '-One--Two---' === wp_js_dataset_name( 'data---one---two---' );
+	 *
+	 *     // Not every attribute name will be interpreted as a custom data attribute.
+	 *     null === wp_js_dataset_name( 'post-id' );
+	 *     null === wp_js_dataset_name( 'data' );
+	 *
+	 *     // Some very surprising names will; for example, a property whose name is the empty string.
+	 *     '' === wp_js_dataset_name( 'data-' );
+	 *     0  === strlen( wp_js_dataset_name( 'data-' ) );
+	 *
+	 * @since 6.9.0
+	 *
+	 * @see https://html.spec.whatwg.org/#concept-domstringmap-pairs
+	 * @see \wp_html_custom_data_attribute_name()
+	 *
+	 * @param string $html_attribute_name Raw attribute name as found in the source HTML.
+	 * @return string|null Transformed `dataset` name, if interpretable as a custom data attribute, else `null`.
+	 */
+	public function wp_js_dataset_name( string $html_attribute_name ): ?string;
+
+	/**
+	 * Returns a corresponding HTML attribute name for the given name,
+	 * if that name were found in a JS element’s `dataset` property.
+	 *
+	 * Example:
+	 *
+	 *     'data-post-id'        === wp_html_custom_data_attribute_name( 'postId' );
+	 *     'data--before'        === wp_html_custom_data_attribute_name( 'Before' );
+	 *     'data---one---two---' === wp_html_custom_data_attribute_name( '-One--Two---' );
+	 *
+	 *     // Not every attribute name will be interpreted as a custom data attribute.
+	 *     null === wp_html_custom_data_attribute_name( '/not-an-attribute/' );
+	 *     null === wp_html_custom_data_attribute_name( 'no spaces' );
+	 *
+	 *     // Some very surprising names will; for example, a property whose name is the empty string.
+	 *     'data-' === wp_html_custom_data_attribute_name( '' );
+	 *
+	 * @since 6.9.0
+	 *
+	 * @see https://html.spec.whatwg.org/#concept-domstringmap-pairs
+	 * @see \wp_js_dataset_name()
+	 *
+	 * @param string $js_dataset_name Name of JS `dataset` property to transform.
+	 * @return string|null Corresponding name of an HTML custom data attribute for the given dataset name,
+	 *                     if possible to represent in HTML, otherwise `null`.
+	 */
+	public function wp_html_custom_data_attribute_name( string $js_dataset_name ): ?string;
+
+	/**
+	 * Retrieves the main WP_Script_Modules instance.
+	 *
+	 * This function provides access to the WP_Script_Modules instance, creating one
+	 * if it doesn't exist yet.
+	 *
+	 * @since 6.5.0
+	 *
+	 * @global WP_Script_Modules $wp_script_modules
+	 *
+	 * @return WP_Script_Modules The main WP_Script_Modules instance.
+	 */
+	public function wp_script_modules(): \WP_Script_Modules;
+
+	/**
+	 * Registers the script module if no script module with that script module
+	 * identifier has already been registered.
+	 *
+	 * @since 6.5.0
+	 * @since 6.9.0 Added the $args parameter.
+	 *
+	 * @param string                              $id      The identifier of the script module. Should be unique. It will be used in the
+	 *                                                     final import map.
+	 * @param string                              $src     Optional. Full URL of the script module, or path of the script module relative
+	 *                                                     to the WordPress root directory. If it is provided and the script module has
+	 *                                                     not been registered yet, it will be registered.
+	 * @param array<string|array<string, string>> $deps    {
+	 *                                                         Optional. List of dependencies.
+	 *
+	 *                                                         @type string|array<string, string> ...$0 {
+	 *                                                             An array of script module identifiers of the dependencies of this script
+	 *                                                             module. The dependencies can be strings or arrays. If they are arrays,
+	 *                                                             they need an `id` key with the script module identifier, and can contain
+	 *                                                             an `import` key with either `static` or `dynamic`. By default,
+	 *                                                             dependencies that don't contain an `import` key are considered static.
+	 *
+	 *                                                             @type string $id     The script module identifier.
+	 *                                                             @type string $import Optional. Import type. May be either `static` or
+	 *                                                                                  `dynamic`. Defaults to `static`.
+	 *                                                         }
+	 *                                                     }
+	 * @param string|false|null                   $version Optional. String specifying the script module version number. Defaults to false.
+	 *                                                     It is added to the URL as a query string for cache busting purposes. If $version
+	 *                                                     is set to false, the version number is the currently installed WordPress version.
+	 *                                                     If $version is set to null, no version is added.
+	 * @param array<string, string|bool>          $args    {
+	 *     Optional. An array of additional args. Default empty array.
+	 *
+	 *     @type bool                $in_footer     Whether to print the script module in the footer. Only relevant to block themes. Default 'false'. Optional.
+	 *     @type 'auto'|'low'|'high' $fetchpriority Fetch priority. Default 'auto'. Optional.
+	 * }
+	 */
+	public function wp_register_script_module( string $id, string $src, array $deps = array(), $version = false, array $args = array() );
+
+	/**
+	 * Marks the script module to be enqueued in the page.
+	 *
+	 * If a src is provided and the script module has not been registered yet, it
+	 * will be registered.
+	 *
+	 * @since 6.5.0
+	 * @since 6.9.0 Added the $args parameter.
+	 *
+	 * @param string                              $id      The identifier of the script module. Should be unique. It will be used in the
+	 *                                                     final import map.
+	 * @param string                              $src     Optional. Full URL of the script module, or path of the script module relative
+	 *                                                     to the WordPress root directory. If it is provided and the script module has
+	 *                                                     not been registered yet, it will be registered.
+	 * @param array<string|array<string, string>> $deps    {
+	 *                                                         Optional. List of dependencies.
+	 *
+	 *                                                         @type string|array<string, string> ...$0 {
+	 *                                                             An array of script module identifiers of the dependencies of this script
+	 *                                                             module. The dependencies can be strings or arrays. If they are arrays,
+	 *                                                             they need an `id` key with the script module identifier, and can contain
+	 *                                                             an `import` key with either `static` or `dynamic`. By default,
+	 *                                                             dependencies that don't contain an `import` key are considered static.
+	 *
+	 *                                                             @type string $id     The script module identifier.
+	 *                                                             @type string $import Optional. Import type. May be either `static` or
+	 *                                                                                  `dynamic`. Defaults to `static`.
+	 *                                                         }
+	 *                                                     }
+	 * @param string|false|null                   $version Optional. String specifying the script module version number. Defaults to false.
+	 *                                                     It is added to the URL as a query string for cache busting purposes. If $version
+	 *                                                     is set to false, the version number is the currently installed WordPress version.
+	 *                                                     If $version is set to null, no version is added.
+	 * @param array<string, string|bool>          $args    {
+	 *     Optional. An array of additional args. Default empty array.
+	 *
+	 *     @type bool                $in_footer     Whether to print the script module in the footer. Only relevant to block themes. Default 'false'. Optional.
+	 *     @type 'auto'|'low'|'high' $fetchpriority Fetch priority. Default 'auto'. Optional.
+	 * }
+	 */
+	public function wp_enqueue_script_module( string $id, string $src = '', array $deps = array(), $version = false, array $args = array() );
+
+	/**
+	 * Unmarks the script module so it is no longer enqueued in the page.
+	 *
+	 * @since 6.5.0
+	 *
+	 * @param string $id The identifier of the script module.
+	 */
+	public function wp_dequeue_script_module( string $id );
+
+	/**
+	 * Deregisters the script module.
+	 *
+	 * @since 6.5.0
+	 *
+	 * @param string $id The identifier of the script module.
+	 */
+	public function wp_deregister_script_module( string $id );
+
+	/**
+	 * Overrides the text domain and path used to load translations for a script module.
+	 *
+	 * Translations for script modules are loaded automatically from the default
+	 * text domain and language directory. Use this function only when a module's
+	 * text domain differs from `'default'` or when translation files live outside
+	 * the standard location, for example plugin modules using their own text domain.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @see WP_Script_Modules::set_translations()
+	 *
+	 * @param string $id     The identifier of the script module.
+	 * @param string $domain Optional. Text domain. Default 'default'.
+	 * @param string $path   Optional. The full file path to the directory containing translation files.
+	 * @return bool True if the text domain was registered, false if the module is not registered.
+	 */
+	public function wp_set_script_module_translations( string $id, string $domain = 'default', string $path = '' ): bool;
 }

@@ -4,6 +4,10 @@
 
 namespace Merkushin\Wpal\Service;
 
+use stdClass;
+use WP_Error;
+use wpdb;
+
 interface Bookmarks {
 	/**
 	 * Retrieves or echoes all of the bookmarks.
@@ -59,4 +63,214 @@ interface Bookmarks {
 	 * @return void|string Void if 'echo' argument is true, HTML list of bookmarks if 'echo' is false.
 	 */
 	public function wp_list_bookmarks( $args = '' );
+
+	/**
+	 * Retrieves bookmark data.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @global object $link Current link object.
+	 * @global wpdb   $wpdb WordPress database abstraction object.
+	 *
+	 * @param int|stdClass $bookmark
+	 * @param string       $output   Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which
+	 *                               correspond to an stdClass object, an associative array, or a numeric array,
+	 *                               respectively. Default OBJECT.
+	 * @param string       $filter   Optional. How to sanitize bookmark fields. Default 'raw'.
+	 * @return array|object|null Type returned depends on $output value.
+	 */
+	public function get_bookmark( $bookmark, $output = 'OBJECT', $filter = 'raw' );
+
+	/**
+	 * Retrieves single bookmark data item or field.
+	 *
+	 * @since 2.3.0
+	 *
+	 * @param string $field    The name of the data field to return.
+	 * @param int    $bookmark The bookmark ID to get field.
+	 * @param string $context  Optional. The context of how the field will be used. Default 'display'.
+	 * @return string|WP_Error
+	 */
+	public function get_bookmark_field( $field, $bookmark, $context = 'display' );
+
+	/**
+	 * Retrieves the list of bookmarks.
+	 *
+	 * Attempts to retrieve from the cache first based on MD5 hash of arguments. If
+	 * that fails, then the query will be built from the arguments and executed. The
+	 * results will be stored to the cache.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @param string|array $args {
+	 *     Optional. String or array of arguments to retrieve bookmarks.
+	 *
+	 *     @type string   $orderby        How to order the links by. Accepts 'id', 'link_id', 'name', 'link_name',
+	 *                                    'url', 'link_url', 'visible', 'link_visible', 'rating', 'link_rating',
+	 *                                    'owner', 'link_owner', 'updated', 'link_updated', 'notes', 'link_notes',
+	 *                                    'description', 'link_description', 'length' and 'rand'.
+	 *                                    When `$orderby` is 'length', orders by the character length of
+	 *                                    'link_name'. Default 'name'.
+	 *     @type string   $order          Whether to order bookmarks in ascending or descending order.
+	 *                                    Accepts 'ASC' (ascending) or 'DESC' (descending). Default 'ASC'.
+	 *     @type int      $limit          Amount of bookmarks to display. Accepts any positive number or
+	 *                                    -1 for all.  Default -1.
+	 *     @type string   $category       Comma-separated list of category IDs to include links from.
+	 *                                    Default empty.
+	 *     @type string   $category_name  Category to retrieve links for by name. Default empty.
+	 *     @type int|bool $hide_invisible Whether to show or hide links marked as 'invisible'. Accepts
+	 *                                    1|true or 0|false. Default 1|true.
+	 *     @type int|bool $show_updated   Whether to display the time the bookmark was last updated.
+	 *                                    Accepts 1|true or 0|false. Default 0|false.
+	 *     @type string   $include        Comma-separated list of bookmark IDs to include. Default empty.
+	 *     @type string   $exclude        Comma-separated list of bookmark IDs to exclude. Default empty.
+	 *     @type string   $search         Search terms. Will be SQL-formatted with wildcards before and after
+	 *                                    and searched in 'link_url', 'link_name' and 'link_description'.
+	 *                                    Default empty.
+	 * }
+	 * @return object[] List of bookmark row objects.
+	 */
+	public function get_bookmarks( $args = '' );
+
+	/**
+	 * Retrieves link data based on its ID.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param int|stdClass $link Link ID or object to retrieve.
+	 * @return object Link object for editing.
+	 */
+	public function get_link_to_edit( $link );
+
+	/**
+	 * Retrieves the default link for editing.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return stdClass Default link object.
+	 */
+	public function get_default_link_to_edit();
+
+	/**
+	 * Inserts a link into the database, or updates an existing link.
+	 *
+	 * Runs all the necessary sanitizing, provides default values if arguments are missing,
+	 * and finally saves the link.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @param array $linkdata {
+	 *     Elements that make up the link to insert.
+	 *
+	 *     @type int    $link_id          Optional. The ID of the existing link if updating.
+	 *     @type string $link_url         The URL the link points to.
+	 *     @type string $link_name        The title of the link.
+	 *     @type string $link_image       Optional. A URL of an image.
+	 *     @type string $link_target      Optional. The target element for the anchor tag.
+	 *     @type string $link_description Optional. A short description of the link.
+	 *     @type string $link_visible     Optional. 'Y' means visible, anything else means not.
+	 *     @type int    $link_owner       Optional. A user ID.
+	 *     @type int    $link_rating      Optional. A rating for the link.
+	 *     @type string $link_rel         Optional. A relationship of the link to you.
+	 *     @type string $link_notes       Optional. An extended description of or notes on the link.
+	 *     @type string $link_rss         Optional. A URL of an associated RSS feed.
+	 *     @type int    $link_category    Optional. The term ID of the link category.
+	 *                                    If empty, uses default link category.
+	 * }
+	 * @param bool  $wp_error Optional. Whether to return a WP_Error object on failure. Default false.
+	 * @return int|WP_Error The link ID on success. The value 0 or WP_Error on failure.
+	 */
+	public function wp_insert_link( $linkdata, $wp_error = false );
+
+	/**
+	 * Updates a link in the database.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $linkdata Link data to update. See wp_insert_link() for accepted arguments.
+	 * @return int The updated link ID on success. The value 0 on failure.
+	 */
+	public function wp_update_link( $linkdata );
+
+	/**
+	 * Deletes a specified link from the database.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @param int $link_id ID of the link to delete.
+	 * @return true Always true.
+	 */
+	public function wp_delete_link( $link_id );
+
+	/**
+	 * Retrieves the link category IDs associated with the link specified.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param int $link_id Link ID to look up.
+	 * @return int[] The IDs of the requested link's categories.
+	 */
+	public function wp_get_link_cats( $link_id = 0 );
+
+	/**
+	 * Updates link with the specified link categories.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param int   $link_id         ID of the link to update.
+	 * @param int[] $link_categories Array of link category IDs to add the link to.
+	 */
+	public function wp_set_link_cats( $link_id = 0, $link_categories = array() );
+
+	/**
+	 * Sanitizes all bookmark fields.
+	 *
+	 * @since 2.3.0
+	 *
+	 * @param stdClass|array $bookmark Bookmark row.
+	 * @param string         $context  Optional. How to filter the fields. Default 'display'.
+	 * @return stdClass|array Same type as $bookmark but with fields sanitized.
+	 */
+	public function sanitize_bookmark( $bookmark, $context = 'display' );
+
+	/**
+	 * Sanitizes a bookmark field.
+	 *
+	 * Sanitizes the bookmark fields based on what the field name is. If the field
+	 * has a strict value set, then it will be tested for that, else a more generic
+	 * filtering is applied. After the more strict filter is applied, if the `$context`
+	 * is 'raw' then the value is immediately return.
+	 *
+	 * Hooks exist for the more generic cases. With the 'edit' context, the {@see 'edit_$field'}
+	 * filter will be called and passed the `$value` and `$bookmark_id` respectively.
+	 *
+	 * With the 'db' context, the {@see 'pre_$field'} filter is called and passed the value.
+	 * The 'display' context is the final context and has the `$field` has the filter name
+	 * and is passed the `$value`, `$bookmark_id`, and `$context`, respectively.
+	 *
+	 * @since 2.3.0
+	 *
+	 * @param string $field       The bookmark field.
+	 * @param mixed  $value       The bookmark field value.
+	 * @param int    $bookmark_id Bookmark ID.
+	 * @param string $context     How to filter the field value. Accepts 'raw', 'edit', 'db',
+	 *                            'display', 'attribute', or 'js'. Default 'display'.
+	 * @return mixed The filtered value.
+	 */
+	public function sanitize_bookmark_field( $field, $value, $bookmark_id, $context );
+
+	/**
+	 * Deletes the bookmark cache.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param int $bookmark_id Bookmark ID.
+	 */
+	public function clean_bookmark_cache( $bookmark_id );
 }

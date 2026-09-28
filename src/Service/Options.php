@@ -442,4 +442,33 @@ interface Options {
 	 * @param string[] $options    An array of option names to be loaded.
 	 */
 	public function wp_prime_network_option_caches( $network_id, array $options );
+
+	/**
+	 * Prints option value after sanitizing for forms.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param string $option Option name.
+	 */
+	public function form_option( $option );
+
+	/**
+	 * Primes the cache of all options registered with a specific option group.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @global array $new_allowed_options
+	 *
+	 * @param string $option_group The option group to load options for.
+	 */
+	public function wp_prime_option_caches_by_group( $option_group );
+
+	/**
+	 * Returns the values that trigger autoloading from the options table.
+	 *
+	 * @since 6.6.0
+	 *
+	 * @return string[] The values that trigger autoloading.
+	 */
+	public function wp_autoload_values_to_autoload();
 }

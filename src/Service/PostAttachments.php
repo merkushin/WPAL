@@ -7,6 +7,7 @@ namespace Merkushin\Wpal\Service;
 use stdClass;
 use WP_Error;
 use WP_Post;
+use WP_Taxonomy;
 use wpdb;
 
 interface PostAttachments {
@@ -306,4 +307,126 @@ interface PostAttachments {
 	 * @param bool $clean_terms Optional. Whether to clean terms cache. Default false.
 	 */
 	public function clean_attachment_cache( $id, $clean_terms = false );
+
+	/**
+	 * Tries to convert an attachment URL into a post ID.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @param string $url The URL to resolve.
+	 * @return int The found post ID, or 0 on failure.
+	 */
+	public function attachment_url_to_postid( $url );
+
+	/**
+	 * Retrieves media attached to the passed post.
+	 *
+	 * @since 3.6.0
+	 *
+	 * @param string      $type Mime type.
+	 * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
+	 * @return WP_Post[] Array of media attached to the given post.
+	 */
+	public function get_attached_media( $type, $post = 0 );
+
+	/**
+	 * Retrieves taxonomies attached to given the attachment.
+	 *
+	 * @since 2.5.0
+	 * @since 4.7.0 Introduced the `$output` parameter.
+	 *
+	 * @param int|array|object $attachment Attachment ID, data array, or data object.
+	 * @param string           $output     Output type. 'names' to return an array of taxonomy names,
+	 *                                     or 'objects' to return an array of taxonomy objects.
+	 *                                     Default is 'names'.
+	 * @return string[]|WP_Taxonomy[] List of taxonomies or taxonomy names. Empty array on failure.
+	 */
+	public function get_attachment_taxonomies( $attachment, $output = 'names' );
+
+	/**
+	 * Retrieves all of the taxonomies that are registered for attachments.
+	 *
+	 * Handles mime-type-specific taxonomies such as attachment:image and attachment:video.
+	 *
+	 * @since 3.5.0
+	 *
+	 * @see get_taxonomies()
+	 *
+	 * @param string $output Optional. The type of taxonomy output to return. Accepts 'names' or 'objects'.
+	 *                       Default 'names'.
+	 * @return string[]|WP_Taxonomy[] Array of names or objects of registered taxonomies for attachments.
+	 */
+	public function get_taxonomies_for_attachments( $output = 'names' );
+
+	/**
+	 * Returns useful keys to use to lookup data from an attachment's stored metadata.
+	 *
+	 * @since 3.9.0
+	 *
+	 * @param WP_Post $attachment The current attachment, provided for context.
+	 * @param string  $context    Optional. The context. Accepts 'edit', 'display'. Default 'display'.
+	 * @return string[] Key/value pairs of field keys to labels.
+	 */
+	public function wp_get_attachment_id3_keys( $attachment, $context = 'display' );
+
+	/**
+	 * Maybe attempts to generate attachment metadata, if missing.
+	 *
+	 * @since 3.9.0
+	 *
+	 * @param WP_Post $attachment Attachment object.
+	 */
+	public function wp_maybe_generate_attachment_metadata( $attachment );
+
+	/**
+	 * Prepares an attachment post object for JS, where it is expected
+	 * to be JSON-encoded and fit into an Attachment model.
+	 *
+	 * @since 3.5.0
+	 *
+	 * @param int|WP_Post $attachment Attachment ID or object.
+	 * @return array|null {
+	 *     Array of attachment details, or null if the parameter does not correspond to an attachment.
+	 *
+	 *     @type string $alt                   Alt text of the attachment.
+	 *     @type string $author                ID of the attachment author, as a string.
+	 *     @type string $authorName            Name of the attachment author.
+	 *     @type string $caption               Caption for the attachment.
+	 *     @type array  $compat                Containing item and meta.
+	 *     @type string $context               Context, whether it's used as the site icon for example.
+	 *     @type int    $date                  Uploaded date, timestamp in milliseconds.
+	 *     @type string $dateFormatted         Formatted date (e.g. June 29, 2018).
+	 *     @type string $description           Description of the attachment.
+	 *     @type string $editLink              URL to the edit page for the attachment.
+	 *     @type string $filename              File name of the attachment.
+	 *     @type string $filesizeHumanReadable Filesize of the attachment in human readable format (e.g. 1 MB).
+	 *     @type int    $filesizeInBytes       Filesize of the attachment in bytes.
+	 *     @type int    $height                If the attachment is an image, represents the height of the image in pixels.
+	 *     @type string $icon                  Icon URL of the attachment (e.g. /wp-includes/images/media/archive.png).
+	 *     @type int    $id                    ID of the attachment.
+	 *     @type string $link                  URL to the attachment.
+	 *     @type int    $menuOrder             Menu order of the attachment post.
+	 *     @type array  $meta                  Meta data for the attachment.
+	 *     @type string $mime                  Mime type of the attachment (e.g. image/jpeg or application/zip).
+	 *     @type int    $modified              Last modified, timestamp in milliseconds.
+	 *     @type string $name                  Name, same as title of the attachment.
+	 *     @type array  $nonces                Nonces for update, delete and edit.
+	 *     @type string $orientation           If the attachment is an image, represents the image orientation
+	 *                                         (landscape or portrait).
+	 *     @type array  $sizes                 If the attachment is an image, contains an array of arrays
+	 *                                         for the images sizes: thumbnail, medium, large, and full.
+	 *     @type string $status                Post status of the attachment (usually 'inherit').
+	 *     @type string $subtype               Mime subtype of the attachment (usually the last part, e.g. jpeg or zip).
+	 *     @type string $title                 Title of the attachment (usually slugified file name without the extension).
+	 *     @type string $type                  Type of the attachment (usually first part of the mime type, e.g. image).
+	 *     @type int    $uploadedTo            Parent post to which the attachment was uploaded.
+	 *     @type string $uploadedToLink        URL to the edit page of the parent post of the attachment.
+	 *     @type string $uploadedToTitle       Post title of the parent of the attachment.
+	 *     @type string $url                   Direct URL to the attachment file (from wp-content).
+	 *     @type int    $width                 If the attachment is an image, represents the width of the image in pixels.
+	 * }
+	 */
+	public function wp_prepare_attachment_for_js( $attachment );
 }

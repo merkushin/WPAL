@@ -466,4 +466,13 @@ interface PostTypes {
 	 * @return bool Whether the post type should be considered viewable.
 	 */
 	public function is_post_type_viewable( $post_type );
+
+	/**
+	 * Creates the initial post types when 'init' action is fired.
+	 *
+	 * See {@see 'init'}.
+	 *
+	 * @since 2.9.0
+	 */
+	public function create_initial_post_types();
 }

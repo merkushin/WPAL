@@ -508,4 +508,32 @@ final class WpPosts implements Posts {
 	public function wp_untrash_post_set_previous_status( $new_status, $post_id, $previous_status ) {
 		return wp_untrash_post_set_previous_status( $new_status, $post_id, $previous_status );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function is_post_embeddable( $post = null ) {
+		return is_post_embeddable( $post );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function update_post_author_caches( $posts ) {
+		update_post_author_caches( $posts );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function update_post_parent_caches( $posts ) {
+		update_post_parent_caches( $posts );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function do_enclose( $content, $post ) {
+		return do_enclose( $content, $post );
+	}
 }

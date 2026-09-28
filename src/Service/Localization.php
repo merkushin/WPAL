@@ -7,6 +7,7 @@ namespace Merkushin\Wpal\Service;
 use MO;
 use NOOP_Translations;
 use Translations;
+use WP_Error;
 use WP_Locale;
 use WP_Locale_Switcher;
 use WP_Textdomain_Registry;
@@ -813,4 +814,200 @@ interface Localization {
 	 * @return string|string[]|array[] Translated settings.
 	 */
 	public function translate_settings_using_i18n_schema( $i18n_schema, $settings, $textdomain );
+
+	/**
+	 * Returns the language for a language code.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $code Optional. The two-letter language code. Default empty.
+	 * @return string The language corresponding to $code if it exists. If it does not exist,
+	 *                then the first two letters of $code is returned.
+	 */
+	public function format_code_lang( $code = '' );
+
+	/**
+	 * Converts float number to format based on the locale.
+	 *
+	 * @since 2.3.0
+	 *
+	 * @global WP_Locale $wp_locale WordPress date and time locale object.
+	 *
+	 * @param float $number   The number to convert based on locale.
+	 * @param int   $decimals Optional. Precision of the number of decimal places. Default 0.
+	 * @return string Converted number in string format.
+	 */
+	public function number_format_i18n( $number, $decimals = 0 );
+
+	/**
+	 * Converts a number of bytes to the largest unit the bytes will fit into.
+	 *
+	 * It is easier to read 1 KB than 1024 bytes and 1 MB than 1048576 bytes. Converts
+	 * number of bytes to human readable number by taking the number of that unit
+	 * that the bytes will go into it. Supports YB value.
+	 *
+	 * Please note that integers in PHP are limited to 32 bits, unless they are on
+	 * 64 bit architecture, then they have 64 bit size. If you need to place the
+	 * larger size then what PHP integer type will hold, then use a string. It will
+	 * be converted to a double, which should always have 64 bit length.
+	 *
+	 * Technically the correct unit names for powers of 1024 are KiB, MiB etc.
+	 *
+	 * @since 2.3.0
+	 * @since 6.0.0 Support for PB, EB, ZB, and YB was added.
+	 *
+	 * @param int|string $bytes    Number of bytes. Note max integer size for integers.
+	 * @param int        $decimals Optional. Precision of number of decimal places. Default 0.
+	 * @return string|false Number string on success, false on failure.
+	 */
+	public function size_format( $bytes, $decimals = 0 );
+
+	/**
+	 * Returns a boolean to indicate whether a translation exists for a given string with optional text domain and locale.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @param string  $singular   Singular translation to check.
+	 * @param string  $textdomain Optional. Text domain. Default 'default'.
+	 * @param ?string $locale     Optional. Locale. Default current locale.
+	 * @return bool  True if the translation exists, false otherwise.
+	 */
+	public function has_translation( string $singular, string $textdomain = 'default', ?string $locale = null ): bool;
+
+	/**
+	 * Loads the translation data for a given script module ID and text domain.
+	 *
+	 * Works like {@see load_script_textdomain()} but for script modules registered
+	 * via {@see wp_register_script_module()}.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param string $id     The script module identifier.
+	 * @param string $domain Optional. Text domain. Default 'default'.
+	 * @param string $path   Optional. The full file path to the directory containing translation files.
+	 * @return string|false The JSON-encoded translated strings for the given script module and text domain.
+	 *                      False if there are none.
+	 */
+	public function load_script_module_textdomain( string $id, string $domain = 'default', string $path = '' );
+
+	/**
+	 * Switches the translations according to the given user's locale.
+	 *
+	 * @since 6.2.0
+	 *
+	 * @global WP_Locale_Switcher $wp_locale_switcher WordPress locale switcher object.
+	 *
+	 * @param int $user_id User ID.
+	 * @return bool True on success, false on failure.
+	 */
+	public function switch_to_user_locale( $user_id );
+
+	/**
+	 * Extracts headers from a PHP translation file.
+	 *
+	 * @since 6.6.0
+	 *
+	 * @param string $php_file Path to a `.l10n.php` file.
+	 * @return string[] Array of file header values keyed by header name.
+	 */
+	public function wp_get_l10n_php_file_data( $php_file );
+
+	/**
+	 * Retrieves the list item separator based on the locale.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @global WP_Locale $wp_locale WordPress date and time locale object.
+	 *
+	 * @return string Locale-specific list item separator.
+	 */
+	public function wp_get_list_item_separator();
+
+	/**
+	 * Retrieves the word count type based on the locale.
+	 *
+	 * @since 6.2.0
+	 *
+	 * @global WP_Locale $wp_locale WordPress date and time locale object.
+	 *
+	 * @return string Locale-specific word count type. Possible values are `characters_excluding_spaces`,
+	 *                `characters_including_spaces`, or `words`. Defaults to `words`.
+	 */
+	public function wp_get_word_count_type();
+
+	/**
+	 * Retrieve translations from WordPress Translation API.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param string       $type Type of translations. Accepts 'plugins', 'themes', 'core'.
+	 * @param array|object $args Translation API arguments. Optional.
+	 * @return array|WP_Error {
+	 *     On success an associative array of translations, WP_Error on failure.
+	 *
+	 *     @type array $translations {
+	 *         List of translations, each an array of data.
+	 *
+	 *         @type array ...$0 {
+	 *             @type string   $language     Language code.
+	 *             @type string   $version      WordPress version.
+	 *             @type string   $updated      Date the translation was last updated, in MySQL datetime format.
+	 *             @type string   $english_name English name of the language.
+	 *             @type string   $native_name  Native name of the language.
+	 *             @type string   $package      URL to download the translation package.
+	 *             @type string[] $iso          Array of ISO language codes.
+	 *             @type array    $strings      Array of translated strings used in the installation process.
+	 *         }
+	 *     }
+	 * }
+	 */
+	public function translations_api( $type, $args = null );
+
+	/**
+	 * Get available translations from the WordPress.org API.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @see translations_api()
+	 *
+	 * @return array {
+	 *     Array of translations keyed by the language code, each an associative array of data.
+	 *     If the API response results in an error, an empty array will be returned.
+	 *
+	 *     @type array ...$0 {
+	 *         @type string   $language     Language code.
+	 *         @type string   $version      WordPress version.
+	 *         @type string   $updated      Date the translation was last updated, in MySQL datetime format.
+	 *         @type string   $english_name English name of the language.
+	 *         @type string   $native_name  Native name of the language.
+	 *         @type string   $package      URL to download the translation package.
+	 *         @type string[] $iso          Array of ISO language codes.
+	 *         @type array    $strings      Array of translated strings used in the installation process.
+	 *     }
+	 * }
+	 */
+	public function wp_get_available_translations();
+
+	/**
+	 * Check if WordPress has access to the filesystem without asking for
+	 * credentials.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return bool Returns true on success, false on failure.
+	 */
+	public function wp_can_install_language_pack();
+
+	/**
+	 * Download a language pack.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @see wp_get_available_translations()
+	 *
+	 * @param string $download Language code to download.
+	 * @return string|false Returns the language code if successfully downloaded
+	 *                      (or already installed), or false on failure.
+	 */
+	public function wp_download_language_pack( $download );
 }

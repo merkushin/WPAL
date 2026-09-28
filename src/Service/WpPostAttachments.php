@@ -116,4 +116,53 @@ final class WpPostAttachments implements PostAttachments {
 	public function clean_attachment_cache( $id, $clean_terms = false ) {
 		clean_attachment_cache( $id, $clean_terms );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function attachment_url_to_postid( $url ) {
+		return attachment_url_to_postid( $url );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_attached_media( $type, $post = 0 ) {
+		return get_attached_media( $type, $post );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_attachment_taxonomies( $attachment, $output = 'names' ) {
+		return get_attachment_taxonomies( $attachment, $output );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_taxonomies_for_attachments( $output = 'names' ) {
+		return get_taxonomies_for_attachments( $output );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_get_attachment_id3_keys( $attachment, $context = 'display' ) {
+		return wp_get_attachment_id3_keys( $attachment, $context );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_maybe_generate_attachment_metadata( $attachment ) {
+		wp_maybe_generate_attachment_metadata( $attachment );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_prepare_attachment_for_js( $attachment ) {
+		return wp_prepare_attachment_for_js( $attachment );
+	}
 }

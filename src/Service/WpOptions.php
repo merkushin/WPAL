@@ -158,4 +158,25 @@ final class WpOptions implements Options {
 	public function wp_prime_network_option_caches( $network_id, array $options ) {
 		wp_prime_network_option_caches( $network_id, $options );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function form_option( $option ) {
+		form_option( $option );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_prime_option_caches_by_group( $option_group ) {
+		wp_prime_option_caches_by_group( $option_group );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_autoload_values_to_autoload() {
+		return wp_autoload_values_to_autoload();
+	}
 }

@@ -4,6 +4,7 @@
 
 namespace Merkushin\Wpal\Service;
 
+use WP_Post;
 use WP_Theme;
 
 interface Editor {
@@ -119,4 +120,43 @@ interface Editor {
 	 * @return array|false Settings for the code editor.
 	 */
 	public function wp_get_code_editor_settings( $args );
+
+	/**
+	 * Prepares server-registered blocks for the block editor.
+	 *
+	 * Returns an associative array of registered block data keyed by block name. Data includes properties
+	 * of a block relevant for client registration.
+	 *
+	 * @since 5.0.0
+	 * @since 6.3.0 Added `selectors` field.
+	 * @since 6.4.0 Added `block_hooks` field.
+	 *
+	 * @return array An associative array of registered block data.
+	 */
+	public function get_block_editor_server_block_settings();
+
+	/**
+	 * Returns whether the post can be edited in the block editor.
+	 *
+	 * @since 5.0.0
+	 * @since 6.1.0 Moved to wp-includes from wp-admin.
+	 *
+	 * @param int|WP_Post $post Post ID or WP_Post object.
+	 * @return bool Whether the post can be edited in the block editor.
+	 */
+	public function use_block_editor_for_post( $post );
+
+	/**
+	 * Returns whether a post type is compatible with the block editor.
+	 *
+	 * The block editor depends on the REST API, and if the post type is not shown in the
+	 * REST API, then it won't work with the block editor.
+	 *
+	 * @since 5.0.0
+	 * @since 6.1.0 Moved to wp-includes from wp-admin.
+	 *
+	 * @param string $post_type The post type.
+	 * @return bool Whether the post type can be edited with the block editor.
+	 */
+	public function use_block_editor_for_post_type( $post_type );
 }

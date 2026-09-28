@@ -305,4 +305,46 @@ final class WpNavigation implements Navigation {
 	public function wp_link_pages( $args = '' ) {
 		return wp_link_pages( $args );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_adjacent_image_link( $prev = true, $size = 'thumbnail', $text = false ) {
+		return get_adjacent_image_link( $prev, $size, $text );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_previous_image_link( $size = 'thumbnail', $text = false ) {
+		return get_previous_image_link( $size, $text );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_next_image_link( $size = 'thumbnail', $text = false ) {
+		return get_next_image_link( $size, $text );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function adjacent_image_link( $prev = true, $size = 'thumbnail', $text = false ) {
+		adjacent_image_link( $prev, $size, $text );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function previous_image_link( $size = 'thumbnail', $text = false ) {
+		previous_image_link( $size, $text );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function next_image_link( $size = 'thumbnail', $text = false ) {
+		next_image_link( $size, $text );
+	}
 }

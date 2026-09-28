@@ -45,7 +45,7 @@ jobs:
           {
             echo "Regenerates \`Service\` for WordPress ${{ steps.diff.outputs.latest }} (was ${{ steps.diff.outputs.current }})."
             echo
-            echo "Review the renamed and added parameters below, assign new functions in \`wpal.map.php\`, and check any \`Api\` code that calls changed methods."
+            echo "Review the renamed and added parameters below, triage new functions into \`wpal.map.php\` (see the \`triage-wordpress-functions\` skill; CI fails while any are untriaged), and check any \`Api\` code that calls changed methods."
             echo
             echo '```'
             cat build/wordpress-diff.txt

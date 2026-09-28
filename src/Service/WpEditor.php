@@ -46,4 +46,25 @@ final class WpEditor implements Editor {
 	public function wp_get_code_editor_settings( $args ) {
 		return wp_get_code_editor_settings( $args );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_block_editor_server_block_settings() {
+		return get_block_editor_server_block_settings();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function use_block_editor_for_post( $post ) {
+		return use_block_editor_for_post( $post );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function use_block_editor_for_post_type( $post_type ) {
+		return use_block_editor_for_post_type( $post_type );
+	}
 }

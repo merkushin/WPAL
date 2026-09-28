@@ -333,4 +333,256 @@ interface Urls {
 	 * @return bool Returns true for internal URLs and false for all other URLs.
 	 */
 	public function wp_is_internal_link( $link );
+
+	/**
+	 * Determines whether to force SSL on content.
+	 *
+	 * @since 2.8.5
+	 *
+	 * @param bool|null $force Optional. Whether to force SSL in admin screens. Default null.
+	 * @return bool True if forced, false if not forced.
+	 */
+	public function force_ssl_content( $force = null );
+
+	/**
+	 * Formats a URL to use https.
+	 *
+	 * Useful as a filter.
+	 *
+	 * @since 2.8.5
+	 *
+	 * @param string $url URL.
+	 * @return string URL with https as the scheme.
+	 */
+	public function filter_SSL( $url );
+
+	/**
+	 * Retrieves a modified URL query string.
+	 *
+	 * You can rebuild the URL and append query variables to the URL query by using this function.
+	 * There are two ways to use this function; either a single key and value, or an associative array.
+	 *
+	 * Using a single key and value:
+	 *
+	 *     add_query_arg( 'key', 'value', 'http://example.com' );
+	 *
+	 * Using an associative array:
+	 *
+	 *     add_query_arg( array(
+	 *         'key1' => 'value1',
+	 *         'key2' => 'value2',
+	 *     ), 'http://example.com' );
+	 *
+	 * Omitting the URL from either use results in the current URL being used
+	 * (the value of `$_SERVER['REQUEST_URI']`).
+	 *
+	 * Values are expected to be encoded appropriately with urlencode() or rawurlencode().
+	 *
+	 * Setting any query variable's value to boolean false removes the key (see remove_query_arg()).
+	 *
+	 * Important: The return value of add_query_arg() is not escaped by default. Output should be
+	 * late-escaped with esc_url() or similar to help prevent vulnerability to cross-site scripting
+	 * (XSS) attacks.
+	 *
+	 * @since 1.5.0
+	 * @since 5.3.0 Formalized the existing and already documented parameters
+	 *              by adding `...$args` to the function signature.
+	 *
+	 * @param string|array $key   Either a query variable key, or an associative array of query variables.
+	 * @param string       $value Optional. Either a query variable value, or a URL to act upon.
+	 * @param string       $url   Optional. A URL to act upon.
+	 * @return string New URL query string (unescaped).
+	 */
+	public function add_query_arg( ...$args );
+
+	/**
+	 * Removes an item or items from a query string.
+	 *
+	 * Important: The return value of remove_query_arg() is not escaped by default. Output should be
+	 * late-escaped with esc_url() or similar to help prevent vulnerability to cross-site scripting
+	 * (XSS) attacks.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param string|string[] $key   Query key or keys to remove.
+	 * @param false|string    $query Optional. When false uses the current URL. Default false.
+	 * @return string New URL query string.
+	 */
+	public function remove_query_arg( $key, $query = false );
+
+	/**
+	 * Builds a URL query based on an associative or indexed array.
+	 *
+	 * This is a convenient function for easily building URL queries.
+	 * It sets the separator to '&' and uses the _http_build_query() function.
+	 *
+	 * Unlike PHP's native http_build_query(), this function does NOT URL-encode
+	 * the keys or values. Callers are responsible for encoding values beforehand
+	 * with urlencode() or rawurlencode(), or late-escaping the output with
+	 * esc_url() before use.
+	 *
+	 * @since 2.3.0
+	 *
+	 * @see _http_build_query() Used to build the query.
+	 * @link https://www.php.net/manual/en/function.http-build-query.php for more on what
+	 *       http_build_query() does.
+	 *
+	 * @param array $data Array of key/value pairs to build the query from.
+	 * @return string Query string, without URL encoding applied.
+	 */
+	public function build_query( $data );
+
+	/**
+	 * Returns an array of single-use query variable names that can be removed from a URL.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @return string[] An array of query variable names to remove from the URL.
+	 */
+	public function wp_removable_query_args();
+
+	/**
+	 * Uses RegEx to extract URLs from arbitrary content.
+	 *
+	 * @since 3.7.0
+	 * @since 6.0.0 Fixes support for HTML entities (Trac 30580).
+	 *
+	 * @param string $content Content to extract URLs from.
+	 * @return string[] Array of URLs found in passed string.
+	 */
+	public function wp_extract_urls( $content );
+
+	/**
+	 * Retrieves a list of protocols to allow in HTML attributes.
+	 *
+	 * @since 3.3.0
+	 * @since 4.3.0 Added 'webcal' to the protocols array.
+	 * @since 4.7.0 Added 'urn' to the protocols array.
+	 * @since 5.3.0 Added 'sms' to the protocols array.
+	 * @since 5.6.0 Added 'irc6' and 'ircs' to the protocols array.
+	 *
+	 * @see wp_kses()
+	 * @see esc_url()
+	 *
+	 * @return string[] Array of allowed protocols. Defaults to an array containing 'http', 'https',
+	 *                  'ftp', 'ftps', 'mailto', 'news', 'irc', 'irc6', 'ircs', 'gopher', 'nntp', 'feed',
+	 *                  'telnet', 'mms', 'rtsp', 'sms', 'svn', 'tel', 'fax', 'xmpp', 'webcal', and 'urn'.
+	 *                  This covers all common link protocols, except for 'javascript' which should not
+	 *                  be allowed for untrusted users.
+	 */
+	public function wp_allowed_protocols();
+
+	/**
+	 * Guesses the URL for the site.
+	 *
+	 * Will remove wp-admin links to retrieve only return URLs not in the wp-admin
+	 * directory.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @return string The guessed URL.
+	 */
+	public function wp_guess_url();
+
+	/**
+	 * A wrapper for PHP's parse_url() function that handles consistency in the return values
+	 * across PHP versions.
+	 *
+	 * Across various PHP versions, schemeless URLs containing a ":" in the query
+	 * are being handled inconsistently. This function works around those differences.
+	 *
+	 * @since 4.4.0
+	 * @since 4.7.0 The `$component` parameter was added for parity with PHP's `parse_url()`.
+	 *
+	 * @link https://www.php.net/manual/en/function.parse-url.php
+	 *
+	 * @param string $url       The URL to parse.
+	 * @param int    $component The specific component to retrieve. Use one of the PHP
+	 *                          predefined constants to specify which one.
+	 *                          Defaults to -1 (= return all parts as an array).
+	 * @return mixed False on parse failure; Array of URL components on success;
+	 *               When a specific component has been requested: null if the component
+	 *               doesn't exist in the given URL; a string or - in the case of
+	 *               PHP_URL_PORT - integer when it does. See parse_url()'s return values.
+	 *
+	 * @phpstan-param int<-1, 7> $component
+	 * @phpstan-return (
+	 *     $component is -1
+	 *         ? false|array{
+	 *               scheme?: string,
+	 *               host?: string,
+	 *               port?: int<0, 65535>,
+	 *               user?: string,
+	 *               pass?: string,
+	 *               path?: string,
+	 *               query?: string,
+	 *               fragment?: string,
+	 *           }
+	 *         : (
+	 *             $component is 2
+	 *                 ? int<0, 65535>|null
+	 *                 : string|null
+	 *         )
+	 * )
+	 */
+	public function wp_parse_url( $url, $component = -1 );
+
+	/**
+	 * Strips the #fragment from a URL, if one is present.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string $url The URL to strip.
+	 * @return string The altered URL.
+	 */
+	public function strip_fragment_from_url( $url );
+
+	/**
+	 * Converts full URL paths to absolute paths.
+	 *
+	 * Removes the http or https protocols and the domain. Keeps the path '/' at the
+	 * beginning, so it isn't a true relative link, but from the web root base.
+	 *
+	 * @since 2.1.0
+	 * @since 4.1.0 Support was added for relative URLs.
+	 *
+	 * @param string $link Full URL path.
+	 * @return string Absolute path.
+	 */
+	public function wp_make_link_relative( $link );
+
+	/**
+	 * Shortens a URL, to be used as link text.
+	 *
+	 * @since 1.2.0
+	 * @since 4.4.0 Moved to wp-includes/formatting.php from wp-admin/includes/misc.php and added $length param.
+	 *
+	 * @param string $url    URL to shorten.
+	 * @param int    $length Optional. Maximum length of the shortened URL. Default 35 characters.
+	 * @return string Shortened URL.
+	 */
+	public function url_shorten( $url, $length = 35 );
+
+	/**
+	 * Encodes the Unicode values to be used in the URI.
+	 *
+	 * @since 1.5.0
+	 * @since 5.8.3 Added the `encode_ascii_characters` parameter.
+	 *
+	 * @param string $utf8_string             String to encode.
+	 * @param int    $length                  Max length of the string.
+	 * @param bool   $encode_ascii_characters Whether to encode ascii characters such as < " '
+	 * @return string String with Unicode encoded for URI.
+	 */
+	public function utf8_uri_encode( $utf8_string, $length = 0, $encode_ascii_characters = false );
+
+	/**
+	 * Parses a string into variables to be stored in an array.
+	 *
+	 * @since 2.2.1
+	 *
+	 * @param string $input_string The string to be parsed.
+	 * @param array  $result       Variables will be stored in this array.
+	 */
+	public function wp_parse_str( $input_string, &$result );
 }

@@ -1,4 +1,5 @@
 # Keep development files out of the package users install.
+/.claude export-ignore
 /.github export-ignore
 /api export-ignore
 /bin export-ignore

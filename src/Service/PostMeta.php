@@ -4,6 +4,8 @@
 
 namespace Merkushin\Wpal\Service;
 
+use wpdb;
+
 interface PostMeta {
 	/**
 	 * Adds a meta field to the given post.
@@ -192,4 +194,80 @@ interface PostMeta {
 	 * @return array|false An array of metadata on success, false if there is nothing to update.
 	 */
 	public function update_postmeta_cache( $post_ids );
+
+	/**
+	 * Adds post meta data defined in the `$_POST` superglobal for a post with given ID.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param int $post_id
+	 * @return int|bool
+	 */
+	public function add_meta( $post_id );
+
+	/**
+	 * Updates post meta data by meta ID.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param int    $meta_id    Meta ID.
+	 * @param string $meta_key   Meta key. Expect slashed.
+	 * @param string $meta_value Meta value. Expect slashed.
+	 * @return bool
+	 */
+	public function update_meta( $meta_id, $meta_key, $meta_value );
+
+	/**
+	 * Deletes post meta data by meta ID.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param int $mid
+	 * @return bool
+	 */
+	public function delete_meta( $mid );
+
+	/**
+	 * Returns meta data for the given post ID.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @param int $post_id A post ID.
+	 * @return array[] {
+	 *     Array of meta data arrays for the given post ID.
+	 *
+	 *     @type array ...$0 {
+	 *         Associative array of meta data.
+	 *
+	 *         @type string $meta_key   Meta key.
+	 *         @type mixed  $meta_value Meta value.
+	 *         @type string $meta_id    Meta ID as a numeric string.
+	 *         @type string $post_id    Post ID as a numeric string.
+	 *     }
+	 * }
+	 */
+	public function has_meta( $post_id );
+
+	/**
+	 * Returns post meta data by meta ID.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param int $mid
+	 * @return object|bool
+	 */
+	public function get_post_meta_by_id( $mid );
+
+	/**
+	 * Returns a list of previously defined keys.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @return string[] Array of meta key names.
+	 */
+	public function get_meta_keys();
 }

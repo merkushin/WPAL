@@ -39,4 +39,18 @@ final class WpMetaBoxes implements MetaBoxes {
 	public function remove_meta_box( $id, $screen, $context ) {
 		remove_meta_box( $id, $screen, $context );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function postbox_classes( $box_id, $screen_id ) {
+		return postbox_classes( $box_id, $screen_id );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_callback = null, $callback_args = null, $context = 'normal', $priority = 'core' ) {
+		wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_callback, $callback_args, $context, $priority );
+	}
 }

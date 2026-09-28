@@ -326,4 +326,95 @@ final class WpLocalization implements Localization {
 	public function translate_settings_using_i18n_schema( $i18n_schema, $settings, $textdomain ) {
 		return translate_settings_using_i18n_schema( $i18n_schema, $settings, $textdomain );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function format_code_lang( $code = '' ) {
+		return format_code_lang( $code );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function number_format_i18n( $number, $decimals = 0 ) {
+		return number_format_i18n( $number, $decimals );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function size_format( $bytes, $decimals = 0 ) {
+		return size_format( $bytes, $decimals );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function has_translation( string $singular, string $textdomain = 'default', ?string $locale = null ): bool {
+		return has_translation( $singular, $textdomain, $locale );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function load_script_module_textdomain( string $id, string $domain = 'default', string $path = '' ) {
+		return load_script_module_textdomain( $id, $domain, $path );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function switch_to_user_locale( $user_id ) {
+		return switch_to_user_locale( $user_id );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_get_l10n_php_file_data( $php_file ) {
+		return wp_get_l10n_php_file_data( $php_file );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_get_list_item_separator() {
+		return wp_get_list_item_separator();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_get_word_count_type() {
+		return wp_get_word_count_type();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function translations_api( $type, $args = null ) {
+		return translations_api( $type, $args );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_get_available_translations() {
+		return wp_get_available_translations();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_can_install_language_pack() {
+		return wp_can_install_language_pack();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_download_language_pack( $download ) {
+		return wp_download_language_pack( $download );
+	}
 }

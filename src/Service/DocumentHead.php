@@ -344,4 +344,22 @@ interface DocumentHead {
 	 * @return string|null String when `$display` is false, null otherwise.
 	 */
 	public function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' );
+
+	/**
+	 * Returns the speculation rules configuration.
+	 *
+	 * @since 6.8.0
+	 * @since 7.1.0 The `WP_SPECULATIVE_LOADING_DEFAULT_MODE` and `WP_SPECULATIVE_LOADING_DEFAULT_EAGERNESS` constants and
+	 *              environment variables can now specify the default mode and eagerness, respectively.
+	 *
+	 * @see wp_get_speculation_rules_default_configuration()
+	 *
+	 * @return array<string, string>|null Associative array with 'mode' and 'eagerness' keys, or null if speculative
+	 *                                    loading is disabled.
+	 * @phpstan-return array{
+	 *     mode: 'prefetch'|'prerender',
+	 *     eagerness: 'conservative'|'moderate'|'eager',
+	 * }|null
+	 */
+	public function wp_get_speculation_rules_configuration(): ?array;
 }

@@ -25,4 +25,11 @@ final class WpAvatars implements Avatars {
 	public function is_avatar_comment_type( $comment_type ) {
 		return is_avatar_comment_type( $comment_type );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_avatar( $id_or_email, $size = 96, $default_value = '', $alt = '', $args = null ) {
+		return get_avatar( $id_or_email, $size, $default_value, $alt, $args );
+	}
 }

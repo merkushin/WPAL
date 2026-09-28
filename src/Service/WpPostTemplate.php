@@ -347,4 +347,11 @@ final class WpPostTemplate implements PostTemplate {
 	public function wp_post_revision_title_expanded( $revision, $link = true ) {
 		return wp_post_revision_title_expanded( $revision, $link );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function is_new_day() {
+		return is_new_day();
+	}
 }
