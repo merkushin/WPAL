@@ -13,8 +13,8 @@ without WordPress and, eventually, use a far better API than WordPress's own.
 `ServiceFactory` hands out services: `create_<service>()` returns the `Wp*` class, `set_custom_<service>()` swaps in a
 test double.
 
-Today `Service` is hand-written. A generator (`bin/wpal`, planned) will take it over; from then on generated files must
-never be edited by hand.
+Today `Service` is hand-written. A generator (`bin/wpal fix`, planned) will take it over; from then on generated files
+must never be edited by hand.
 
 ## Compatibility promise
 
@@ -29,6 +29,28 @@ never be edited by hand.
 CI enforces the promise with `roave/backward-compatibility-check` (`.roave-backward-compatibility-check.xml` allows
 added methods and parameters in `Service`; everything else that breaks fails).
 
+## bin/wpal
+
+Dev-only tool (PHP 8.1+, code in `tools/`) that keeps `Service` in step with WordPress. Every command accepts
+`--format=json`. Exit codes: 0 nothing found, 1 drift or changes found, 2 error.
+
+| Command | What it does |
+| --- | --- |
+| `bin/wpal snapshot [<version>\|latest]` | Parse a WordPress release into `api/wordpress.json`, the version `Service` targets |
+| `bin/wpal check [--wp=<spec>]` | Compare `src/Service` with WordPress: renamed/added/removed parameters, changed defaults, deprecations |
+| `bin/wpal diff <from> [<to>]` | What WordPress added, removed, deprecated or re-signed between two versions |
+| `bin/wpal coverage [--untriaged]` | Wrapped vs ignored vs untriaged WordPress functions |
+
+A `<spec>` is `current` (the committed `api/wordpress.json`), `latest`, a version such as `7.0`, or a snapshot file.
+Downloads and snapshots are cached in `build/`.
+
+`wpal.map.php` lists WordPress functions WPAL deliberately doesn't wrap, with a reason. Private and deprecated
+functions are ignored automatically. Add an entry there instead of leaving a function untriaged when it isn't API
+(handlers, internals, polyfills).
+
+When a new WordPress version ships: `bin/wpal diff current latest` to see what changed, then `bin/wpal snapshot latest`
+and `bin/wpal check` to see what `Service` must follow.
+
 ## Adding a WordPress function
 
 1. Pick the service by domain, not by WordPress source file. If none fits, create a new service: interface,
@@ -40,6 +62,7 @@ added methods and parameters in `Service`; everything else that breaks fails).
 4. Global classes in docblocks (`WP_Post`, `WP_Error`, `wpdb`…) need a `use` import, otherwise they resolve to
    `Merkushin\Wpal\Service\WP_Post`.
 5. Skip private (`_`-prefixed) and deprecated functions.
+6. Run `bin/wpal check`: the new method must not show up as drifting.
 
 ## Code style
 
@@ -51,9 +74,10 @@ added methods and parameters in `Service`; everything else that breaks fails).
 ```bash
 composer install
 composer test      # PHPUnit
-composer phpstan   # PHPStan with WordPress stubs, PHP 7.4 target
+composer phpstan   # PHPStan: src at PHP 7.4 with WordPress stubs, tools at PHP 8.1
 composer phpcs     # PHPCompatibility: Service must stay PHP 7.4
 composer check     # all of the above
+bin/wpal help      # the drift and coverage tool
 ```
 
 `phpstan-baseline.neon` holds errors inherited from WordPress's own docblocks. Don't add to it; fix new code instead.

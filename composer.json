@@ -9,6 +9,12 @@
 			"Merkushin\\Wpal\\": "src/"
 		}
 	},
+	"autoload-dev": {
+		"psr-4": {
+			"Merkushin\\Wpal\\Tools\\": "tools/",
+			"Merkushin\\Wpal\\Tests\\Tools\\": "tests/Tools/"
+		}
+	},
 	"authors": [
 		{
 			"name": "Dmitry Merkushin",
@@ -20,6 +26,7 @@
 	},
 	"require-dev": {
 		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+		"nikic/php-parser": "^5.6",
 		"php-stubs/wordpress-stubs": "^7.1",
 		"phpcompatibility/php-compatibility": "^10.0@alpha",
 		"phpstan/phpstan": "^2.1",
@@ -30,14 +37,16 @@
 		"test": "phpunit",
 		"phpstan": [
 			"@php bin/split-stubs.php vendor/php-stubs/wordpress-stubs/wordpress-stubs.php build/wordpress-stubs",
-			"phpstan analyse --memory-limit=512M"
+			"phpstan analyse --memory-limit=512M",
+			"phpstan analyse --memory-limit=512M -c phpstan-tools.neon.dist"
 		],
 		"phpcs": "phpcs",
 		"check": [
 			"@test",
 			"@phpstan",
 			"@phpcs"
-		]
+		],
+		"wpal": "@php bin/wpal"
 	},
 	"config": {
 		"allow-plugins": {

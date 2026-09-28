@@ -10,6 +10,11 @@
 	<testsuites>
 		<testsuite name="unit">
 			<directory>tests</directory>
+			<exclude>tests/Tools</exclude>
+		</testsuite>
+		<!-- bin/wpal and its tests need PHP 8.1+. -->
+		<testsuite name="tools">
+			<directory phpVersion="8.1.0" phpVersionOperator=">=">tests/Tools</directory>
 		</testsuite>
 	</testsuites>
 </phpunit>

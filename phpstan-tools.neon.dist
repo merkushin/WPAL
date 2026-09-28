@@ -1,0 +1,9 @@
+# bin/wpal and its tests: dev-only, PHP 8.1+.
+parameters:
+	level: 8
+	phpVersion: 80100
+	paths:
+		- tools
+		- tests/Tools
+	excludePaths:
+		- tests/Tools/fixtures
