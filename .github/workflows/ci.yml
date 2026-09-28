@@ -38,6 +38,21 @@ jobs:
       - uses: ramsey/composer-install@v3
       - run: composer phpstan -- --no-progress
 
+  wpal:
+    name: Service matches WordPress
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+      - uses: ramsey/composer-install@v3
+      # Generated files are current, Service mirrors api/wordpress.json, and wpal.map.php has no mistakes.
+      - run: bin/wpal fix --check
+      - run: bin/wpal check
+      - run: bin/wpal coverage
+
   phpcs:
     name: PHP compatibility
     runs-on: ubuntu-latest

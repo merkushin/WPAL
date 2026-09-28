@@ -14,11 +14,16 @@ use PHPUnit\Framework\TestCase;
  */
 class CoverageTest extends TestCase
 {
+	/** The fixture service's methods, as `services` would list them. */
+	private const HOOKS = [
+		'Hooks' => [ 'has_filter', 'do_action', 'get_thing', 'old_function', 'renamed_function', 'add_menu_page' ],
+	];
+
 	public function testCompute_WhenCalled_SortsFunctionsIntoWrappedIgnoredAndUntriaged(): void
 	{
 		$wordpress = ( new WordPressParser() )->parse( __DIR__ . '/fixtures/wordpress' );
 		$methods   = ( new ServiceParser() )->parse( __DIR__ . '/fixtures/service', $wordpress->constants );
-		$map       = new Map( [], [ '/^wp_ajax_/' => 'admin AJAX handler' ], [ 'wp-includes/pluggable.php' => 'pluggable' ] );
+		$map       = new Map( [], [], [], [], [ '/^wp_ajax_/' => 'admin AJAX handler' ], [ 'wp-includes/pluggable.php' => 'pluggable' ] );
 
 		$coverage = ( new Coverage() )->compute( $wordpress, $methods, $map );
 
@@ -37,11 +42,11 @@ class CoverageTest extends TestCase
 
 	public function testCompute_WhenMapAssignsUnwrappedFunction_ReportsItAsPlanned(): void
 	{
-		$coverage = $this->compute( new Map( [ 'Mail' => [ 'wp_mail' ], 'Setup' => [ '/^wp_initial_/' ] ] ) );
+		$coverage = $this->compute( new Map( self::HOOKS, [ 'Mail' => [ 'wp_mail' ], 'Setup' => [ '/^wp_initial_/' ] ] ) );
 
 		self::assertSame( [ 'Mail' => [ 'wp_mail' ], 'Setup' => [ 'wp_initial_constants' ] ], $coverage['planned'] );
 		self::assertArrayNotHasKey( 'wp-includes/functions.php', $coverage['untriaged'] );
-		self::assertSame( [], $coverage['problems'] );
+		self::assertSame( [ 'Hooks::gone_function() wraps a function WordPress 9.9.1 doesn\'t have.' ], $coverage['problems'] );
 	}
 
 	public function testCompute_WhenMapHasMistakes_ReportsProblems(): void
@@ -49,9 +54,13 @@ class CoverageTest extends TestCase
 		$coverage = $this->compute(
 			new Map(
 				[
+					'Hooks'   => [ 'do_action', 'get_thing', 'old_function', 'renamed_function', 'gone_function', 'add_menu_page' ],
+					'Filters' => [ 'has_filter' ],
+					'Setup'   => [ 'wp_initial_constants' ],
+				],
+				[
 					'Mail'    => [ 'wp_mail', 'no_such_function' ],
 					'Email'   => [ 'wp_mail' ],
-					'Filters' => [ 'has_filter' ],
 					'Legacy'  => [ '_private_helper' ],
 				]
 			)
@@ -59,9 +68,12 @@ class CoverageTest extends TestCase
 
 		self::assertSame(
 			[
+				'Hooks::gone_function() wraps a function WordPress 9.9.1 doesn\'t have.',
 				'_private_helper() is listed under Legacy but is private.',
+				'gone_function() is listed under Hooks but WordPress 9.9.1 has no such function.',
 				'has_filter() is listed under Filters but wrapped in Hooks.',
 				'no_such_function() is listed under Mail but WordPress 9.9.1 has no such function.',
+				'wp_initial_constants() is listed under Setup but not generated; run bin/wpal fix.',
 				'wp_mail() is listed under Mail and Email.',
 			],
 			$coverage['problems']

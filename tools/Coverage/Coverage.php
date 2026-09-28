@@ -36,13 +36,17 @@ final class Coverage {
 		foreach ( $wordpress->functions as $key => $function ) {
 			$name     = $function->name;
 			$services = $map->servicesFor( $name );
-			if ( count( $services ) > 1 ) {
-				$problems[] = "{$name}() is listed under " . implode( ' and ', $services ) . '.';
+			$plans    = $map->plannedFor( $name );
+			$listed   = array_merge( $services, $plans );
+			if ( count( $listed ) > 1 ) {
+				$problems[] = "{$name}() is listed under " . implode( ' and ', $listed ) . '.';
 			}
 
 			if ( isset( $wrappedIn[ $key ] ) ) {
 				$service = $wrappedIn[ $key ];
-				if ( $services !== [] && ! in_array( $service, $services, true ) ) {
+				if ( $services === [] ) {
+					$problems[] = "{$name}() is wrapped in {$service} but missing from services in wpal.map.php.";
+				} elseif ( ! in_array( $service, $services, true ) ) {
 					$problems[] = "{$name}() is listed under {$services[0]} but wrapped in {$service}.";
 				}
 				$wrapped[ $service ][] = $name;
@@ -50,13 +54,17 @@ final class Coverage {
 			}
 
 			if ( $services !== [] ) {
+				$problems[] = "{$name}() is listed under {$services[0]} but not generated; run bin/wpal fix.";
+			}
+
+			if ( $listed !== [] ) {
 				$automatic = $map->automaticIgnoreReason( $function );
 				if ( $automatic !== null ) {
-					$problems[]             = "{$name}() is listed under {$services[0]} but is {$automatic}.";
+					$problems[]              = "{$name}() is listed under {$listed[0]} but is {$automatic}.";
 					$ignored[ $automatic ][] = $name;
 					continue;
 				}
-				$planned[ $services[0] ][] = $name;
+				$planned[ $listed[0] ][] = $name;
 				continue;
 			}
 
@@ -69,11 +77,17 @@ final class Coverage {
 			$untriaged[ (string) $function->file ][] = $name;
 		}
 
-		foreach ( $map->listedFunctions() as $name => $service ) {
-			if ( $wordpress->get( $name ) === null ) {
-				$problems[] = "{$name}() is listed under {$service} but WordPress {$wordpress->version} has no such function.";
+		foreach ( $methods as $method ) {
+			if ( $wordpress->get( $method->signature->name ) === null ) {
+				$problems[] = "{$method->label()} wraps a function WordPress {$wordpress->version} doesn't have.";
 			}
 		}
+		foreach ( $map->listedFunctions() as $item ) {
+			if ( $wordpress->get( $item['function'] ) === null ) {
+				$problems[] = "{$item['function']}() is listed under {$item['service']} but WordPress {$wordpress->version} has no such function.";
+			}
+		}
+		$problems = array_values( array_unique( $problems ) );
 		sort( $problems, SORT_STRING );
 
 		return [

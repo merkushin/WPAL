@@ -2,9 +2,17 @@
 <roave-bc-check
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="vendor/roave/backward-compatibility-check/Resources/schema.xsd">
-	<!-- Service follows WordPress: new methods and parameters are allowed (see AGENTS.md). Removals still fail. -->
+	<!--
+		Service mirrors WordPress (see AGENTS.md): it may gain methods and parameters, and follow WordPress's parameter
+		names and defaults; `bin/wpal check` verifies it does. Removals and anything else that breaks still fail.
+	-->
 	<baseline>
 		<ignored-regex>#\[BC\] ADDED: Method [a-z0-9_]+\(\) was added to interface Merkushin\\Wpal\\Service\\#</ignored-regex>
 		<ignored-regex>#\[BC\] ADDED: Parameter [a-z0-9_]+ was added to Method [a-z0-9_]+\(\) of class Merkushin\\Wpal\\Service\\#</ignored-regex>
+		<ignored-regex>#\[BC\] CHANGED: Parameter \d+ of Merkushin\\Wpal\\Service\\\w+\#[a-z0-9_]+\(\) changed name from \w+ to \w+#</ignored-regex>
+		<ignored-regex>#\[BC\] CHANGED: Default parameter value for parameter \$\w+ of Merkushin\\Wpal\\Service\\\w+\#[a-z0-9_]+\(\) changed#</ignored-regex>
+		<!-- 0.7.0: types that contradicted WordPress (see CHANGELOG). -->
+		<ignored-regex>#\[BC\] CHANGED: The parameter \$in_footer of Merkushin\\Wpal\\Service\\W?p?Assets\#wp_enqueue_script\(\) changed from bool to no type#</ignored-regex>
+		<ignored-regex>#\[BC\] CHANGED: The return type of Merkushin\\Wpal\\Service\\W?p?PostAttachments\#update_attached_file\(\) changed from bool to (the non-covariant )?no type#</ignored-regex>
 	</baseline>
 </roave-bc-check>
