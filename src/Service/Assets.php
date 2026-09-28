@@ -4,6 +4,9 @@
 
 namespace Merkushin\Wpal\Service;
 
+use WP_Scripts;
+use WP_Styles;
+
 interface Assets {
 	/**
 	 * Enqueues a script.
@@ -109,4 +112,325 @@ interface Assets {
 	 * @since 2.5.0
 	 */
 	public function add_thickbox();
+
+	/**
+	 * Registers a new script.
+	 *
+	 * Registers a script to be enqueued later using the wp_enqueue_script() function.
+	 *
+	 * @see WP_Dependencies::add()
+	 * @see WP_Dependencies::add_data()
+	 *
+	 * @since 2.1.0
+	 * @since 4.3.0 A return value was added.
+	 * @since 6.3.0 The $in_footer parameter of type boolean was overloaded to be an $args parameter of type array.
+	 * @since 6.9.0 The $fetchpriority parameter of type string was added to the $args parameter of type array.
+	 * @since 7.0.0 The $module_dependencies parameter of type string[] was added to the $args parameter of type array.
+	 *
+	 * @param string           $handle Name of the script. Should be unique.
+	 * @param string|false     $src    Full URL of the script, or path of the script relative to the WordPress root directory.
+	 *                                 If source is set to false, script is an alias of other scripts it depends on.
+	 * @param string[]         $deps   Optional. An array of registered script handles this script depends on. Default empty array.
+	 * @param string|bool|null $ver    Optional. String specifying script version number, if it has one, which is added to the URL
+	 *                                 as a query string for cache busting purposes. If version is set to false, a version
+	 *                                 number is automatically added equal to current installed WordPress version.
+	 *                                 If set to null, no version is added.
+	 * @param array|bool       $args   {
+	 *     Optional. An array of extra args for the script. Default empty array.
+	 *     Otherwise, it may be a boolean in which case it determines whether the script is printed in the footer. Default false.
+	 *
+	 *     @type string $strategy            Optional. If provided, may be either 'defer' or 'async'.
+	 *     @type bool   $in_footer           Optional. Whether to print the script in the footer. Default 'false'.
+	 *     @type string $fetchpriority       Optional. The fetch priority for the script. Default 'auto'.
+	 *     @type array  $module_dependencies Optional. IDs for module dependencies loaded via dynamic import. Default empty array.
+	 *                                                                    For the full data format, see the `$deps` param of {@see wp_register_script_module()}.
+	 *                                                                    When provided, the script must either be printed in the footer (with
+	 *                                                                    `in_footer` set to true) or use a deferred loading `strategy` (`defer`),
+	 *                                                                    so that the script modules import map is printed before the script
+	 *                                                                    is evaluated. Otherwise dynamic imports may fail to resolve.
+	 * }
+	 * @return bool Whether the script has been registered. True on success, false on failure.
+	 *
+	 * @phpstan-param non-empty-string $handle
+	 * @phpstan-param non-empty-string|false $src
+	 * @phpstan-param non-empty-string[] $deps
+	 * @phpstan-param array{
+	 *     in_footer?: bool,
+	 *     strategy?: 'async'|'defer',
+	 *     fetchpriority?: 'low'|'auto'|'high',
+	 *     module_dependencies?: array<non-empty-string|array{ id: non-empty-string, ... }>,
+	 * }|bool $args
+	 */
+	public function wp_register_script( $handle, $src, $deps = array(), $ver = false, $args = array() );
+
+	/**
+	 * Registers a CSS stylesheet.
+	 *
+	 * @see WP_Dependencies::add()
+	 * @link https://www.w3.org/TR/CSS2/media.html#media-types List of CSS media types.
+	 *
+	 * @since 2.6.0
+	 * @since 4.3.0 A return value was added.
+	 *
+	 * @param string           $handle Name of the stylesheet. Should be unique.
+	 * @param string|false     $src    Full URL of the stylesheet, or path of the stylesheet relative to the WordPress root directory.
+	 *                                 If source is set to false, stylesheet is an alias of other stylesheets it depends on.
+	 * @param string[]         $deps   Optional. An array of registered stylesheet handles this stylesheet depends on. Default empty array.
+	 * @param string|bool|null $ver    Optional. String specifying stylesheet version number, if it has one, which is added to the URL
+	 *                                 as a query string for cache busting purposes. If version is set to false, a version
+	 *                                 number is automatically added equal to current installed WordPress version.
+	 *                                 If set to null, no version is added.
+	 * @param string           $media  Optional. The media for which this stylesheet has been defined.
+	 *                                 Default 'all'. Accepts media types like 'all', 'print' and 'screen', or media queries like
+	 *                                 '(orientation: portrait)' and '(max-width: 640px)'.
+	 * @return bool Whether the style has been registered. True on success, false on failure.
+	 */
+	public function wp_register_style( $handle, $src, $deps = array(), $ver = false, $media = 'all' );
+
+	/**
+	 * Removes a previously enqueued script.
+	 *
+	 * @see WP_Dependencies::dequeue()
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param string $handle Name of the script to be removed.
+	 */
+	public function wp_dequeue_script( $handle );
+
+	/**
+	 * Removes a previously enqueued CSS stylesheet.
+	 *
+	 * @see WP_Dependencies::dequeue()
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param string $handle Name of the stylesheet to be removed.
+	 */
+	public function wp_dequeue_style( $handle );
+
+	/**
+	 * Removes a registered script.
+	 *
+	 * Note: there are intentional safeguards in place to prevent critical admin scripts,
+	 * such as jQuery core, from being unregistered.
+	 *
+	 * @see WP_Dependencies::remove()
+	 *
+	 * @since 2.1.0
+	 *
+	 * @global string $pagenow The filename of the current screen.
+	 *
+	 * @param string $handle Name of the script to be removed.
+	 */
+	public function wp_deregister_script( $handle );
+
+	/**
+	 * Removes a registered stylesheet.
+	 *
+	 * @see WP_Dependencies::remove()
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param string $handle Name of the stylesheet to be removed.
+	 */
+	public function wp_deregister_style( $handle );
+
+	/**
+	 * Determines whether a script has been added to the queue.
+	 *
+	 * For more information on this and similar theme functions, check out
+	 * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+	 * Conditional Tags} article in the Theme Developer Handbook.
+	 *
+	 * @since 2.8.0
+	 * @since 3.5.0 'enqueued' added as an alias of the 'queue' list.
+	 *
+	 * @param string $handle Name of the script.
+	 * @param string $status Optional. Status of the script to check. Default 'enqueued'.
+	 *                       Accepts 'enqueued', 'registered', 'queue', 'to_do', and 'done'.
+	 * @return bool Whether the script is queued.
+	 */
+	public function wp_script_is( $handle, $status = 'enqueued' );
+
+	/**
+	 * Checks whether a CSS stylesheet has been added to the queue.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param string $handle Name of the stylesheet.
+	 * @param string $status Optional. Status of the stylesheet to check. Default 'enqueued'.
+	 *                       Accepts 'enqueued', 'registered', 'queue', 'to_do', and 'done'.
+	 * @return bool Whether style is queued.
+	 */
+	public function wp_style_is( $handle, $status = 'enqueued' );
+
+	/**
+	 * Adds extra CSS styles to a registered stylesheet.
+	 *
+	 * Styles will only be added if the stylesheet is already in the queue.
+	 * Accepts a string $data containing the CSS. If two or more CSS code blocks
+	 * are added to the same stylesheet $handle, they will be printed in the order
+	 * they were added, i.e. the latter added styles can redeclare the previous.
+	 *
+	 * @see WP_Styles::add_inline_style()
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param string $handle Name of the stylesheet to add the extra styles to.
+	 * @param string $data   String containing the CSS styles to be added.
+	 * @return bool True on success, false on failure.
+	 */
+	public function wp_add_inline_style( $handle, $data );
+
+	/**
+	 * Localizes a script.
+	 *
+	 * Works only if the script has already been registered.
+	 *
+	 * Accepts an associative array `$l10n` and creates a JavaScript object:
+	 *
+	 *     "$object_name": {
+	 *         key: value,
+	 *         key: value,
+	 *         ...
+	 *     }
+	 *
+	 * @see WP_Scripts::localize()
+	 * @link https://core.trac.wordpress.org/ticket/11520
+	 *
+	 * @since 2.2.0
+	 *
+	 * @todo Documentation cleanup
+	 *
+	 * @param string               $handle      Script handle the data will be attached to.
+	 * @param string               $object_name Name for the JavaScript object. Passed directly, so it should be qualified JS variable.
+	 *                                          Example: '/[a-zA-Z0-9_]+/'.
+	 * @param array<string, mixed> $l10n        The data itself. The data can be either a single or multi-dimensional array.
+	 * @return bool True if the script was successfully localized, false otherwise.
+	 */
+	public function wp_localize_script( $handle, $object_name, $l10n );
+
+	/**
+	 * Sets translated strings for a script.
+	 *
+	 * Works only if the script has already been registered.
+	 *
+	 * @see WP_Scripts::set_translations()
+	 * @since 5.0.0
+	 * @since 5.1.0 The `$domain` parameter was made optional.
+	 *
+	 * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
+	 *
+	 * @param string $handle Script handle the textdomain will be attached to.
+	 * @param string $domain Optional. Text domain. Default 'default'.
+	 * @param string $path   Optional. The full file path to the directory containing translation files.
+	 * @return bool True if the text domain was successfully localized, false otherwise.
+	 */
+	public function wp_set_script_translations( $handle, $domain = 'default', $path = '' );
+
+	/**
+	 * Adds metadata to a script.
+	 *
+	 * Works only if the script has already been registered.
+	 *
+	 * Possible values for $key and $value:
+	 * 'strategy' string 'defer' or 'async'.
+	 *
+	 * @since 4.2.0
+	 * @since 6.9.0 Updated possible values to remove reference to 'conditional' and add 'strategy'.
+	 *
+	 * @see WP_Dependencies::add_data()
+	 *
+	 * @param string $handle Name of the script.
+	 * @param string $key    Name of data point for which we're storing a value.
+	 * @param mixed  $value  String containing the data to be added.
+	 * @return bool True on success, false on failure.
+	 */
+	public function wp_script_add_data( $handle, $key, $value );
+
+	/**
+	 * Adds metadata to a CSS stylesheet.
+	 *
+	 * Works only if the stylesheet has already been registered.
+	 *
+	 * Possible values for $key and $value:
+	 * 'rtl'         bool|string To declare an RTL stylesheet.
+	 * 'suffix'      string      Optional suffix, used in combination with RTL.
+	 * 'alt'         bool        For rel="alternate stylesheet".
+	 * 'title'       string      For preferred/alternate stylesheets.
+	 * 'path'        string      The absolute path to a stylesheet. Stylesheet will
+	 *                           load inline when 'path' is set.
+	 *
+	 * @see WP_Dependencies::add_data()
+	 *
+	 * @since 3.6.0
+	 * @since 5.8.0 Added 'path' as an official value for $key.
+	 *              See {@see wp_maybe_inline_styles()}.
+	 * @since 6.9.0 'conditional' value changed. If the 'conditional' parameter is present
+	 *              the stylesheet will be ignored.
+	 *
+	 * @param string $handle Name of the stylesheet.
+	 * @param string $key    Name of data point for which we're storing a value.
+	 *                       Accepts 'rtl' and 'suffix', 'alt', 'title' and 'path'.
+	 * @param mixed  $value  String containing the CSS data to be added.
+	 * @return bool True on success, false on failure.
+	 */
+	public function wp_style_add_data( $handle, $key, $value );
+
+	/**
+	 * Prints scripts in document head that are in the $handles queue.
+	 *
+	 * Called by admin-header.php and {@see 'wp_head'} hook. Since it is called by wp_head on every page load,
+	 * the function does not instantiate the WP_Scripts object unless script names are explicitly passed.
+	 * Makes use of already-instantiated `$wp_scripts` global if present. Use provided {@see 'wp_print_scripts'}
+	 * hook to register/enqueue new scripts.
+	 *
+	 * @see WP_Scripts::do_item()
+	 * @since 2.1.0
+	 *
+	 * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
+	 *
+	 * @param string|string[]|false $handles Optional. Scripts to be printed. Default 'false'.
+	 * @return string[] On success, an array of handles of processed WP_Dependencies items; otherwise, an empty array.
+	 */
+	public function wp_print_scripts( $handles = false );
+
+	/**
+	 * Displays styles that are in the $handles queue.
+	 *
+	 * Passing an empty array to $handles prints the queue,
+	 * passing an array with one string prints that style,
+	 * and passing an array of strings prints those styles.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @global WP_Styles $wp_styles The WP_Styles object for printing styles.
+	 *
+	 * @param string|false|string[] $handles Styles to be printed. Default 'false'.
+	 * @return string[] On success, an array of handles of processed WP_Dependencies items; otherwise, an empty array.
+	 */
+	public function wp_print_styles( $handles = false );
+
+	/**
+	 * Initializes $wp_scripts if it has not been set.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @global WP_Scripts $wp_scripts
+	 *
+	 * @return WP_Scripts WP_Scripts instance.
+	 */
+	public function wp_scripts();
+
+	/**
+	 * Initializes $wp_styles if it has not been set.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @global WP_Styles $wp_styles
+	 *
+	 * @return WP_Styles WP_Styles instance.
+	 */
+	public function wp_styles();
 }

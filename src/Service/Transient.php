@@ -4,6 +4,8 @@
 
 namespace Merkushin\Wpal\Service;
 
+use wpdb;
+
 interface Transient {
 	/**
 	 * Retrieves the value of a transient.
@@ -44,4 +46,63 @@ interface Transient {
 	 * @return bool True if the transient was deleted, false otherwise.
 	 */
 	public function delete_transient( string $transient ): bool;
+
+	/**
+	 * Retrieves the value of a site transient.
+	 *
+	 * If the transient does not exist, does not have a value, or has expired,
+	 * then the return value will be false.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @see get_transient()
+	 *
+	 * @param string $transient Transient name. Expected to not be SQL-escaped.
+	 * @return mixed Value of transient.
+	 */
+	public function get_site_transient( $transient );
+
+	/**
+	 * Sets/updates the value of a site transient.
+	 *
+	 * You do not need to serialize values. If the value needs to be serialized,
+	 * then it will be serialized before it is set.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @see set_transient()
+	 *
+	 * @param string $transient  Transient name. Expected to not be SQL-escaped. Must be
+	 *                           167 characters or fewer in length.
+	 * @param mixed  $value      Transient value. Expected to not be SQL-escaped.
+	 * @param int    $expiration Optional. Time until expiration in seconds. Default 0 (no expiration).
+	 * @return bool True if the value was set, false otherwise.
+	 */
+	public function set_site_transient( $transient, $value, $expiration = 0 );
+
+	/**
+	 * Deletes a site transient.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param string $transient Transient name. Expected to not be SQL-escaped.
+	 * @return bool True if the transient was deleted, false otherwise.
+	 */
+	public function delete_site_transient( $transient );
+
+	/**
+	 * Deletes all expired transients.
+	 *
+	 * Note that this function won't do anything if an external object cache is in use.
+	 *
+	 * The multi-table delete syntax is used to delete the transient record
+	 * from table a, and the corresponding transient_timeout record from table b.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @param bool $force_db Optional. Force cleanup to run against the database even when an external object cache is used.
+	 */
+	public function delete_expired_transients( $force_db = false );
 }

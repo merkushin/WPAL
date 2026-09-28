@@ -32,4 +32,123 @@ class WpAssets implements Assets {
 	public function add_thickbox() {
 		add_thickbox();
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_register_script( $handle, $src, $deps = array(), $ver = false, $args = array() ) {
+		return wp_register_script( $handle, $src, $deps, $ver, $args );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_register_style( $handle, $src, $deps = array(), $ver = false, $media = 'all' ) {
+		return wp_register_style( $handle, $src, $deps, $ver, $media );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_dequeue_script( $handle ) {
+		wp_dequeue_script( $handle );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_dequeue_style( $handle ) {
+		wp_dequeue_style( $handle );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_deregister_script( $handle ) {
+		wp_deregister_script( $handle );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_deregister_style( $handle ) {
+		wp_deregister_style( $handle );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_script_is( $handle, $status = 'enqueued' ) {
+		return wp_script_is( $handle, $status );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_style_is( $handle, $status = 'enqueued' ) {
+		return wp_style_is( $handle, $status );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_add_inline_style( $handle, $data ) {
+		return wp_add_inline_style( $handle, $data );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_localize_script( $handle, $object_name, $l10n ) {
+		return wp_localize_script( $handle, $object_name, $l10n );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_set_script_translations( $handle, $domain = 'default', $path = '' ) {
+		return wp_set_script_translations( $handle, $domain, $path );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_script_add_data( $handle, $key, $value ) {
+		return wp_script_add_data( $handle, $key, $value );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_style_add_data( $handle, $key, $value ) {
+		return wp_style_add_data( $handle, $key, $value );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_print_scripts( $handles = false ) {
+		return wp_print_scripts( $handles );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_print_styles( $handles = false ) {
+		return wp_print_styles( $handles );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_scripts() {
+		return wp_scripts();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function wp_styles() {
+		return wp_styles();
+	}
 }

@@ -53,4 +53,25 @@ final class WpSettings implements Settings {
 	public function settings_errors( $setting = '', $sanitize = false, $hide_on_update = false ) {
 		settings_errors( $setting, $sanitize, $hide_on_update );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function register_setting( $option_group, $option_name, $args = array() ) {
+		register_setting( $option_group, $option_name, $args );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function unregister_setting( $option_group, $option_name, $deprecated = '' ) {
+		unregister_setting( $option_group, $option_name, $deprecated );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_registered_settings() {
+		return get_registered_settings();
+	}
 }

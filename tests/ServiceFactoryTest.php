@@ -25,6 +25,7 @@ use Merkushin\Wpal\Service\MediaTemplate;
 use Merkushin\Wpal\Service\MetaBoxes;
 use Merkushin\Wpal\Service\NavMenus;
 use Merkushin\Wpal\Service\Navigation;
+use Merkushin\Wpal\Service\Options;
 use Merkushin\Wpal\Service\Permalinks;
 use Merkushin\Wpal\Service\Plugins;
 use Merkushin\Wpal\Service\PostAttachments;
@@ -65,6 +66,7 @@ use Merkushin\Wpal\Service\WpMediaTemplate;
 use Merkushin\Wpal\Service\WpMetaBoxes;
 use Merkushin\Wpal\Service\WpNavMenus;
 use Merkushin\Wpal\Service\WpNavigation;
+use Merkushin\Wpal\Service\WpOptions;
 use Merkushin\Wpal\Service\WpPermalinks;
 use Merkushin\Wpal\Service\WpPlugins;
 use Merkushin\Wpal\Service\WpPostAttachments;
@@ -114,6 +116,7 @@ class ServiceFactoryTest extends TestCase
 		ServiceFactory::set_custom_meta_boxes( null );
 		ServiceFactory::set_custom_nav_menus( null );
 		ServiceFactory::set_custom_navigation( null );
+		ServiceFactory::set_custom_options( null );
 		ServiceFactory::set_custom_permalinks( null );
 		ServiceFactory::set_custom_plugins( null );
 		ServiceFactory::set_custom_post_attachments( null );
@@ -504,6 +507,23 @@ class ServiceFactoryTest extends TestCase
 		ServiceFactory::set_custom_navigation( $custom );
 
 		$actual = ServiceFactory::create_navigation();
+
+		self::assertSame( $custom, $actual );
+	}
+
+	public function testCreateOptions_WhenCalled_ReturnsWpOptions(): void
+	{
+		$actual = ServiceFactory::create_options();
+
+		self::assertInstanceOf( WpOptions::class, $actual );
+	}
+
+	public function testCreateOptions_WhenCustomOptionsSet_ReturnsCustomOptions(): void
+	{
+		$custom = $this->createMock( Options::class );
+		ServiceFactory::set_custom_options( $custom );
+
+		$actual = ServiceFactory::create_options();
 
 		self::assertSame( $custom, $actual );
 	}
