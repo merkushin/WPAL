@@ -64,6 +64,8 @@ jobs:
         if: steps.diff.outputs.current != steps.diff.outputs.latest
         uses: peter-evans/create-pull-request@v7
         with:
+          # A personal token, so CI runs on the PR: GitHub doesn't start workflows from GITHUB_TOKEN's actions.
+          token: ${{ secrets.WPAL_UPDATE_TOKEN }}
           branch: wpal/wordpress-${{ steps.diff.outputs.latest }}
           commit-message: Regenerate Service for WordPress ${{ steps.diff.outputs.latest }}
           title: Regenerate Service for WordPress ${{ steps.diff.outputs.latest }}
