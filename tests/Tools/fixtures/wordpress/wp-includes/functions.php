@@ -29,6 +29,8 @@ function renamed_function() {
  */
 function internal_but_unprefixed() {}
 
+function get_the_ID() {}
+
 class WP_Thing {
 	public function get_thing() {}
 }

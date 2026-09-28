@@ -37,7 +37,7 @@ class CoverageTest extends TestCase
 			],
 			$coverage['ignored']
 		);
-		self::assertSame( [ 'wp-includes/functions.php' => [ 'wp_initial_constants' ] ], $coverage['untriaged'] );
+		self::assertSame( [ 'wp-includes/functions.php' => [ 'get_the_ID', 'wp_initial_constants' ] ], $coverage['untriaged'] );
 	}
 
 	public function testCompute_WhenMapAssignsUnwrappedFunction_ReportsItAsPlanned(): void
@@ -45,7 +45,7 @@ class CoverageTest extends TestCase
 		$coverage = $this->compute( new Map( self::HOOKS, [ 'Mail' => [ 'wp_mail' ], 'Setup' => [ '/^wp_initial_/' ] ] ) );
 
 		self::assertSame( [ 'Mail' => [ 'wp_mail' ], 'Setup' => [ 'wp_initial_constants' ] ], $coverage['planned'] );
-		self::assertArrayNotHasKey( 'wp-includes/functions.php', $coverage['untriaged'] );
+		self::assertSame( [ 'get_the_ID' ], $coverage['untriaged']['wp-includes/functions.php'] );
 		self::assertSame( [ 'Hooks::gone_function() wraps a function WordPress 9.9.1 doesn\'t have.' ], $coverage['problems'] );
 	}
 

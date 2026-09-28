@@ -51,8 +51,12 @@ final class Snapshot {
 	}
 
 	public function save( string $file ): void {
-		$functions = $this->functions;
-		ksort( $functions, SORT_STRING );
+		// Keyed by the name as WordPress spells it (get_the_ID); lookups stay case-insensitive.
+		$functions = [];
+		foreach ( $this->functions as $function ) {
+			$functions[ $function->name ] = $function;
+		}
+		uksort( $functions, static fn ( string $a, string $b ): int => strcmp( strtolower( $a ), strtolower( $b ) ) );
 		$constants = $this->constants;
 		ksort( $constants, SORT_STRING );
 
