@@ -3,6 +3,8 @@
 namespace Merkushin\Wpal\Tests\Api;
 
 use Merkushin\Wpal\Api\Testing\FakeOptions;
+use Merkushin\Wpal\Api\WordPress\WordPressAbilities;
+use Merkushin\Wpal\Api\WordPress\WordPressAi;
 use Merkushin\Wpal\Api\WordPress\WordPressAssets;
 use Merkushin\Wpal\Api\WordPress\WordPressHooks;
 use Merkushin\Wpal\Api\WordPress\WordPressPosts;
@@ -28,6 +30,8 @@ class WpalTest extends TestCase
 		self::assertInstanceOf( WordPressHooks::class, $wp->hooks() );
 		self::assertInstanceOf( WordPressAssets::class, $wp->assets() );
 		self::assertInstanceOf( WordPressPosts::class, $wp->posts() );
+		self::assertInstanceOf( WordPressAbilities::class, $wp->abilities() );
+		self::assertInstanceOf( WordPressAi::class, $wp->ai() );
 		self::assertSame( $wp->posts(), $wp->posts() );
 	}
 
