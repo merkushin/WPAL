@@ -7,7 +7,12 @@ function wp_initial_constants() {
 }
 
 /**
+ * Retrieves a thing.
+ *
  * @since 3.0.0
+ *
+ * @param int $id Thing ID.
+ * @return WP_Post|stdClass|null The thing.
  */
 function get_thing( $id, $output = OBJECT, array $args = array(), &$found = null ) {}
 

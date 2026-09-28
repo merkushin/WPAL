@@ -10,12 +10,18 @@ use RuntimeException;
  */
 final class Map {
 	/**
-	 * @param array<string, string[]> $services    Service => function names or `/regex/` patterns.
-	 * @param array<string, string>   $ignore      Function name or `/regex/` => reason.
-	 * @param array<string, string>   $ignoreFiles Source file, or directory ending in `/`, => reason.
+	 * @param array<string, string[]>               $services    Generated service => function names, in method order.
+	 * @param array<string, string[]>               $planned     Service => function names or `/regex/` patterns.
+	 * @param array<string, array<string, string>>  $types       Function => [ parameter or 'return' => native type ].
+	 * @param string[]                              $extendable  Services whose `Wp*` class stays non-final.
+	 * @param array<string, string>                 $ignore      Function name or `/regex/` => reason.
+	 * @param array<string, string>                 $ignoreFiles Source file, or directory ending in `/`, => reason.
 	 */
 	public function __construct(
 		private array $services = [],
+		private array $planned = [],
+		private array $types = [],
+		private array $extendable = [],
 		private array $ignore = [],
 		private array $ignoreFiles = [],
 	) {
@@ -31,44 +37,70 @@ final class Map {
 			throw new RuntimeException( "{$file} must return an array." );
 		}
 
-		return new self( $data['services'] ?? [], $data['ignore'] ?? [], $data['ignore_files'] ?? [] );
+		return new self(
+			$data['services'] ?? [],
+			$data['planned'] ?? [],
+			$data['types'] ?? [],
+			$data['extendable'] ?? [],
+			$data['ignore'] ?? [],
+			$data['ignore_files'] ?? [],
+		);
 	}
 
 	/**
-	 * Services the map assigns a function to. More than one is a mistake in the map.
+	 * @return array<string, string[]> Generated service => function names, in method order.
+	 */
+	public function services(): array {
+		return $this->services;
+	}
+
+	/**
+	 * Generated services that list a function. More than one is a mistake in the map.
 	 *
 	 * @return string[]
 	 */
 	public function servicesFor( string $function ): array {
-		$found = [];
-		foreach ( $this->services as $service => $patterns ) {
-			foreach ( $patterns as $pattern ) {
-				if ( $this->matches( $pattern, $function ) ) {
-					$found[] = $service;
-					break;
-				}
-			}
-		}
-
-		return $found;
+		return $this->find( $this->services, $function );
 	}
 
 	/**
-	 * Function names listed literally (not via regex), with their service.
+	 * Planned services that list a function. More than one is a mistake in the map.
 	 *
-	 * @return array<string, string>
+	 * @return string[]
+	 */
+	public function plannedFor( string $function ): array {
+		return $this->find( $this->planned, $function );
+	}
+
+	/**
+	 * Function names listed literally (not via regex) in `services` and `planned`, with their service.
+	 *
+	 * @return array<int, array{function: string, service: string}>
 	 */
 	public function listedFunctions(): array {
 		$listed = [];
-		foreach ( $this->services as $service => $patterns ) {
-			foreach ( $patterns as $pattern ) {
-				if ( ! str_starts_with( $pattern, '/' ) ) {
-					$listed[ $pattern ] = $service;
+		foreach ( [ $this->services, $this->planned ] as $groups ) {
+			foreach ( $groups as $service => $patterns ) {
+				foreach ( $patterns as $pattern ) {
+					if ( ! str_starts_with( $pattern, '/' ) ) {
+						$listed[] = [ 'function' => $pattern, 'service' => $service ];
+					}
 				}
 			}
 		}
 
 		return $listed;
+	}
+
+	/**
+	 * @return array<string, string> Parameter name or 'return' => native type.
+	 */
+	public function types( string $function ): array {
+		return $this->types[ $function ] ?? [];
+	}
+
+	public function isExtendable( string $service ): bool {
+		return in_array( $service, $this->extendable, true );
 	}
 
 	/**
@@ -109,6 +141,24 @@ final class Map {
 		}
 
 		return null;
+	}
+
+	/**
+	 * @param array<string, string[]> $groups
+	 * @return string[]
+	 */
+	private function find( array $groups, string $function ): array {
+		$found = [];
+		foreach ( $groups as $service => $patterns ) {
+			foreach ( $patterns as $pattern ) {
+				if ( $this->matches( $pattern, $function ) ) {
+					$found[] = $service;
+					break;
+				}
+			}
+		}
+
+		return $found;
 	}
 
 	private function matches( string $pattern, string $function ): bool {

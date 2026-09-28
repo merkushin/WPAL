@@ -1,0 +1,73 @@
+name: WordPress update
+
+# Checks for a new WordPress release and opens a PR that regenerates Service for it.
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+      - uses: ramsey/composer-install@v3
+
+      - name: Compare with the latest WordPress
+        id: diff
+        run: |
+          mkdir -p build
+          current=$(php -r 'echo json_decode(file_get_contents("api/wordpress.json"), true)["wordpress"];')
+          latest=$(php -r 'require "vendor/autoload.php"; echo (new Merkushin\Wpal\Tools\WordPress\Downloader(sys_get_temp_dir()))->latestVersion();')
+          echo "current=$current" >> "$GITHUB_OUTPUT"
+          echo "latest=$latest" >> "$GITHUB_OUTPUT"
+          if [ "$current" = "$latest" ]; then
+            echo "Service already targets WordPress $latest."
+            exit 0
+          fi
+          bin/wpal diff current "$latest" > build/wordpress-diff.txt
+
+      - name: Regenerate Service
+        if: steps.diff.outputs.current != steps.diff.outputs.latest
+        run: |
+          bin/wpal snapshot "${{ steps.diff.outputs.latest }}"
+          bin/wpal fix
+          bin/wpal check
+          bin/wpal coverage > build/coverage.txt || true
+          {
+            echo "Regenerates \`Service\` for WordPress ${{ steps.diff.outputs.latest }} (was ${{ steps.diff.outputs.current }})."
+            echo
+            echo "Review the renamed and added parameters below, assign new functions in \`wpal.map.php\`, and check any \`Api\` code that calls changed methods."
+            echo
+            echo '```'
+            cat build/wordpress-diff.txt
+            echo '```'
+            echo
+            echo '<details><summary>Coverage</summary>'
+            echo
+            echo '```'
+            cat build/coverage.txt
+            echo '```'
+            echo '</details>'
+          } > build/pr-body.md
+
+      - name: Open pull request
+        if: steps.diff.outputs.current != steps.diff.outputs.latest
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: wpal/wordpress-${{ steps.diff.outputs.latest }}
+          commit-message: Regenerate Service for WordPress ${{ steps.diff.outputs.latest }}
+          title: Regenerate Service for WordPress ${{ steps.diff.outputs.latest }}
+          body-path: build/pr-body.md
+          add-paths: |
+            api/wordpress.json
+            src
+            tests/ServiceFactoryTest.php

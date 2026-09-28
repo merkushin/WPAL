@@ -80,9 +80,28 @@ class ApplicationTest extends TestCase
 		[ $code, $out ] = $this->wpal( 'coverage', '--format=json' );
 		$data           = json_decode( $out, true );
 
-		self::assertSame( Command::OK, $code );
+		// The fixture service wraps functions the map doesn't list, and one WordPress doesn't have.
+		self::assertSame( Command::FOUND, $code );
 		self::assertArrayHasKey( 'Hooks', $data['wrapped'] );
 		self::assertArrayHasKey( 'private', $data['ignored'] );
+		self::assertContains( 'Hooks::gone_function() wraps a function WordPress 9.9.1 doesn\'t have.', $data['problems'] );
+	}
+
+	public function testFix_WhenMapChanges_RegeneratesAndCheckDetectsStaleFiles(): void
+	{
+		$this->wpal( 'snapshot', '--source=' . __DIR__ . '/fixtures/wordpress' );
+		file_put_contents( $this->root . '/wpal.map.php', "<?php\nreturn [ 'services' => [ 'Things' => [ 'get_thing', 'do_action' ] ] ];\n" );
+
+		[ $check ]      = $this->wpal( 'fix', '--check' );
+		[ $code, $out ] = $this->wpal( 'fix' );
+		[ $recheck ]    = $this->wpal( 'fix', '--check' );
+
+		self::assertSame( Command::FOUND, $check );
+		self::assertSame( Command::OK, $code );
+		self::assertStringContainsString( 'created  src/Service/Things.php', $out );
+		self::assertFileExists( $this->root . '/src/Service/WpThings.php' );
+		self::assertFileExists( $this->root . '/src/ServiceFactory.php' );
+		self::assertSame( Command::OK, $recheck );
 	}
 
 	public function testDiff_WhenComparingSnapshotFiles_ListsChanges(): void

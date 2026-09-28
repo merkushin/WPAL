@@ -1,0 +1,36 @@
+# Changelog
+
+## 0.7.0
+
+`Service` is now generated from WordPress by `bin/wpal fix` and mirrors WordPress 7.1.2. See the compatibility
+promise in the README: code that calls a service keeps working unless WordPress changed the same call.
+
+### Fixed
+
+- `Posts::wp_unique_post_slug()` passed `$post_status` where `$post_type` belonged.
+- `PostAttachments::wp_count_attachments()` ignored its argument and always counted all MIME types.
+- `Plugins::add_allowed_options()` and `remove_allowed_options()` ignored the `$options` argument.
+- `PostAttachments::update_attached_file()` threw a `TypeError` when WordPress returned a meta ID; its `bool` return
+  type is gone.
+- `Comments::pingback()` now returns WordPress's result instead of discarding it.
+- Docblocks now import the WordPress classes they name (`WP_Post`, `WP_Error`, `wpdb`…), so IDEs and static analysis
+  resolve them.
+
+### Changed, following WordPress
+
+- `Hooks::has_filter()` and `has_action()` accept `$priority` (WordPress 6.9).
+- `Assets::wp_enqueue_script()`'s fifth parameter is `$args` (`array|bool`, WordPress 6.3); passing `true`/`false`
+  still works.
+- `Localization::load_textdomain()` accepts `$locale`, `unload_textdomain()` accepts `$reloadable`,
+  `Posts::wp_mime_type_icon()` accepts `$preferred_ext`.
+- `Localization::load_script_textdomain()`'s `$path` defaults to `''`; `Posts::wp_get_post_parent_id()`'s `$post`
+  defaults to `null`.
+- 39 parameters renamed to WordPress's current names, e.g. `$function` → `$callback` on the `add_*_page()` family.
+  This only matters for calls that use named arguments.
+- Docblocks updated to WordPress 7.1.2's.
+
+### Deprecated, following WordPress
+
+`Capabilities::current_user_can_for_blog()`, `Comments::wp_queue_comments_for_comment_meta_lazyload()`,
+`Localization::_get_path_to_translation()`, `Localization::_get_path_to_translation_from_lang_dir()`,
+`PostAttachments::wp_get_attachment_thumb_file()`, `Posts::get_page_by_title()`.

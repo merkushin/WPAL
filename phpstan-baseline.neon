@@ -1,103 +1,88 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '''
-				#^PHPDoc tag @return has invalid value \(array\(\) \{
-				    The number of comments keyed by their status\.\)\: Unexpected token "\(", expected TOKEN_HORIZONTAL_WS at offset 429 on line 9$#
-			'''
-			identifier: phpDoc.parseError
-			count: 1
-			path: src/Service/Comments.php
-
-		-
-			message: '#^PHPDoc tag @param references unknown parameter\: \$arg$#'
-			identifier: parameter.notFound
-			count: 1
+			message: '#^PHPDoc tag @param for parameter \$callback with type array\|\(callable\)\|string is not subtype of native type callable\.$#'
+			identifier: parameter.phpDocType
+			count: 2
 			path: src/Service/Hooks.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_comments_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_comments_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/Plugins.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_dashboard_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_dashboard_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/Plugins.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_links_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_links_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/Plugins.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_management_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_management_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/Plugins.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_media_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_media_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/Plugins.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_menu_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_menu_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/Plugins.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_options_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_options_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/Plugins.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_pages_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_pages_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/Plugins.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_plugins_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_plugins_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/Plugins.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_posts_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_posts_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/Plugins.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_theme_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_theme_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/Plugins.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_users_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_users_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/Plugins.php
 
 		-
-			message: '#^Default value of the parameter \#6 \$function \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_submenu_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#6 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\Plugins\:\:add_submenu_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/Plugins.php
-
-		-
-			message: '#^Method Merkushin\\Wpal\\Service\\WpComments\:\:separate_comments\(\) should return array\<WP_Comment\> but returns array\<string, array\<WP_Comment\>\>\.$#'
-			identifier: return.type
-			count: 1
-			path: src/Service/WpComments.php
 
 		-
 			message: '#^Method Merkushin\\Wpal\\Service\\WpComments\:\:wp_count_comments\(\) should return stdClass but returns object\{approved\: int, moderated\: int, spam\: int, trash\: int, post\-trashed\: int, total_comments\: int, all\: int\}\.$#'
@@ -106,115 +91,85 @@ parameters:
 			path: src/Service/WpComments.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_comments_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_comments_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/WpPlugins.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_dashboard_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_dashboard_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/WpPlugins.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_links_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_links_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/WpPlugins.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_management_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_management_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/WpPlugins.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_media_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_media_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/WpPlugins.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_menu_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_menu_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/WpPlugins.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_options_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_options_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/WpPlugins.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_pages_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_pages_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/WpPlugins.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_plugins_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_plugins_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/WpPlugins.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_posts_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_posts_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/WpPlugins.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_theme_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_theme_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/WpPlugins.php
 
 		-
-			message: '#^Default value of the parameter \#5 \$function \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_users_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#5 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_users_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/WpPlugins.php
 
 		-
-			message: '#^Default value of the parameter \#6 \$function \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_submenu_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
+			message: '#^Default value of the parameter \#6 \$callback \(''''\) of method Merkushin\\Wpal\\Service\\WpPlugins\:\:add_submenu_page\(\) is incompatible with type callable\(\)\: mixed\.$#'
 			identifier: parameter.defaultValue
 			count: 1
 			path: src/Service/WpPlugins.php
-
-		-
-			message: '#^Method Merkushin\\Wpal\\Service\\WpPlugins\:\:uninstall_plugin\(\) never returns void so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/Service/WpPlugins.php
-
-		-
-			message: '#^Method Merkushin\\Wpal\\Service\\WpPostMeta\:\:get_post_custom_keys\(\) never returns void so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/Service/WpPostMeta.php
-
-		-
-			message: '#^Method Merkushin\\Wpal\\Service\\WpPosts\:\:wp_untrash_post_comments\(\) never returns void so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/Service/WpPosts.php
 
 		-
 			message: '#^Method Merkushin\\Wpal\\Service\\WpTaxonomies\:\:update_object_term_cache\(\) never returns void so it can be removed from the return type\.$#'
 			identifier: return.unusedType
-			count: 1
-			path: src/Service/WpTaxonomies.php
-
-		-
-			message: '#^Result of function clean_object_term_cache \(void\) is used\.$#'
-			identifier: function.void
-			count: 1
-			path: src/Service/WpTaxonomies.php
-
-		-
-			message: '#^Result of function clean_term_cache \(void\) is used\.$#'
-			identifier: function.void
 			count: 1
 			path: src/Service/WpTaxonomies.php
