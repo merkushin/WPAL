@@ -102,6 +102,24 @@ $assets->wp_enqueue_script( 'my-plugin', plugins_url( 'build/app.js', __FILE__ )
 In tests, swap a service for a mock with `ServiceFactory::set_custom_assets( $mock )`; the Api's default services pick
 it up too. [docs/services.md](docs/services.md) lists which service wraps which function.
 
+## Shipping only what you use
+
+WPAL is about 2 MB, nearly all of it services a plugin doesn't call. In your release build, after
+`composer install --no-dev`, remove the rest:
+
+```bash
+vendor/bin/wpal-prune --scan=src
+```
+
+`--scan` finds the services your code uses: WPAL classes it refers to, `ServiceFactory::create_*()` calls, and `Wpal`
+accessors such as `->posts()`. It fails if the code refers to something WPAL doesn't have. You can also name services
+instead: `Hooks` keeps a Service, `api:Hooks` an Api service along with the Services it's built on. A plugin that only
+uses the Service layer ships no PHP 8.4 Api code. Run it before scoping tools such as PHP-Scoper or wp-scoper;
+`--dry-run --format=json` prints the plan instead.
+
+Calling a `ServiceFactory` or `Wpal` method for a removed service fails with "class not found", so test the built
+plugin, not only the sources.
+
 ## Requirements
 
 - PHP 7.4 or later; the Api layer needs PHP 8.4. On older PHP, `new Wpal()` throws a clear error and the Service layer

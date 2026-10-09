@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- `vendor/bin/wpal-prune` removes the services a plugin doesn't use from its bundled copy of WPAL: `--scan=src` finds
+  them in the plugin's code, or name them (`Hooks`, `api:Posts`). A plugin using a handful of services ships about
+  150 KB instead of 2 MB, and no PHP 8.4 Api code unless it uses the Api.
+
 ## 0.7.0
 
 `Service` is now generated from WordPress by `bin/wpal fix` and mirrors WordPress 7.1.2. See the compatibility

@@ -16,5 +16,7 @@ parameters:
 	paths:
 		- src/Service
 		- src/ServiceFactory.php
+		- bin/Pruner.php
+		- bin/wpal-prune
 	scanDirectories:
 		- build/wordpress-stubs
