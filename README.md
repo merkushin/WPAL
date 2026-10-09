@@ -140,4 +140,4 @@ plugin, not only the sources.
 
 See [AGENTS.md](AGENTS.md) for the layout, conventions and checks. Run `composer check` before opening a pull request.
 
-`merkushin/wpplugin` uses WPAL: https://github.com/merkushin/wpplugin/blob/main/src/Wpplugin.php
+`merkushin/wpplugin` uses WPAL: https://github.com/merkushin/wpplugin/blob/main/src/Plugin.php
