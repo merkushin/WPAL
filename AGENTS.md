@@ -96,6 +96,16 @@ and opens a PR. To do it by hand: `bin/wpal diff current latest`, `bin/wpal snap
 `bin/wpal check`. Then review renames, assign new functions in the map, and update `Api` code that calls changed
 methods.
 
+## bin/wpal-prune
+
+The one tool that ships in the package (`composer.json` `bin`; the rest of `bin/` is export-ignored). Plugins run
+`vendor/bin/wpal-prune --scan=src` in their release build to delete the services they don't use from their copy of
+WPAL. `bin/Pruner.php` keeps the named services and, transitively, every WPAL class their files refer to (found with
+`token_get_all()`, so it stays correct as the code changes), plus `ServiceFactory`, and `Wpal` when an Api service is
+kept. It runs on plugins' build machines, so it's PHP 7.4 with no dependencies, checked by phpcs and phpstan like
+`Service`. `tests/Prune` loads every class a pruned copy keeps, so a new Api dependency that the scan misses fails
+there.
+
 ## Adding a WordPress function
 
 1. Find the function's service: `planned` in `wpal.map.php` may already assign one. Otherwise follow the

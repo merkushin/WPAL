@@ -2,7 +2,8 @@
 /.claude export-ignore
 /.github export-ignore
 /api export-ignore
-/bin export-ignore
+/bin/split-stubs.php export-ignore
+/bin/wpal export-ignore
 /tests export-ignore
 /tools export-ignore
 /.editorconfig export-ignore

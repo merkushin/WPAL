@@ -6,6 +6,9 @@
 	<file>src/ServiceFactory.php</file>
 	<!-- The Api entry point must parse on PHP 7.4 to report the version requirement. -->
 	<file>src/Wpal.php</file>
+	<!-- wpal-prune ships with the package and runs on plugins' build machines. -->
+	<file>bin/Pruner.php</file>
+	<file>bin/wpal-prune</file>
 
 	<arg name="extensions" value="php"/>
 	<arg name="colors"/>

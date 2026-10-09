@@ -22,6 +22,9 @@
 			"email": "merkushin@gmail.com"
 		}
 	],
+	"bin": [
+		"bin/wpal-prune"
+	],
 	"require": {
 		"php": ">=7.4"
 	},

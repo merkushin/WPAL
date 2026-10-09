@@ -10,6 +10,7 @@ When writing plugin code with WPAL:
 - In tests, pass fakes: `new Wpal( hooks: new FakeHooks(), options: new FakeOptions( [ ... ] ), ai: new FakeAi( [ 'response' ] ) )`. Use `ServiceFactory::set_custom_<service>( $mock )` for Service-layer doubles.
 - Api methods throw `WordPressError` (with `errorCode`) instead of returning `WP_Error`; `find()` returns null, `get()` throws.
 - Register abilities with `$wp->abilities()->define( 'my-plugin/name' )->...->register()` at any time; WPAL registers them on the right hook.
+- In the plugin's release build, run `vendor/bin/wpal-prune --scan=src` after `composer install --no-dev` so the plugin ships only the WPAL services it uses.
 
 ## Docs
 

@@ -1,0 +1,141 @@
+#!/usr/bin/env php
+<?php declare( strict_types=1 );
+/**
+ * Removes the services a plugin doesn't use from its bundled copy of WPAL. Run `vendor/bin/wpal-prune --help`.
+ */
+
+namespace Merkushin\Wpal\Prune;
+
+use InvalidArgumentException;
+
+require_once __DIR__ . '/Pruner.php';
+
+$usage = <<<'USAGE'
+Usage: vendor/bin/wpal-prune [options] [<service>...]
+
+Removes the WPAL services a plugin doesn't use, with everything only they need, from the installed package. Run it
+in the plugin's build step, after `composer install --no-dev` and before zipping or scoping, so the plugin ships only
+the WPAL code it uses.
+
+Name the services to keep, or let --scan find them in the plugin's code:
+
+  Hooks       The Service: Merkushin\Wpal\Service\Hooks and WpHooks, for ServiceFactory::create_hooks().
+  api:Hooks   The Api service, for (new Wpal())->hooks(), with the Services it's built on. Needs PHP 8.4.
+
+Everything a kept class needs comes along. The Api layer and the Wpal class are removed when no Api service is
+kept, so a PHP 7.4 plugin ships no PHP 8.4 code.
+
+--scan finds the services from the WPAL classes the code refers to, ServiceFactory::create_*() calls, and, when the
+code uses Wpal, calls to its accessors (->posts()).
+
+Calling a ServiceFactory or Wpal method for a removed service fails with "class not found", so test the build.
+
+Options:
+  --scan=<dir>     Keep the services PHP files under <dir> use. Repeatable. Fails if the code refers to a WPAL
+                   class or service that doesn't exist.
+  --dry-run        Show what would be removed without removing it.
+  --format=json    Print the services and the files kept and removed (relative to src/) as JSON.
+  --list           List the services in this copy of WPAL.
+  --path=<dir>     The WPAL package to prune (default: the one this script belongs to).
+  --help           Show this help.
+
+Exit codes: 0 success, 2 error.
+
+USAGE;
+
+$options  = [ 'scan' => [] ];
+$services = [];
+foreach ( isset( $argv ) ? array_slice( $argv, 1 ) : [] as $argument ) {
+	if ( strpos( $argument, '--' ) !== 0 ) {
+		array_push( $services, ...(array) preg_split( '/[\s,]+/', $argument, -1, PREG_SPLIT_NO_EMPTY ) );
+		continue;
+	}
+
+	$parts = explode( '=', substr( $argument, 2 ), 2 );
+	if ( ! in_array( $parts[0], [ 'scan', 'dry-run', 'format', 'list', 'path', 'help' ], true ) ) {
+		fwrite( STDERR, "Unknown option: $argument\n\n$usage" );
+		exit( 2 );
+	}
+	if ( in_array( $parts[0], [ 'scan', 'format', 'path' ], true ) && ( $parts[1] ?? '' ) === '' ) {
+		fwrite( STDERR, "--{$parts[0]} needs a value, as in --{$parts[0]}=<value>.\n" );
+		exit( 2 );
+	}
+
+	if ( $parts[0] === 'scan' ) {
+		$options['scan'][] = $parts[1];
+	} else {
+		$options[ $parts[0] ] = $parts[1] ?? true;
+	}
+}
+
+if ( isset( $options['help'] ) ) {
+	echo $usage;
+	exit( 0 );
+}
+
+$json = ( $options['format'] ?? 'text' ) === 'json';
+if ( ! in_array( $options['format'] ?? 'text', [ 'text', 'json' ], true ) ) {
+	fwrite( STDERR, "--format must be text or json.\n" );
+	exit( 2 );
+}
+
+$path = is_string( $options['path'] ?? null ) ? rtrim( $options['path'], '/' ) : dirname( __DIR__ );
+
+try {
+	$pruner = new Pruner( $path . '/src' );
+
+	if ( isset( $options['list'] ) ) {
+		echo $json ? json_encode( $pruner->services(), JSON_PRETTY_PRINT ) . "\n" : implode( "\n", $pruner->services() ) . "\n";
+		exit( 0 );
+	}
+
+	if ( $options['scan'] ) {
+		$services = array_merge( $services, $pruner->scan( $options['scan'] ) );
+	}
+
+	if ( ! $services ) {
+		throw new InvalidArgumentException(
+			$options['scan'] ? 'Found no WPAL services in ' . implode( ', ', $options['scan'] ) . '.' : 'Name the services to keep, or use --scan.'
+		);
+	}
+
+	$dry_run = isset( $options['dry-run'] );
+	$plan    = $pruner->plan( $services );
+	$removed = $pruner->size( $plan['remove'] );
+	$kept    = $pruner->size( $plan['keep'] );
+	if ( ! $dry_run ) {
+		$pruner->prune( $services );
+	}
+
+	if ( $json ) {
+		echo json_encode(
+			[
+				'services' => $plan['services'],
+				'dry_run'  => $dry_run,
+				'keep'     => $plan['keep'],
+				'remove'   => $plan['remove'],
+			],
+			JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
+		), "\n";
+		exit( 0 );
+	}
+
+	if ( $dry_run ) {
+		foreach ( $plan['remove'] as $file ) {
+			echo "Would remove src/$file\n";
+		}
+	}
+	printf(
+		"%s %d files (%s KB) and kept %d (%s KB) for %s.\n",
+		$dry_run ? 'Would remove' : 'Removed',
+		count( $plan['remove'] ),
+		number_format( $removed / 1024 ),
+		count( $plan['keep'] ),
+		number_format( $kept / 1024 ),
+		implode( ', ', $plan['services'] )
+	);
+	exit( 0 );
+} catch ( InvalidArgumentException $exception ) {
+	fwrite( STDERR, $exception->getMessage() . "\n" );
+	exit( 2 );
+}
