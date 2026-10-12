@@ -1,6 +1,6 @@
 # WPAL
 
-> WPAL is a PHP library for writing WordPress plugins with a typed, testable API instead of calling WordPress functions directly. The Api layer (PHP 8.4+, entry point `new Merkushin\Wpal\Wpal()`) is a designed API with value objects, exceptions instead of WP_Error, and in-memory fakes for tests. The Service layer (PHP 7.4+) wraps all 2279 public WordPress 7.1.2 functions in 109 services with WordPress's own signatures.
+> WPAL is a PHP library for writing WordPress plugins with a typed, testable API instead of calling WordPress functions directly. The Api layer (PHP 8.4+, entry point `new Merkushin\Wpal\Wpal()`) is a designed API with value objects, exceptions instead of WP_Error, and in-memory fakes for tests. The Service layer (PHP 7.4+) wraps all 2279 public WordPress 7.1.3 functions in 109 services with WordPress's own signatures.
 
 When writing plugin code with WPAL:
 

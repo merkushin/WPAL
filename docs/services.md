@@ -2,7 +2,7 @@
 
 # WPAL Service index
 
-2279 methods in 109 services, one per WordPress 7.1.2 function, with WordPress's own signature and docblock. Get a service with `ServiceFactory::create_<snake_case_name>()`, e.g. `ServiceFactory::create_rest_api()`.
+2279 methods in 109 services, one per WordPress 7.1.3 function, with WordPress's own signature and docblock. Get a service with `ServiceFactory::create_<snake_case_name>()`, e.g. `ServiceFactory::create_rest_api()`.
 
 ## Abilities
 
