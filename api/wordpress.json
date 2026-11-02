@@ -1,6 +1,6 @@
 {
     "format": 1,
-    "wordpress": "7.1.3",
+    "wordpress": "7.1.4",
     "constants": {
         "ARRAY_A": "ARRAY_A",
         "ARRAY_N": "ARRAY_N",
@@ -4720,6 +4720,34 @@
             "since": "2.9.0",
             "file": "wp-includes/kses.php",
             "doc": "/**\n * Regex callback for `wp_kses_decode_entities()`.\n *\n * @since 2.9.0\n * @access private\n * @ignore\n *\n * @param array $matches preg match\n * @return string\n */",
+            "private": true
+        },
+        "_wp_kses_directive_binds_value_restricted_attribute": {
+            "parameters": [
+                {
+                    "name": "directive_name",
+                    "type": "string"
+                },
+                {
+                    "name": "allowed_attributes"
+                }
+            ],
+            "returnType": "bool",
+            "since": "7.1.4",
+            "file": "wp-includes/kses.php",
+            "doc": "/**\n * Determines whether a directive binds an attribute whose value KSES restricts.\n *\n * This only applies to elements for which KSES restricts the value of at least one\n * attribute. On those elements, a `data-wp-bind` directive is reported unless it binds\n * an attribute which KSES allows there with any value. KSES calls this to keep such a\n * directive out of content saved by an author who cannot post unfiltered HTML.\n *\n * @since 7.1.4\n * @access private\n * @ignore\n *\n * @param string     $directive_name     The directive attribute name, in lowercase.\n * @param array|bool $allowed_attributes The attributes KSES allows on the element.\n * @return bool Whether the directive binds an attribute whose value KSES restricts.\n */",
+            "private": true
+        },
+        "_wp_kses_restricts_attribute_values": {
+            "parameters": [
+                {
+                    "name": "allowed_attributes"
+                }
+            ],
+            "returnType": "bool",
+            "since": "7.1.4",
+            "file": "wp-includes/kses.php",
+            "doc": "/**\n * Determines whether KSES restricts the value of any attribute of an element.\n *\n * An attribute rule other than `required` and `valueless` restricts the value itself,\n * for example `values` or `value_callback`.\n *\n * @since 7.1.4\n * @access private\n * @ignore\n *\n * @param array|bool $allowed_attributes The attributes KSES allows on the element.\n * @return bool Whether KSES restricts the value of any attribute of the element.\n */",
             "private": true
         },
         "_wp_kses_sanitize_note_mention_classes": {
