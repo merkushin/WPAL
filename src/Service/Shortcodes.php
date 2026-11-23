@@ -197,6 +197,7 @@ interface Shortcodes {
 	 * @since 2.5.0
 	 * @since 6.5.0 The function now always returns an array,
 	 *              even if the original arguments string cannot be parsed or is empty.
+	 * @since 7.1.5 A hex or octal escape that decodes to <, >, " or ' produces a character reference.
 	 *
 	 * @param string $text Shortcode arguments list.
 	 * @return array Array of attribute values keyed by attribute name.

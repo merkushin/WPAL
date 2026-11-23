@@ -274,6 +274,7 @@ interface Sanitization {
 	 * of functions depending on the $option.
 	 *
 	 * @since 2.0.5
+	 * @since 7.1.5 The `show_on_front` option is sanitized.
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
